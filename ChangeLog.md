@@ -1,4 +1,6 @@
 %% Change Log
+%% ver 2.42 ## March 12th, 2026
+%% New option introduced, nobasmalah
 %% ver 2.31 ## March 31st, 2025
 %% Improved implementation of \qt@no to optimize space in Quran text.
 %% ver 2.3 ## September 7th, 2024

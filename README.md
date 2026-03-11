@@ -1,5 +1,5 @@
 # The quran package
-Copyright © 2015-2025
+Copyright © 2015-2026
 
 The package is designed for typesetting the Holy Quran.
 It offers several macros for typesetting the entire text

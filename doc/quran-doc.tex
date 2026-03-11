@@ -1,6 +1,6 @@
 %% This is file `quran-doc.tex',
 %%
-%% Copyright © 2015-2025
+%% Copyright © 2015-2026
 %% Seiied-Mohammad-Javad Razavian <javadr@gmail.com>
 %%
 %% This work may be distributed and/or modified under the
@@ -603,6 +603,11 @@ All surahs of the Holy Quran are divided into ayahs, each of which has its own i
 By default, these numbers are typeset alongside the text of each ayah. To suppress these numbers,
 use the \xmgpar{nonumber} option, which prevents the ayah numbers from being printed.
 
+\medskip
+
+By default, the Basmalah ({\quran\RLE{\Basmalah}}) is typeset at the beginning of surahs
+where it is traditionally recited. To suppress the typesetting of the Basmalah,
+use the \xmgpar{nobasmalah} option.
 
 \begin{declcs}{ToggleAyahNumber}{}
 \end{declcs}
@@ -1321,8 +1326,13 @@ fontspec{,} and bidi"]
         are now available by default and no longer require explicit option activation.
     \end{Version}
 
+    \begin{Version}{2026/03/12 v2.42}
+        \item Introduced the \xoption{nobasmalah} package option, which suppresses the typesetting
+        of the Basmalah at the beginning of surahs.
+    \end{Version}
 
-    % \newpage 
+
+    \newpage 
     
     \def\cb{{\tiny$\bullet$\space}}
     \def\mrule{\leaders\vrule height 2.5pt depth -1.5pt \hfill}
@@ -1414,11 +1424,12 @@ fontspec{,} and bidi"]
                         for \href{https://gedit-text-editor.org/}{gedit Text Editor} \mrule \space\null}\\
         2024/09/05 & \multicolumn{2}{c|}{ \null \mrule {\space}Initial release of the
             \href{https://github.com/javadr/quran-es}{\xpackage{quran-es}} package \mrule \space\null}\\
-        2024/09/07 & 2.3 &  \cb  Documentation retouching. \\
-        2025/03/31 & 2.31 &  \cb New implementation of the \cs{qt@no} macro.\\
-        2025/04/25 & 2.4 &  \cb \cs{SetAyahMarkerStyle} macro to customize Ayah number style.\par
-                            \cb \cs{ResetAyahMarkerStyle} macro to reset to default behavior.\\
-        2025/04/26 & 2.41 & \cb The \xoption{ornbraces} option deprecated.\\
+        2024/09/07 & 2.3  & \cb Documentation improvements. \\
+        2025/03/31 & 2.31 & \cb Reimplemented the \cs{qt@no} macro. \\
+        2025/04/25 & 2.4  & \cb Introduced the \cs{SetAyahMarkerStyle} macro to customize the Ayah number style.\par
+                            \cb Introduced the \cs{ResetAyahMarkerStyle} macro to restore the default behavior. \\
+        2025/04/26 & 2.41 & \cb Deprecated the \xoption{ornbraces} option. \\
+        2026/03/12 & 2.42 & \cb Introduced the \xoption{nobasmalah} option. \\
         \bottomrule
     \end{longtable}
     \end{small}

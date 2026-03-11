@@ -1,6 +1,6 @@
 %% This is file `quran.sty',
 %%
-%% Copyright © 2015-2025
+%% Copyright © 2015-2026
 %% Seiied-Mohammad-Javad Razavian <javadr@gmail.com>
 %%
 %% This work may be distributed and/or modified under the
@@ -20,8 +20,8 @@
 %% To one who has devoted his life to Quran
 %%
 \NeedsTeXFormat{LaTeX2e}
-\def\qurandate{2025/04/26}
-\def\quranversion{2.41}
+\def\qurandate{2026/03/12}
+\def\quranversion{2.42}
 \ProvidesPackage{quran}[\qurandate\space v\quranversion^^JAn easy way to typeset the whole or any parts of the holy Quran]
 \RequirePackage{ifxetex}
 \RequirePackage{biditools}
@@ -37,6 +37,7 @@
 \newif\ifqt@uthmani%
 \newif\ifqt@uthmanimin%
 \newif\ifqt@basmalah\qt@basmalahtrue%
+\newif\ifqt@nobasmalah\qt@nobasmalahfalse%
 \newif\ifqt@translt%
 \newif\ifqt@transen%
 \newif\ifqt@transde%
@@ -62,6 +63,7 @@
 %
 \DeclareOptionX{nopar}{\let\qt@par\relax}
 \DeclareOptionX{nonumber}{\def\qt@no##1{\relax}}
+\DeclareOptionX{nobasmalah}{\qt@nobasmalahtrue\qt@debug{basmalah is disabled}}
 \DeclareOptionX{uthmani}{\qt@uthmanitrue}
 \DeclareOptionX{uthmani-min}{\qt@uthmanimintrue}
 \DeclareOptionX{translt}{\qt@translttrue}
@@ -585,4 +587,5 @@
   \input{qurantext-fr.translation.def}%
   \input{quran-transfr.def}%
 \fi%
+\ifqt@nobasmalah\ToggleBasmalah\fi%
 %% End of file `quran.sty'.
