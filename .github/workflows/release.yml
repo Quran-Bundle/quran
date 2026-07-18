@@ -17,7 +17,8 @@ jobs:
       - name: Install TeXLive
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-lang-arabic texlive-fonts-extra
+          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-lang-arabic texlive-fonts-extra \
+            fonts-hosny-amiri fonts-sil-scheherazade fonts-noto-core
 
       - name: Increase TeX memory limit
         run: |
