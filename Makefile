@@ -68,9 +68,9 @@ increase_tex_memory:
 
 .PHONY: dev
 dev:
-	cd tex || exit
-	sudo mkdir -p /usr/local/texlive/2025/texmf-dist/tex/latex/quran
-	sudo cp -v *.def quran.sty /usr/local/texlive/2025/texmf-dist/tex/latex/quran
+	TEXMF_LOCAL=$$(kpsewhich -var-value TEXMFLOCAL) && \
+	sudo mkdir -p "$$TEXMF_LOCAL/tex/latex/quran" && \
+	sudo cp -v tex/*.def tex/quran.sty "$$TEXMF_LOCAL/tex/latex/quran" && \
 	sudo mktexlsr
 
 QURANDATE := $(shell grep "qurandate{" tex/quran.sty | cut -d'{' -f2 | tr -d '}')
