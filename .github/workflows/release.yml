@@ -33,15 +33,13 @@ jobs:
 
       - name: Build documentation
         run: make doc
-        working-directory: development
 
       - name: Build CTAN package
         run: make ctan
-        working-directory: development
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            development/doc/quran-doc.pdf
+            doc/quran-doc.pdf
             quran.zip
