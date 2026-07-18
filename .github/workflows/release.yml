@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install TeXLive
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-xetex texlive-latex-extra texlive-lang-arabic texlive-fonts-extra
+
+      - name: Increase TeX memory limit
+        run: |
+          FILE=$(kpsewhich texmf.cnf)
+          if ! grep -q '^main_memory *= *8000000' "$FILE"; then
+            if grep -q '^main_memory *= *[0-9]\+' "$FILE"; then
+              sudo sed -i 's/^main_memory *= *[0-9]\+/main_memory = 8000000/' "$FILE"
+            else
+              echo "main_memory = 8000000" | sudo tee -a "$FILE"
+            fi
+            sudo fmtutil-sys --all
+          fi
+
+      - name: Build documentation
+        run: make doc
+        working-directory: development
+
+      - name: Build CTAN package
+        run: make ctan
+        working-directory: development
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            development/doc/quran-doc.pdf
+            quran.zip
