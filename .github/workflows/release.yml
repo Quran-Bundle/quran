@@ -43,7 +43,14 @@ jobs:
         run: make doc
 
       - name: Build CTAN package
-        run: make ctan
+        run: |
+          make readme
+          mkdir -p quran/doc quran/tex
+          cp README quran/
+          cp tex/quran.sty tex/*.def quran/tex/
+          cp doc/quran-doc.pdf doc/quran-doc.tex doc/quran.png quran/doc/
+          cp sample/quran-test*.tex sample/quran-test*.pdf quran/doc/ 2>/dev/null || true
+          zip -r quran.zip quran
 
       - name: Create Release
         uses: softprops/action-gh-release@v2
