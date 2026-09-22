@@ -45,3 +45,7 @@ For further details, please refer to [this link](http://mirrors.ctan.org/macros/
   year={2015},
 }
 ```
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/chart?repos=javadr/quran&type=date&legend=top-left)](https://www.star-history.com/?repos=javadr%2Fquran&type=date&legend=top-left)
