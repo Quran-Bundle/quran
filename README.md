@@ -48,4 +48,4 @@ For further details, please refer to [this link](http://mirrors.ctan.org/macros/
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/chart?repos=javadr/quran&type=date&legend=top-left)](https://www.star-history.com/?repos=javadr%2Fquran&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/chart?repos=javadr/quran&type=date&legend=bottom-right)](https://www.star-history.com/?repos=javadr%2Fquran&type=date&releases=&legend=bottom-right)
