@@ -49,6 +49,7 @@ jobs:
           cp README quran/
           cp tex/quran.sty tex/*.def quran/tex/
           cp doc/quran-doc.pdf doc/quran-doc.tex doc/quran.png quran/doc/
+          cp doc/quran-doc-ar.pdf doc/quran-doc-ar.tex quran/doc/
           cp sample/quran-test*.tex sample/quran-test*.pdf quran/doc/ 2>/dev/null || true
           zip -r quran.zip quran
 
@@ -57,4 +58,5 @@ jobs:
         with:
           files: |
             doc/quran-doc.pdf
+            doc/quran-doc-ar.pdf
             quran.zip
