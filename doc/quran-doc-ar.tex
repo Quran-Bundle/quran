@@ -1,9 +1,10 @@
-
+\PassOptionsToPackage{footnoterule=right}{bidi}
 \documentclass[12pt,a4paper]{article}
 
 % ============================================================
 % الحزم الأساسية
 % ============================================================
+\usepackage{forloop}
 \usepackage{float}
 \usepackage{longtable}
 \usepackage{pifont}          % الحزمة الأساسية للرموز
@@ -61,9 +62,7 @@
 % ============================================================
 % Polyglossia للغة العربية
 % ============================================================
-% Polyglossia للغة العربية
-% ============================================================
-\PassOptionsToPackage{footnoterule=right}{bidi}
+
 \usepackage{polyglossia}
 \setmainlanguage[numerals=maghrib]{arabic}
 \setotherlanguage{english}
@@ -100,10 +99,12 @@
 
 % قوائم الكود (نفس نمط quran-doc.tex)
 \lstdefinestyle{BashInputStyle}{
-  basicstyle=\footnotesize\sffamily,
+  basicstyle=\footnotesize\englishfonttt\setLTR,
   frame=tb,
   columns=fullflexible,
   backgroundcolor=\color{gray!10},
+  keepspaces=true,
+  showstringspaces=false,
 }
 
 % صندوق الأمثلة: إطار أسود مستدير على خلفية رمادية مع شعار الحزمة
@@ -123,7 +124,7 @@
     };
     \node (hole) [anchor=north east, left=5pt ] at (box.north east) { \tikz\fill[very thick,white] (0,0) circle (12pt); };
     \node[ ] at (hole.center) {\includegraphics[width=.05\textwidth]{quran.png}};
-    \node[fancytitle, anchor=west, right=7pt, rounded corners=2pt] at (box.north west) {\small \IfBooleanTF{#1}{#2}{\cs{#2}}};
+    \node[fancytitle, anchor=west, right=7pt, rounded corners=2pt] at (box.north west) {\small \IfBooleanTF{#1}{#2}{\texttt{\cs{#2}}}};
     \end{tikzpicture}%
 }
 
@@ -159,6 +160,14 @@
 \ExplSyntaxOn
 \cs_set_eq:NN \UseMathForPositioningText \relax
 \ExplSyntaxOff
+
+
+\parindent=0pt
+\SetAyahMarkerStyle%
+{\textcolor{green!35!black}﴿\textcolor{red!75!black}\bgroup}%
+{\egroup\textcolor{green!35!black}﴾}
+
+
 \begin{document}
 \linespread{1.2}
 % ============================================================
@@ -169,12 +178,12 @@
   {\color{red}\Huge
     الدليل العربي لحزمة
     \textenglish{\texttt{quran}}\footnotemark
-    \par
+    \\
   }
   \vspace{1.5cm}
   {\color{blue}\large
     لتنضيد القرآن الكريم باستخدام \LaTeX
-    \par
+    \\
   }
 }
 
@@ -389,60 +398,48 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \centerline{\mx{quranayah[Al-Ahzaab][33]}{\quranayah[Al-Ahzaab][33]} \hfill
     \mx{quranayah[33][33]}{\quranayah[33][33]}}
 % ============================================================
+\newcounter{ct}
+\def\mycell#1{%
+    \texttt{\surahname[\value{#1}]}%
+    \addtocounter{ct}{38}%
+}
+\newcommand{\alternaterow}{%
+  \ifodd\value{ct}%
+    \rowcolor{gray!5}%
+  \else
+    \rowcolor{white}%
+  \fi
+}
 % الجدول الطويل بأسماء السور (ينكسر عبر الصفحات)
 % ============================================================
-\begin{longtable}{||>{\centering\arraybackslash}p{1.2cm}||>{\centering\arraybackslash}p{3.5cm}||>{\centering\arraybackslash}p{1.2cm}||>{\centering\arraybackslash}p{3.5cm}||>{\centering\arraybackslash}p{1.2cm}||>{\centering\arraybackslash}p{3.5cm}||}
+\begin{longtable}{|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{3.5cm}|}
 \caption{العناوين الإنجليزية لأسماء السور}
 \label{tab:surah-titles} \\
 \hline
 \rowcolor{gray!30}
 \textbf{الترتيب} & \textbf{العنوان الإنجليزي} & 
 \textbf{الترتيب} & \textbf{العنوان الإنجليزي} & 
-\textbf{الترتيب} & \textbf{العنوان الإنجليزي} \\
-\hline
+\textbf{الترتيب} & \textbf{العنوان الإنجليزي} \\\alternaterow
+\hline\hline
 \endfirsthead
+
+\hline
+\rowcolor{gray!30}
+\textbf{الترتيب} & \textbf{العنوان الإنجليزي} &
+\textbf{الترتيب} & \textbf{العنوان الإنجليزي} &
+\textbf{الترتيب} & \textbf{العنوان الإنجليزي} \\\alternaterow
+\hline\hline
+\endhead
 
 % ============================================================
 % محتوى الجدول (جميع السور)
 % ============================================================
-\rowcolor{gray!5} 1 & Al-Faatiha & 39 & Az-Zumar & 77 & Al-Mursalaat \\
-\rowcolor{white} 2 & Al-Baqara & 40 & Ghaafir & 78 & An-Naba \\
-\rowcolor{gray!5} 3 & Aal-i-Imraan & 41 & Fusilat & 79 & An-Naazi'aat \\
-\rowcolor{white} 4 & An-Nisaa & 42 & Ash-Shura & 80 & Abasa \\
-\rowcolor{gray!5} 5 & Al-Maaida & 43 & Az-Zukhruf & 81 & At-Takwir \\
-\rowcolor{white} 6 & Al-An'aam & 44 & Ad-Dukhaan & 82 & Al-Infitaar \\
-\rowcolor{gray!5} 7 & Al-A'raaf & 45 & Al-Jaathiya & 83 & Al-Mutaffifin \\
-\rowcolor{white} 8 & Al-Anfaal & 46 & Al-Ahqaaf & 84 & Al-Insihaqaq \\
-\rowcolor{gray!5} 9 & At-Tawba & 47 & Muhammad & 85 & Al-Burooj \\
-\rowcolor{white} 10 & Yunus & 48 & Al-Fath & 86 & At-Taariz \\
-\rowcolor{gray!5} 11 & Hud & 49 & Al-Hujuraat & 87 & Al-A'laa \\
-\rowcolor{white} 12 & Yusuf & 50 & Qaaf & 88 & Al-Ghaashiya \\
-\rowcolor{gray!5} 13 & Ar-Ra'd & 51 & Adh-Dhaariyat & 89 & Al-Fajr \\
-\rowcolor{white} 14 & Ibraahim & 52 & At-Tur & 90 & Al-Balad \\
-\rowcolor{gray!5} 15 & Al-Hijr & 53 & An-Najm & 91 & Ash-Shams \\
-\rowcolor{white} 16 & An-Nahl & 54 & Al-Qamar & 92 & Al-Lail \\
-\rowcolor{gray!5} 17 & Al-Israa & 55 & Ar-Rahmaan & 93 & Ad-Dhuhaa \\
-\rowcolor{white} 18 & Al-Kahf & 56 & Al-Waaqia & 94 & Ash-Sharh \\
-\rowcolor{gray!5} 19 & Maryam & 57 & Al-Hadid & 95 & At-Tin \\
-\rowcolor{white} 20 & Taa-Haa & 58 & Al-Mujaadila & 96 & Al-Alaq \\
-\rowcolor{gray!5} 21 & Al-Anbiyaa & 59 & Al-Hashr & 97 & Al-Qadr \\
-\rowcolor{white} 22 & Al-Hajj & 60 & Al-Muntahana & 98 & Al-Bayyina \\
-\rowcolor{gray!5} 23 & Al-Muminoon & 61 & As-Saff & 99 & Az-Zalzala \\
-\rowcolor{white} 24 & An-Noor & 62 & Al-Jumu'a & 100 & Al-Aadiyaat \\
-\rowcolor{gray!5} 25 & Al-Furqaan & 63 & Al-Munaafiqoon & 101 & Al-Qaari'a \\
-\rowcolor{white} 26 & Ash-Shu'araraa & 64 & At-Taghaabun & 102 & At-Takaathur \\
-\rowcolor{gray!5} 27 & An-Naml & 65 & At-Talaaq & 103 & Al-Asr \\
-\rowcolor{white} 28 & Al-Qasas & 66 & At-Tahrim & 104 & Al-Humaza \\
-\rowcolor{gray!5} 29 & Al-Ankaboot & 67 & Al-Mulk & 105 & Al-Fil \\
-\rowcolor{white} 30 & Ar-Room & 68 & Al-Qalam & 106 & Quraish \\
-\rowcolor{gray!5} 31 & Luqman & 69 & Al-Haaqqa & 107 & Al-Maa'un \\
-\rowcolor{white} 32 & As-Sajda & 70 & Al-Ma'aarij & 108 & Al-Kawthar \\
-\rowcolor{gray!5} 33 & Al-Ahzab & 71 & Nooh & 109 & Al-Kaafiroon \\
-\rowcolor{white} 34 & Saba & 72 & Al-Jinn & 110 & An-Nasr \\
-\rowcolor{gray!5} 35 & Faatir & 73 & Al-Muzzammil & 111 & Al-Masad \\
-\rowcolor{white} 36 & Yaseen & 74 & Al-Muddaththir & 112 & Al-Ikhlaas \\
-\rowcolor{gray!5} 37 & As-Saaffaat & 75 & Al-Qiyaama & 113 & Al-Falaq \\
-\rowcolor{white} 38 & Saad & 76 & Al-Insaan & 114 & An-Naas \\
+\forloop{ct}{1}{\value{ct} < 38}{%
+  \thect & \mycell{ct} & \thect & \mycell{ct} & \thect & \mycell{ct}\\\alternaterow
+  \addtocounter{ct}{-114}
+}%
+
+\thect & \mycell{ct} & \thect & \mycell{ct} & \thect & \mycell{ct}\\%
 \hline
 \end{longtable}
 
@@ -622,7 +619,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
 يمكن استخدام الأوامر التالية، عند تزويدها بالمعاملات المناسبة، لتنضيد القرآن الكريم كاملاً.
 
 \begin{center}
-\begin{multicols}{3}
+\begin{multicols}{2}
 \begin{english}
 \begin{itemize}
     \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah[1-114]}}}
@@ -733,57 +730,42 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \centerline{\mx{Basmalah\textbackslash{} space\textbackslash{} quranayah*[14][1]}{\Basmalah\space\quranayah*[14][1]} \hfill
     \mx{basmalah\textbackslash{} quranayah*[14][1]}{\basmalah\quranayah*[14][1]}}
 
-\begin{longtable}{||>{\centering\arraybackslash}p{3.0cm}||>{\centering\arraybackslash}p{1.0cm}||>{\centering\arraybackslash}p{3.0cm}||>{\centering\arraybackslash}p{1.0cm}||>{\centering\arraybackslash}p{3.0cm}||>{\centering\arraybackslash}p{1.0cm}||}
-\caption{العناوين العربية للسور }
-\label{tab:arabic-surah-titles-full} \\
+
+\def\mycell#1#2{%
+    \hboxR{\phantom{آح}\surahname*[\value{#1}]}%
+    \addtocounter{ct}{#2}%
+}
+
+\newcolumntype{R}{>{\centering\arraybackslash}p{1cm}}
+\newcolumntype{T}{>{\centering\arraybackslash}p{2.2cm}}
+
+\begin{longtable}{|R|T|R|T|R|T|R|T|}
+\caption{العناوين العربية للسور}\label{tab:arabic-surah-titles-full} \\
 \hline
 \rowcolor{gray!30}
-\textbf{العنوان} & \textbf{الترتيب} & 
-\textbf{العنوان} & \textbf{الترتيب} & 
-\textbf{العنوان} & \textbf{الترتيب} \\
-\hline
+\textbf{الترتيب} & \textbf{العنوان} &
+\textbf{الترتيب} & \textbf{العنوان} &
+\textbf{الترتيب} & \textbf{العنوان} & 
+\textbf{الترتيب} & \textbf{العنوان} \\\alternaterow
+\hline\hline
 \endfirsthead
+\rowcolor{gray!30}
+\textbf{الترتيب} & \textbf{العنوان} &
+\textbf{الترتيب} & \textbf{العنوان} & 
+\textbf{الترتيب} & \textbf{العنوان} & 
+\textbf{الترتيب} & \textbf{العنوان} \\\alternaterow
+\hline\hline
+\endhead
 
-\rowcolor{gray!5} الفاتحة & 1 & الزمر & 39 & المرسلات & 77 \\
-\rowcolor{white} البقرة & 2 & غافر & 40 & النبأ & 78 \\
-\rowcolor{gray!5} آل عمران & 3 & فصلت & 41 & النازعات & 79 \\
-\rowcolor{white} النساء & 4 & الشورى & 42 & عبس & 80 \\
-\rowcolor{gray!5} المائدة & 5 & الزخرف & 43 & التكوير & 81 \\
-\rowcolor{white} الأنعام & 6 & الدخان & 44 & الانفطار & 82 \\
-\rowcolor{gray!5} الأعراف & 7 & الجاثية & 45 & المطففين & 83 \\
-\rowcolor{white} الأنفال & 8 & الأحقاف & 46 & الانشقاق & 84 \\
-\rowcolor{gray!5} التوبة & 9 & محمد & 47 & البروج & 85 \\
-\rowcolor{white} يونس & 10 & الفتح & 48 & الطارق & 86 \\
-\rowcolor{gray!5} هود & 11 & الحجرات & 49 & الأعلى & 87 \\
-\rowcolor{white} يوسف & 12 & ق & 50 & الغاشية & 88 \\
-\rowcolor{gray!5} الرعد & 13 & الذاريات & 51 & الفجر & 89 \\
-\rowcolor{white} إبراهيم & 14 & الطور & 52 & البلد & 90 \\
-\rowcolor{gray!5} الحجر & 15 & النجم & 53 & الشمس & 91 \\
-\rowcolor{white} النحل & 16 & القمر & 54 & الليل & 92 \\
-\rowcolor{gray!5} الإسراء & 17 & الرحمن & 55 & الضحى & 93 \\
-\rowcolor{white} الكهف & 18 & الواقعة & 56 & الشرح & 94 \\
-\rowcolor{gray!5} مريم & 19 & الحديد & 57 & التين & 95 \\
-\rowcolor{white} طه & 20 & المجادلة & 58 & العلق & 96 \\
-\rowcolor{gray!5} الأنبياء & 21 & الحشر & 59 & القدر & 97 \\
-\rowcolor{white} الحج & 22 & الممتحنة & 60 & البينة & 98 \\
-\rowcolor{gray!5} المؤمنون & 23 & الصف & 61 & الزلزلة & 99 \\
-\rowcolor{white} النور & 24 & الجمعة & 62 & العاديات & 100 \\
-\rowcolor{gray!5} الفرقان & 25 & المنافقون & 63 & القارعة & 101 \\
-\rowcolor{white} الشعراء & 26 & التغابن & 64 & التكاثر & 102 \\
-\rowcolor{gray!5} النمل & 27 & الطلاق & 65 & العصر & 103 \\
-\rowcolor{white} القصص & 28 & التحريم & 66 & الهمزة & 104 \\
-\rowcolor{gray!5} العنكبوت & 29 & الملك & 67 & الفيل & 105 \\
-\rowcolor{white} الروم & 30 & القلم & 68 & قريش & 106 \\
-\rowcolor{gray!5} لقمان & 31 & الحاقة & 69 & الماعون & 107 \\
-\rowcolor{white} السجدة & 32 & المعارج & 70 & الكوثر & 108 \\
-\rowcolor{gray!5} الأحزاب & 33 & نوح & 71 & الكافرون & 109 \\
-\rowcolor{white} سبأ & 34 & الجن & 72 & النصر & 110 \\
-\rowcolor{gray!5} فاطر & 35 & المزمل & 73 & المسد & 111 \\
-\rowcolor{white} يس & 36 & المدثر & 74 & الإخلاص & 112 \\
-\rowcolor{gray!5} الصافات & 37 & القيامة & 75 & الفلق & 113 \\
-\rowcolor{white} ص & 38 & الإنسان & 76 & الناس & 114 \\
+\forloop{ct}{1}{\value{ct} < 29}{%
+  \thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} & \thect & \mycell{ct}{28} & \thect & \mycell{ct}{28}\\\alternaterow
+  \addtocounter{ct}{-114}
+}%
+\thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} &  &  &  & \\%
 \hline
 \end{longtable}
+
+
 
 \subsection{الأقواس الزخرفية المحيطة}
 
@@ -923,10 +905,12 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \begin{SaveVerbatim}{VerbSimpleAr}
 \quranayah*[Al-Fatihah][1-3]
 \end{SaveVerbatim}
+
 \begin{SaveVerbatim}{VerbUthmaniAr}
 \usepackage[uthmani]{quran}
 \quranayah*[Al-Fatihah][1-3]
 \end{SaveVerbatim}
+
 \begin{SaveVerbatim}{VerbUthmaniMinAr}
 \usepackage[uthmani-min]{quran}
 \quranayah*[Al-Fatihah][1-3]
@@ -934,11 +918,11 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 
 \centerline{\mybox*{أمثلة للتجربة}{%
 الخط الافتراضي (البسيط)
-\UseVerbatim{VerbSimpleAr}
+\LRE{\UseVerbatim{VerbSimpleAr}}
 الرسم العثماني
-\UseVerbatim{VerbUthmaniAr}
+\LRE{\UseVerbatim{VerbUthmaniAr}}
 الرسم العثماني المبسّط
-\UseVerbatim{VerbUthmaniMinAr}
+\LRE{\UseVerbatim{VerbUthmaniMinAr}}
 }}
 
 بدءاً من الإصدار $1.3$، يمكن للحزمة تنضيد النسخ الصوتي (الترجمة الحرفية) للقرآن الكريم. هذه الميزة مفيدة بشكل خاص لمن لا يجيدون قراءة النص العربي. بتمكين الخيار 
@@ -1092,8 +1076,8 @@ trans={de, en, lt}
 \begin{description}
 \item[Scheherazade :] صدر بموجب رخصة SIL للخطوط المفتوحة (OFL)، الإصدار 1.1. حقوق النشر (c) 2004-2015،
  SIL International (\url{http://scripts.sil.org/}) مع أسماء الخطوط المحفوظة "Scheherazade'' و "SIL'' .
- و نتيجة لذلك، يمكنك تنزيله بحرية.
-\item[Amiri :]  هو محرف عربي كلاسيكي بنمط النسخ مصمم لتنضيد الكتب والنصوص الجارية الأخرى. و هو إحياء للمحرف الجميل الذي ابتكرته مطبعة بولاق في القاهرة في أوائل القرن العشرين،  و المعروفة أيضاً باسم مطبعة الأميرية، والتي سُمّي المحرف باسمها. Amiri هو مشروع مجاني مفتوح المصدر، يُشجّع الجميع على استخدامه وتعديله. جميع الأمثلة في هذه الوثيقة تستخدم هذا الخط.
+ و نتيجة لذلك، يمكنك تنزيله بحرية. جميع الأمثلة في هذه الوثيقة تستخدم هذا الخط.
+\item[Amiri :]  هو محرف عربي كلاسيكي بنمط النسخ مصمم لتنضيد الكتب والنصوص الجارية الأخرى. و هو إحياء للمحرف الجميل الذي ابتكرته مطبعة بولاق في القاهرة في أوائل القرن العشرين،  و المعروفة أيضاً باسم مطبعة الأميرية، والتي سُمّي المحرف باسمها. Amiri هو مشروع مجاني مفتوح المصدر، يُشجّع الجميع على استخدامه وتعديله.
 \end{description}
 
 \subsection{كيفية استخدام حزمة quran ؟}  
@@ -1127,47 +1111,55 @@ trans={de, en, lt}
 
 \begin{lstlisting}[style=BashInputStyle, title={مثال : مع \textenglish{polyglossia, fontspec, and bidi}}]
 \documentclass{article}
+
 \usepackage{quran}
 \usepackage{polyglossia}
 \setotherlanguage{arabic}
 \usepackage{fontspec}
 \setmainfont{Scheherazade}
 \usepackage{bidi}
+
 \begin{document}
-\setRTL 
-\textarabic{\quransurah}
+  \setRTL 
+  \textarabic{\quransurah}
 \end{document}
 \end{lstlisting}
 
 \begin{lstlisting}[style=BashInputStyle, title={مثال : مع \textenglish{xepersian}}]
 \documentclass{article}
+
 \usepackage{quran}
 \usepackage{xepersian}
 \settextfont{Scheherazade}
+
 \begin{document}
-\quransurah
+  \quransurah
 \end{document}
 \end{lstlisting}
 
 \begin{lstlisting}[style=BashInputStyle, title={مثال : مع \textenglish{arabxetex}}]
 \documentclass{article}
+
 \usepackage{arabxetex} 
 \usepackage{quran}
+
 \begin{document}
-\begin{arab}[utf]
-\quransurah
-\end{arab}
+  \begin{arab}[utf]
+    \quransurah
+  \end{arab}
 \end{document}
 \end{lstlisting}
 
 \begin{lstlisting}[style=BashInputStyle, title={مثال : مع \textenglish{arabluatex}}]
 \documentclass{article}
+
 \usepackage{arabluatex} 
 \usepackage{quran}
+
 \begin{document}
-\begin{txarab}
-\quransurah
-\end{txarab}
+  \begin{txarab}
+    \quransurah
+  \end{txarab}
 \end{document}
 \end{lstlisting}
 
