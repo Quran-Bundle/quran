@@ -59,6 +59,11 @@
 \newcommand{\ex}[1]{{\color{examplecolor}\texttt{#1}}}
 \newcommand{\note}[1]{{\color{notecolor}\textit{#1}}}
 \newcommand{\dingnum}[1]{\Pisymbol{pzd}{#1}}
+% عرض الأوامر والخيارات بالإنجليزية وباللون الأزرق:
+%   \cmd{foo}  ⟵  \foo     (أوامر، وتُطبع الشرطة المائلة العكسية تلقائياً)
+%   \opt{foo}  ⟵  foo      (خيارات وأسماء حزم، بلا شرطة مائلة عكسية)
+\newcommand{\cmd}[1]{\textenglish{\textcolor{blue}{\texttt{\textbackslash #1}}}}
+\newcommand{\opt}[1]{\textenglish{\textcolor{blue}{\texttt{#1}}}}
 % ============================================================
 % Polyglossia للغة العربية
 % ============================================================
@@ -335,26 +340,26 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \end{english}
 
 يمكن لهذا الأمر  تنضيد أي سورة من القرآن الكريم. يمكن أن يكون <النطاق> إما رقماً واحداً <رقم> أو رقمين مفصولين بشرطة (مثال: <الرقم1> -  <الرقم2> ). في الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}}
+\cmd{quransurah}
  والأوامر المماثلة، إذا كان <النطاق> لا يحقق الشرط <الرقم1> أقل من  <الرقم2> ضمن المجال الصحيح، فقد يؤدي ذلك إلى حدوث خطأ أو إنتاج نتائج غير مرغوب فيها. نظراً لوجود 114 سورة في المجموع، يجب أن يكون <النطاق> عدداً صحيحاً بين 1 و 114.
 
 يُنهي الأمر
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}}  تنضيد كل آية باستخدام الأمر \textenglish{ \textcolor{blue}{\texttt{\textbackslash par}}} (اعتماداً على خيار الحزمة)، بينما يستخدم الأمر
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah*}}}  مسافة فارغة بين الآيات. كقاعدة عامة، يقوم 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}} بطباعة الآيات على شكل فقرات متعددة، بينما يقوم 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah*}}} بطباعتها على شكل فقرة واحدة. جميع الأوامر التي تحوي نجمة (*) في الحزمة تعمل بطريقة مماثلة. لمزيد من التفاصيل، يُرجى الرجوع إلى الصفحة~\pageref{starred}.
+\cmd{quransurah}  تنضيد كل آية باستخدام الأمر \cmd{par} (اعتماداً على خيار الحزمة)، بينما يستخدم الأمر
+\cmd{quransurah*}  مسافة فارغة بين الآيات. كقاعدة عامة، يقوم 
+\cmd{quransurah} بطباعة الآيات على شكل فقرات متعددة، بينما يقوم 
+\cmd{quransurah*} بطباعتها على شكل فقرة واحدة. جميع الأوامر التي تحوي نجمة (*) في الحزمة تعمل بطريقة مماثلة. لمزيد من التفاصيل، يُرجى الرجوع إلى الصفحة~\pageref{starred}.
 
 يقبل الأمر أيضاً العنوان الإنجليزي (المكتوب بحروف لاتينية) للسورة. على سبيل المثال، كلا الأمرين
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah[19] }}} و 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah[Maryam] }}}
+\cmd{quransurah[19] } و 
+\cmd{quransurah[Maryam] }
 ينتجان نفس النتيجة : راجع الجدول~\ref{tab:surah-titles} للحصول على إرشادات حول استخدام العنوان الإنجليزي للسورة بدلاً من ترتيبها العددي. نظراً لأن بعض العناوين الإنجليزية تحتوي على شرطة (-)، يجب فصل  <النطاق> بشرطتين (--)، على سبيل المثال :
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah[An-Nasr--An-Naas]}}} .
+\cmd{quransurah[An-Nasr--An-Naas]} .
 
 يقوم الأمر
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}} 
+\cmd{quransurah} 
 بدون وسيط اختياري بإخراج السورة الافتراضية للحزمة، وهي سورة الإخلاص 
-(\textenglish{ \textcolor{blue}{\texttt{Al-Ikhlaas}}} )، بشرط ألا يكون قد تم تغيير هذه الافتراضية (انظر أدناه).
+(\opt{Al-Ikhlaas} )، بشرط ألا يكون قد تم تغيير هذه الافتراضية (انظر أدناه).
 
 \noindent
 \centerline{\mx{quransurah[At-Tin]}{\quransurah[At-Tin]} \hfill
@@ -372,7 +377,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
     \mx{quransurah*}{\quransurah*[112]}}
 
 لتغيير السورة الافتراضية، استخدم الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash setsurahdefault\{m\}}}} .
+\cmd{setsurahdefault\{m\}} .
  بشكل افتراضي، تقوم الحزمة بتعيين السورة 112. 
  
  على سبيل المثال، بعد تغيير السورة الافتراضية إلى 107 باستخدام الأمر 
@@ -392,7 +397,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \end{english}
 
 إن <النطاق> المستخدم هنا مشابه لذلك الذي تم شرحه للأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}} 
+\cmd{quransurah} 
 ، وهذا النمط ينطبق على جميع الأوامر المعرفة في الحزمة. وبالتالي، يقوم هذا الأمر بتنضيد الآية رقم $n$ من سورة معينة، أو النطاق من الآية $m$ إلى الآية $n$ من سورة معينة.
 
 \centerline{\mx{quranayah[Al-Ahzaab][33]}{\quranayah[Al-Ahzaab][33]} \hfill
@@ -446,7 +451,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \vspace{1cm}
 
 لن تُطبع البسملة تلقائياً عند تنضيد الآية الأولى من أي سورة. لتضمين البسملة، استخدم الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash basmalah}}} 
+\cmd{basmalah} 
  قبل الآية. لمزيد من التفاصيل، يُرجى الرجوع إلى الصفحة~\pageref{sec:basmalah}.
 
 \vspace{1cm}
@@ -458,8 +463,8 @@ An easy way to typeset the whole or any parts of the Holy Quran
     \mx{quranayah*[Ash-Shura][22-26]}{\quranayah*[Ash-Shura][22-26]}}
 
 كلا الأمرين 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}}  و 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}}  غير حساسين لحالة الأحرف \textenglish{ (case-insensitive)} فيما يتعلق بالعناوين الإنجليزية للسور. بمعنى آخر، لا يوجد فرق بين \textenglish{''Al-Fatiha''} و \textenglish{''al-fatiha''} أو أي تركيبة أخرى من الأحرف الكبيرة والصغيرة.
+\cmd{quransurah}  و 
+\cmd{quranayah}  غير حساسين لحالة الأحرف \textenglish{ (case-insensitive)} فيما يتعلق بالعناوين الإنجليزية للسور. بمعنى آخر، لا يوجد فرق بين \textenglish{''Al-Fatiha''} و \textenglish{''al-fatiha''} أو أي تركيبة أخرى من الأحرف الكبيرة والصغيرة.
 
 \vspace{1cm}
 \centerline{\mx{quransurah*[aL-fAatIhA]}{\quransurah*[aL-fAatIhA]} \hfill
@@ -603,13 +608,13 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \centerline{\mxf{qurantext*[4111-4117]}{\qurantext*[4111-4117]}}
 
 عند استخدام الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}}  بدون وسيطه الاختياري، فإن القيمة الافتراضية هي [1-7]، والتي تقابل سورة الفاتحة. لتغيير النص الافتراضي، استخدم الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash setqurantextdefault\{m-n\}}}}.
+\cmd{qurantext}  بدون وسيطه الاختياري، فإن القيمة الافتراضية هي [1-7]، والتي تقابل سورة الفاتحة. لتغيير النص الافتراضي، استخدم الأمر 
+\cmd{setqurantextdefault\{m-n\}}.
 
 \centerline{\mxf{qurantext*}{\qurantext*}}
 
 في المثال التالي، قام الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash setqurantextdefault\{4128-4137\}}}} بتغيير النطاق الافتراضي إلى المؤشرات من 4128 إلى 4137.
+\cmd{setqurantextdefault\{4128-4137\}} بتغيير النطاق الافتراضي إلى المؤشرات من 4128 إلى 4137.
 
 \centerline{\mxf{setqurantextdefault\{4128-4137\} \textbackslash{} qurantext*}{\setqurantextdefault{4128-4137}
 \qurantext*}}
@@ -622,22 +627,22 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \begin{multicols}{2}
 \begin{english}
 \begin{itemize}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah[1-114]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuz[1-30]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpage[1-604]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext[1-6236]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizb[1-60]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarter[1-240]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranruku[1-556]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzil[1-7]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah*[1-114]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuz*[1-30]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpage*[1-604]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext*[1-6236]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizb*[1-60]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarter*[1-240]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranruku*[1-556]}}}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzil*[1-7]}}}
+    \item \cmd{quransurah[1-114]}
+    \item \cmd{quranjuz[1-30]}
+    \item \cmd{quranpage[1-604]}
+    \item \cmd{qurantext[1-6236]}
+    \item \cmd{quranhizb[1-60]}
+    \item \cmd{quranquarter[1-240]}
+    \item \cmd{quranruku[1-556]}
+    \item \cmd{quranmanzil[1-7]}
+    \item \cmd{quransurah*[1-114]}
+    \item \cmd{quranjuz*[1-30]}
+    \item \cmd{quranpage*[1-604]}
+    \item \cmd{qurantext*[1-6236]}
+    \item \cmd{quranhizb*[1-60]}
+    \item \cmd{quranquarter*[1-240]}
+    \item \cmd{quranruku*[1-556]}
+    \item \cmd{quranmanzil*[1-7]}
 \end{itemize}
 \end{english}
 \end{multicols}
@@ -647,11 +652,11 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \label{chunk} 
 
 بدءاً من الإصدار  $1.6$ ، يمكن للحزمة تنضيد ليس فقط الآيات الكاملة بل أيضاً مقاطع محددة من الآية، شريطة تفعيل الخيار 
-\textenglish{\textcolor{blue}{\texttt{wordwise}}}
+\opt{wordwise}
 \footnote{هذه الميزة العملية اقترحها و دعمها مادياً  عطية الشيخ  في فبراير 2020.}. 
 في هذه الحالة، تتضمن الأمرين 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}} و 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}} معاملات اختيارية إضافية
+\cmd{quranayah} و 
+\cmd{qurantext} معاملات اختيارية إضافية
 لتمكين هذه الوظيفة.
 
 \begin{english}
@@ -722,10 +727,10 @@ An easy way to typeset the whole or any parts of the Holy Quran
  (\Basmalah)
   بالنص العربي.
 هناك فرق دقيق بين 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash Basmalah}}} و 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash basmalah}}}
+\cmd{Basmalah} و 
+\cmd{basmalah}
 فقد يتبع الأخير بـ 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash par}}}  اعتماداً على خيار الحزمة.
+\cmd{par}  اعتماداً على خيار الحزمة.
 
 \centerline{\mx{Basmalah\textbackslash{} space\textbackslash{} quranayah*[14][1]}{\Basmalah\space\quranayah*[14][1]} \hfill
     \mx{basmalah\textbackslash{} quranayah*[14][1]}{\basmalah\quranayah*[14][1]}}
@@ -806,8 +811,8 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \end{english}
 
 \begin{itemize}
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash SetAyahMarkerStyle}}} يُعرّف المحدّدات المستخدمة لإحاطة أرقام الآيات.
-    \item \textenglish{ \textcolor{blue}{\texttt{\textbackslash ResetAyahMarkerStyle}}} يعيد تنسيق علامة الآية إلى الوضع الافتراضي للحزمة.
+    \item \cmd{SetAyahMarkerStyle} يُعرّف المحدّدات المستخدمة لإحاطة أرقام الآيات.
+    \item \cmd{ResetAyahMarkerStyle} يعيد تنسيق علامة الآية إلى الوضع الافتراضي للحزمة.
 \end{itemize}
 
 افتراضياً، تستخدم علامات الآية الرموز
@@ -852,26 +857,26 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 
 افتراضياً، تفصل جميع أوامر الحزمة
 \footnote{خيارات الحزمة هو كل ما يتم اضافته في قسم الخيارات (options) عند تحميل الحزمة في الديباجة \textenglish{ \texttt{\textbackslash usepackage}[options]\{quran\}}.} بين الآيات بـ 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash par}}}.
+\cmd{par}.
 لتعديل هذا السلوك، استخدم الخيار 
-\textenglish{ \textcolor{blue}{\texttt{nopar}}}،
+\opt{nopar}،
 الذي يغيّر الفصل من 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash par}}} إلى مسافات.
+\cmd{par} إلى مسافات.
 بدلاً من ذلك، يمكنك استخدام النسخ المنجّمة (المزودة بـ *) من الأوامر لتحقيق نفس التأثير.
 تحذف الأوامر المنجّمة الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash par}}} عند تنضيد آيات القرآن الكريم.
+\cmd{par} عند تنضيد آيات القرآن الكريم.
 مع الخيار 
-\textenglish{ \textcolor{blue}{\texttt{nopar}}}، ستعمل الأوامر المنجّمة كما لو لم يُحمّل هذا الخيار.\label{starred}
+\opt{nopar}، ستعمل الأوامر المنجّمة كما لو لم يُحمّل هذا الخيار.\label{starred}
 
 جميع سور القرآن الكريم مقسّمة إلى آيات، لكل منها رقمها الخاص.
 افتراضياً، تُطبع هذه الأرقام إلى جانب نص كل آية.
 لإخفاء هذه الأرقام، استخدم الخيار 
-\textenglish{ \textcolor{blue}{\texttt{nonumber}}}،
+\opt{nonumber}،
 الذي يمنع طباعة أرقام الآيات.
 
 افتراضياً، تُطبع البسملة (\Basmalah) في بداية السور
 حيث تُقرأ تقليدياً. لإخفاء طباعة البسملة، استخدم الخيار 
-\textenglish{ \textcolor{blue}{\texttt{nobasmalah}}}.
+\opt{nobasmalah}.
 
 \begin{english}
 \begin{quote}
@@ -888,7 +893,7 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \centerline{\mxf{ToggleAyahNumber\textbackslash{} quransurah*[89]}{\ToggleAyahNumber\quransurah*[89]}}
 
 يُمكّن الخيار 
-\textenglish{ \textcolor{blue}{\texttt{wordwise}}}  الحزمة من إخراج أجزاء محددة من الآية.
+\opt{wordwise}  الحزمة من إخراج أجزاء محددة من الآية.
 لمزيد من التفاصيل، يُرجى الرجوع إلى القسم~\textenglish{\ref{chunk}}.
 
 \centerline{\mxf{quranayah[9][111][1-23]}{\quranayah[9][111][1-23]}}
@@ -897,8 +902,8 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 
 افتراضياً، تنضّد الحزمة نص القرآن الكريم بخط بسيط.
 ومع ذلك، فإن الخيارين 
-\textenglish{ \textcolor{blue}{\texttt{uthmani}}} و 
-\textenglish{ \textcolor{blue}{\texttt{uthmani-min}}} يعدّلان هذا الافتراضي إلى الخط العثماني.
+\opt{uthmani} و 
+\opt{uthmani-min} يعدّلان هذا الافتراضي إلى الخط العثماني.
 يمكنك مقارنة النصوص عند تجربة الامثلة التالية لتمييز الاختلافات بين
 الخطوط ''الافتراضي'' و ''العثماني'' و ''العثماني- المصغر''.
 
@@ -926,22 +931,22 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 }}
 
 بدءاً من الإصدار $1.3$، يمكن للحزمة تنضيد النسخ الصوتي (الترجمة الحرفية) للقرآن الكريم. هذه الميزة مفيدة بشكل خاص لمن لا يجيدون قراءة النص العربي. بتمكين الخيار 
-\textenglish{ \textcolor{blue}{\texttt{translt}}}، سيكون لجميع الأوامر المعرّفة في القسم~\ref{sec:qurantypesetting}
-نسخة مقابلة لها بصيغة "\textenglish{ \textcolor{blue}{\texttt{lt}}}". بمعنى آخر، تُقدّم الأوامر التالية من خلال هذا الخيار :
+\opt{translt}، سيكون لجميع الأوامر المعرّفة في القسم~\ref{sec:qurantypesetting}
+نسخة مقابلة لها بصيغة "\opt{lt}". بمعنى آخر، تُقدّم الأوامر التالية من خلال هذا الخيار :
 
 \begin{center}
 \begin{multicols}{3}
 \begin{english}
 \begin{itemize}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quransurahlt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranayahlt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranpagelt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranjuzlt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranhizblt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranquarterlt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranrukult}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash quranmanzillt}}}
-    \item \textenglish{\textcolor{blue}{\texttt{\textbackslash qurantextlt}}}
+    \item \cmd{quransurahlt}
+    \item \cmd{quranayahlt}
+    \item \cmd{quranpagelt}
+    \item \cmd{quranjuzlt}
+    \item \cmd{quranhizblt}
+    \item \cmd{quranquarterlt}
+    \item \cmd{quranrukult}
+    \item \cmd{quranmanzillt}
+    \item \cmd{qurantextlt}
 \end{itemize}
 \end{english}
 \end{multicols}
@@ -953,12 +958,12 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 تدعم الحزمة تنضيد ترجمات القرآن الكريم بلغات متعددة.
 طُرحت هذه الخيارات استجابة لطلبات المستخدمين للحصول على ترجمات بلغاتهم.
 بتحميل الخيارات 
-\textenglish{ \textcolor{blue}{\texttt{transde}}}، \textenglish{ \textcolor{blue}{\texttt{transen}}}، 
-\textenglish{ \textcolor{blue}{\texttt{transfr}}}، أو \textenglish{ \textcolor{blue}{\texttt{transfa}}}،
+\opt{transde}، \opt{transen}، 
+\opt{transfr}، أو \opt{transfa}،
 تُوفّر أوامر إضافية لتنضيد الترجمات بالألمانية والإنجليزية والفرنسية والفارسية، على التوالي.
 
 بتحميل كل من هذه الخيارات، سيكون لجميع الأوامر المعرّفة في القسم~\ref{sec:qurantypesetting}
-نسخة بصيغة "\textenglish{ \textcolor{blue}{\texttt{de}}}"، "\textenglish{ \textcolor{blue}{\texttt{en}}}"، "\textenglish{ \textcolor{blue}{\texttt{fr}}}"  و "\textenglish{ \textcolor{blue}{\texttt{fa}}}".
+نسخة بصيغة "\opt{de}"، "\opt{en}"، "\opt{fr}"  و "\opt{fa}".
 بمعنى آخر، ستضيف هذه الخيارات الأوامر التالية:
 
 \begin{longtable}{|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{3.5cm}|}
@@ -969,58 +974,58 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \endfirsthead
 
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurahde} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurahen} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurahfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurahfa}}}
+\cmd{quransurahde}&
+\cmd{quransurahen}&
+\cmd{quransurahfr}&
+\cmd{quransurahfa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayahde}} }&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayahen} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayahfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayahfa}}}
+\cmd{quranayahde}&
+\cmd{quranayahen}&
+\cmd{quranayahfr}&
+\cmd{quranayahfa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpagede}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpageen} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpagefr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpagefa}}}
+\cmd{quranpagede} &
+\cmd{quranpageen}&
+\cmd{quranpagefr}&
+\cmd{quranpagefa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuzde} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuzen} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuzfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuzfa}}}
+\cmd{quranjuzde}&
+\cmd{quranjuzen}&
+\cmd{quranjuzfr}&
+\cmd{quranjuzfa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizbde}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizben}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizbfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizbfa}}}
+\cmd{quranhizbde} &
+\cmd{quranhizben} &
+\cmd{quranhizbfr}&
+\cmd{quranhizbfa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarterde}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarteren}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarterfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarterfa}}}
+\cmd{quranquarterde} &
+\cmd{quranquarteren} &
+\cmd{quranquarterfr}&
+\cmd{quranquarterfa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranrukude} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranrukuen} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranrukufr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranrukufa}}}
+\cmd{quranrukude}&
+\cmd{quranrukuen}&
+\cmd{quranrukufr}&
+\cmd{quranrukufa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzilde}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzilen}}} &
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzilfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzilfa}}}
+\cmd{quranmanzilde} &
+\cmd{quranmanzilen} &
+\cmd{quranmanzilfr}&
+\cmd{quranmanzilfa}
 \\ \hline
 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantextde} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantexten} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantextfr} }}&
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantextfa}}}
+\cmd{qurantextde}&
+\cmd{qurantexten}&
+\cmd{qurantextfr}&
+\cmd{qurantextfa}
 \\ \hline
 
 \end{longtable}
@@ -1036,7 +1041,7 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \end{itemize}
 
 صُمّم الخيار 
-\textenglish{\textcolor{blue}{\texttt{trans}}} لتسهيل الاستخدام المتزامن لترجمات متعددة.
+\opt{trans} لتسهيل الاستخدام المتزامن لترجمات متعددة.
 يقبل هذا الخيار أي توليفة من "\texttt{lt}"، "\texttt{de}"، "\texttt{en}"،
 "\texttt{fr}" و "\texttt{fa}".
 على سبيل المثال، يمكنك تحديد ترجمات متعددة باستخدام  :
@@ -1084,29 +1089,29 @@ trans={de, en, lt}
 
 لتنضيد النص القرآني، تحتاج إلى حزمة تدعم النصوص من اليمين إلى اليسار (RTL)
 وتستخدم خطوط
-\textenglish{\textcolor{blue}{\texttt{UTF-8}}}، لأن حزمة 
-\textenglish{\textcolor{blue}{\texttt{quran}}} تعتمد على قاعدة بيانات يونيكود.
+\opt{UTF-8}، لأن حزمة 
+\opt{quran} تعتمد على قاعدة بيانات يونيكود.
 الحزم الموصى بها لهذا الغرض هي 
-\textenglish{\textcolor{blue}{\texttt{polyglossia}}}، 
-\textenglish{\textcolor{blue}{\texttt{fontspec}}}، و 
-\textenglish{\textcolor{blue}{\texttt{bidi}}}،
+\opt{polyglossia}، 
+\opt{fontspec}، و 
+\opt{bidi}،
 والتي توفر معاً الوظائف اللازمة. بدلاً من ذلك، يمكنك استخدام 
-\textenglish{\textcolor{blue}{\texttt{xepersian}}}،
+\opt{xepersian}،
 والتي تعتمد أيضاً على 
-\textenglish{\textcolor{blue}{\texttt{bidi}}} و 
-\textenglish{\textcolor{blue}{\texttt{fontspec}}}.
+\opt{bidi} و 
+\opt{fontspec}.
 خيار آخر هو استخدام 
-\textenglish{\textcolor{blue}{\texttt{arabxetex}}} أو 
-\textenglish{\textcolor{blue}{\texttt{arabluatex}}}.
+\opt{arabxetex} أو 
+\opt{arabluatex}.
 لاحظ أن 
-\textenglish{\textcolor{blue}{\texttt{arabxetex}}} يعمل مع 
+\opt{arabxetex} يعمل مع 
 \textenglish{\textcolor{blue}{\XeLaTeX}}،
 بينما 
-\textenglish{\textcolor{blue}{\texttt{arabluatex}}} متوافق فقط مع 
+\opt{arabluatex} متوافق فقط مع 
 \textenglish{\textcolor{blue}{Lua\LaTeX}}.
 يستخدم كل من 
-\textenglish{\textcolor{blue}{\texttt{arabxetex}}} و 
-\textenglish{\textcolor{blue}{\texttt{arabluatex}}} خط Amiri افتراضياً.
+\opt{arabxetex} و 
+\opt{arabluatex} خط Amiri افتراضياً.
 فيما يلي أمثلة توضح جميع الأساليب الأربعة :
 
 \begin{lstlisting}[style=BashInputStyle, title={مثال : مع \textenglish{polyglossia, fontspec, and bidi}}]
@@ -1166,12 +1171,12 @@ trans={de, en, lt}
 \subsection{كيفية تعيين خط افتراضي للنص القرآني؟}   
 
     لتغيير خط النص القرآني تلقائياً في مستندك،  يمكنك ببساطة وضع الأمر 
-    \textenglish{ \textcolor{blue}{\texttt{qurantext}}} مسبوقاً بالخط المطلوب. على سبيل المثال :
+    \opt{qurantext} مسبوقاً بالخط المطلوب. على سبيل المثال :
 
 \begin{quote}
 
     مع 
-\textenglish{ \textcolor{blue}{\texttt{fontspec}}}،  ضع الأوامر التالية في الديباجة :
+\opt{fontspec}،  ضع الأوامر التالية في الديباجة :
 
 \begin{english}
 \begin{quote}
@@ -1185,7 +1190,7 @@ trans={de, en, lt}
 \end{english}
 
      مع 
-\textenglish{ \textcolor{blue}{\texttt{xepersian}}}،  ضع الأوامر التالية في الديباجة :
+\opt{xepersian}،  ضع الأوامر التالية في الديباجة :
 
 \begin{english}
 \begin{quote}
@@ -1201,7 +1206,7 @@ trans={de, en, lt}
 \end{quote}
 
     عند تعيين الخط الافتراضي كما هو موضح أعلاه، إذا أردت استخدام 
-\textenglish{ \textcolor{blue}{\texttt{qurantext}}}،
+\opt{qurantext}،
     فيجب وضعه بين قوسين معقوفين. وإلا، فسيؤثر تغيير الخط على النص التالي أيضاً.
 
 \begin{english}
@@ -1229,7 +1234,7 @@ trans={de, en, lt}
 \subsection{كيفية تلوين علامة الآية} 
 
     يسمح لك الأمر 
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash SetAyahMarkerStyle}}} بتخصيص الرموز
+\cmd{SetAyahMarkerStyle} بتخصيص الرموز
     أو التنسيق الذي يظهر قبل وبعد كل رقم آية.
     ستظهر الوسيطتان للأمر مباشرة قبل وبعد رقم الآية.
 
@@ -1255,7 +1260,7 @@ trans={de, en, lt}
     يعود اختراع \TeX{} إلى عدة عقود مضت. على الرغم من التقدم في الأجهزة الحديثة،
     صُمّم \TeX{} أصلاً للعمل بكفاءة على موارد الكمبيوتر المحدودة نسبياً
     المتوفرة في وقت إنشائه. تتضمن حزمة 
-\textenglish{ \textcolor{blue}{\texttt{quran}}}
+\opt{quran}
     العديد من الأوامر التي قد تستنفد ذاكرة \TeX{}، مما يؤدي أحياناً إلى أخطاء في الترجمة.
     لمعالجة هذه المشكلة، يتمثل أحد الأساليب في زيادة تخصيص ذاكرة \TeX{}.
     يمكن العثور على تعليمات مفصلة حول كيفية القيام بذلك في القسم المعنون ''قيود الذاكرة''
@@ -1265,15 +1270,15 @@ trans={de, en, lt}
     هو الحل الأكثر فعالية دائماً.
     قد يكون النهج الأكثر عملية هو إعادة النظر في تصميم مستندك.
     على سبيل المثال، عند استخدام الخيار 
-    \textenglish{ \textcolor{blue}{\texttt{wordwise}}}، قد تواجه
+    \opt{wordwise}، قد تواجه
     أخطاء 
-    '' \textenglish{ \textcolor{blue}{\texttt{! TeX capacity exceeded}}}''، خاصة عند استخدام النسخ المنجّمة
+    '' \opt{! TeX capacity exceeded}''، خاصة عند استخدام النسخ المنجّمة
     من الأوامر التي تخرج أجزاء كبيرة من النص القرآني.
 
     في مثل هذه الحالات، يمكنك تحقيق مخرج مماثل عن طريق معالجة أجزاء أصغر.
     على سبيل المثال، إذا واجهت أخطاء عند محاولة تنضيد الأجزاء العشرة الأولى
     بالأمر 
-\textenglish{ \textcolor{blue}{\texttt{quranjuz*[1-10]}}}، ففكّر في تقسيم المهمة إلى أجزاء أصغر.
+\opt{quranjuz*[1-10]}، ففكّر في تقسيم المهمة إلى أجزاء أصغر.
 
 \begin{quote}
 \begin{lstlisting}[style=BashInputStyle]
@@ -1282,373 +1287,373 @@ trans={de, en, lt}
 \end{quote}
 
     سيكون من الأكثر فعالية تنضيد كل جزء على حدة أو حتى كل صفحة ضمن النطاق المطلوب. على سبيل المثال، يمكنك استخدام الأوامر 
-      \textenglish{ \textcolor{blue}{\texttt{quranjuz*[1]}}} 
-      \textenglish{ \textcolor{blue}{\texttt{quranjuz*[2]}}}  $\cdots$ 
-      \textenglish{ \textcolor{blue}{\texttt{quranjuz*[10]}}} 
+      \opt{quranjuz*[1]} 
+      \opt{quranjuz*[2]}  $\cdots$ 
+      \opt{quranjuz*[10]} 
     أو 
-     \textenglish{ \textcolor{blue}{\texttt{quranpage*[1]}}} 
-      \textenglish{ \textcolor{blue}{\texttt{quranpage*[2]}}}  $\cdots$ 
-      \textenglish{ \textcolor{blue}{\texttt{quranpage*[201]}}}   لتحقيق ذلك.
+     \opt{quranpage*[1]} 
+      \opt{quranpage*[2]}  $\cdots$ 
+      \opt{quranpage*[201]}   لتحقيق ذلك.
 
 \section{تاريخ التطوير}
 
 \begin{description}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/01 v0.1}}}]
+\item[\opt{2015/06/01 v0.1}]
     \begin{itemize}
      \item []
         \item الإصدار الأولي في مجموعة  \LaTeX Parsi
          تحت اسم
-          \textenglish{ \textcolor{blue}{\texttt{qurantext}}}.   
-        \item إضافة الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}}.   
+          \opt{qurantext}.   
+        \item إضافة الأمر   \cmd{qurantext}.   
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/02 v0.2}}}]
+\item[\opt{2015/06/02 v0.2}]
 \begin{itemize}
      \item []
         \item إعادة تعريف   
-        \textenglish{ \textcolor{blue}{\texttt{\textbackslash do@qt}}}  بأسلوب غير استدعائي ذاتي (غير متكرر) لمنع مشاكل تجاوز سعة مكدس 
+        \cmd{do@qt}  بأسلوب غير استدعائي ذاتي (غير متكرر) لمنع مشاكل تجاوز سعة مكدس 
         \TeX{}.
         كان الإصدار المتكرر السابق يتسبب أحياناً في تجاوز سعة المكدس. شكراً لـمسعود يزداني لاقتراحه الحل.  
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/02 v0.3}}}]
+\item[\opt{2015/06/02 v0.3}]
 \begin{itemize}
      \item []
         \item إضافة أرقام الآيات في نهاية كل آية في المخرج. شكراً لـمحمود أمين طوسي لاقتراحه هذه الميزة. 
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/04 v0.4}}}]
+\item[\opt{2015/06/04 v0.4}]
  \begin{itemize}
      \item []
-        \item إضافة الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash surahname}}}  لإخراج العنوان العربي أو الإنجليزي للسورة، بناءً على اتجاه النص.
-        \item إعادة تسمية الحزمة من \textenglish{\textcolor{blue}{\texttt{qurantext}}}  إلى \textenglish{ \textcolor{blue}{\texttt{quran}} }.
+        \item إضافة الأمر   \cmd{surahname}  لإخراج العنوان العربي أو الإنجليزي للسورة، بناءً على اتجاه النص.
+        \item إعادة تسمية الحزمة من \opt{qurantext}  إلى \opt{quran}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/24 v0.5}}}]
+\item[\opt{2015/06/24 v0.5}]
   \begin{itemize}
      \item []
-         \item إضافة الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}}  لإخراج {نطاق} من الآيات من سورة. 
-         \item إضافة الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}}  لإخراج {نطاق} من السور.
+         \item إضافة الأمر   \cmd{quranayah}  لإخراج {نطاق} من الآيات من سورة. 
+         \item إضافة الأمر   \cmd{quransurah}  لإخراج {نطاق} من السور.
          \item شكر خاص لـمحمود أمين طوسي لاقتراحه هذه الميزات الجديدة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/28 v0.6}}}]
+\item[\opt{2015/06/28 v0.6}]
  \begin{itemize}
      \item []
-        \item إضافة الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranjuz}} } لإخراج نطاق من أجزاء القرآن الكريم.
+        \item إضافة الأمر   \cmd{quranjuz} لإخراج نطاق من أجزاء القرآن الكريم.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/06/30 v0.7}}}]
+\item[\opt{2015/06/30 v0.7}]
  \begin{itemize}
      \item []
-        \item إضافة الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranpage}}}  لإخراج صفحة أو أكثر من القرآن الكريم.
+        \item إضافة الأمر   \cmd{quranpage}  لإخراج صفحة أو أكثر من القرآن الكريم.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/02 v0.71}}}]
+\item[\opt{2015/07/02 v0.71}]
 \begin{itemize}
      \item []
-        \item إضافة أمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash par}} } بعد البسملة، وفقاً لاقتراح محمود أمين طوسي.
+        \item إضافة أمر   \cmd{par} بعد البسملة، وفقاً لاقتراح محمود أمين طوسي.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/02 v0.72}}}]
+\item[\opt{2015/07/02 v0.72}]
  \begin{itemize}
      \item []
-        \item تقديم الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash basmalah}} } لتنضيد البسملة : (\Basmalah).
+        \item تقديم الأمر   \cmd{basmalah} لتنضيد البسملة : (\Basmalah).
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/04 v0.8}}}]
+\item[\opt{2015/07/04 v0.8}]
 \begin{itemize}
      \item []
-        \item إضافة الأمرين   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranquarter}} } و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranruku}} }.
+        \item إضافة الأمرين   \cmd{quranquarter} و   \cmd{quranruku}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/07 v0.9}}}]
+\item[\opt{2015/07/07 v0.9}]
 \begin{itemize}
      \item []
-        \item إضافة الأمرين   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranhizb}} } و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranmanzil}}} .
+        \item إضافة الأمرين   \cmd{quranhizb} و   \cmd{quranmanzil} .
         \item رفع الحزمة إلى \href{https://ctan.org/}{CTAN}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/10 v0.91}}}]
+\item[\opt{2015/07/10 v0.91}]
  \begin{itemize}
      \item []
-        \item تعيين الخيار الافتراضي للأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}} } إلى ''Al-Ikhlaas''.   
+        \item تعيين الخيار الافتراضي للأمر   \cmd{quransurah} إلى ''Al-Ikhlaas''.   
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/11 v0.94}}}]
+\item[\opt{2015/07/11 v0.94}]
 \begin{itemize}
      \item []
-        \item إضافة أمرين جديدين،   \textenglish{ \textcolor{blue}{\texttt{\textbackslash ChangeAyahNumber}} } و  
-         \textenglish{ \textcolor{blue}{\texttt{\textbackslash ChangeBasmalah}}}، لتخصيص مظهر أرقام الآيات والبسملة.
+        \item إضافة أمرين جديدين،   \cmd{ChangeAyahNumber} و  
+         \cmd{ChangeBasmalah}، لتخصيص مظهر أرقام الآيات والبسملة.
         \item إصلاح خطأ بسيط يتعلق بالمسافات البيضاء الإضافية حول آية واحدة، مع الشكر لـمسعود يزداني للإبلاغ عن المشكلة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2015/07/11 v0.941}}}]
+\item[\opt{2015/07/11 v0.941}]
 \begin{itemize}
      \item []
         \item تقليل حجم ملف ''نص القرآن'' عن طريق نقل   
-        \textenglish{ \textcolor{blue}{\texttt{\textbackslash qt@par}}} إلى الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}}.
+        \cmd{qt@par} إلى الأمر   \cmd{qurantext}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/02/05 v1.0}}}]
+\item[\opt{2016/02/05 v1.0}]
   \begin{itemize}
      \item []
         \item إضافة دعم استخدام العناوين الإنجليزية للسور، بالإضافة إلى أرقامها، في الأمرين   
-        \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}} و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}}.
+        \cmd{quransurah} و   \cmd{quranayah}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/02/09 v1.05}}}]
+\item[\opt{2016/02/09 v1.05}]
 \begin{itemize}
         \item []
-        \item إعادة تسمية \textenglish{ \textcolor{blue}{\texttt{\textbackslash ChangeBasmalah}}} و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash ChangeAyahNumber}}} إلى   \textenglish{ \textcolor{blue}{\texttt{\textbackslash ToggleBasmalah}}} و  \\  \textenglish{ \textcolor{blue}{\texttt{\textbackslash ToggleAyahNumber}}}، على التوالي.
-        \item إصلاح خطأ بسيط في   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah*}}} كان يتسبب في مسافات إضافية غير مرغوب فيها في المخرج. شكراً لـحسين بهبودي للإبلاغ عن هذه المشكلة.
+        \item إعادة تسمية \cmd{ChangeBasmalah} و   \cmd{ChangeAyahNumber} إلى   \cmd{ToggleBasmalah} و  \\  \cmd{ToggleAyahNumber}، على التوالي.
+        \item إصلاح خطأ بسيط في   \cmd{quransurah*} كان يتسبب في مسافات إضافية غير مرغوب فيها في المخرج. شكراً لـحسين بهبودي للإبلاغ عن هذه المشكلة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/04/21 v1.1}}}]
+\item[\opt{2016/04/21 v1.1}]
  \begin{itemize}
      \item []
-        \item تقديم الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash indexconvert}}}، الذي يحول رقماً بين $1$ و $6236$ إلى رقم السورة والآية الدقيقين في النص الكامل للقرآن.
+        \item تقديم الأمر   \cmd{indexconvert}، الذي يحول رقماً بين $1$ و $6236$ إلى رقم السورة والآية الدقيقين في النص الكامل للقرآن.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/05/15 v1.14}}}]
+\item[\opt{2016/05/15 v1.14}]
 \begin{itemize}
      \item []
         \item تحديثات الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/10/05 v1.2}}}]
+\item[\opt{2016/10/05 v1.2}]
  \begin{itemize}
      \item []
-        \item إضافة دعم للخط العثماني عبر الخيار  \textenglish{ \textcolor{blue}{\texttt{uthmani}}}،  بناءً على طلب أحد مستخدمي الحزمة.
+        \item إضافة دعم للخط العثماني عبر الخيار  \opt{uthmani}،  بناءً على طلب أحد مستخدمي الحزمة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/11/07 v1.21}}}]
+\item[\opt{2016/11/07 v1.21}]
 \begin{itemize}
      \item []
         \item إصلاح بعض الأخطاء البسيطة المتعلقة بالرفع إلى \href{https://ctan.org/}{CTAN}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/11/08 v1.22}}}]
+\item[\opt{2016/11/08 v1.22}]
     \begin{itemize}
      \item []
         \item إلحاق مصادر ملفي PDF المستخدمين في الوثائق بالحزمة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/11/12 v1.24}}}]
+\item[\opt{2016/11/12 v1.24}]
 \begin{itemize}
      \item []
         \item تحديثات الوثائق.
         \item فُقدت علامات الوقف من النسخة السابقة للخط العثماني.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/11/15 v1.241}}}]
+\item[\opt{2016/11/15 v1.241}]
  \begin{itemize}
      \item []
         \item تحديثات الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/12/25 v1.25}}}]
+\item[\opt{2016/12/25 v1.25}]
  \begin{itemize}
      \item []
         \item تحديثات الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/12/25 v1.251}}}]
+\item[\opt{2016/12/25 v1.251}]
  \begin{itemize}
      \item []
         \item تحديثات الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/02/28 v1.252}}}]
+\item[\opt{2017/02/28 v1.252}]
     \begin{itemize} 
      \item []
         \item تحسينات طفيفة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/08/22 v1.26}}}]
+\item[\opt{2017/08/22 v1.26}]
 \begin{itemize}
      \item []
         \item تحسينات طفيفة.
-        \item إصلاح خطأ في   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah[x][y]}}} عن طريق وضعه داخل مجموعة. شكراً لـسيد سعيد موسوي ندوشني للإبلاغ عن هذه المشكلة.
+        \item إصلاح خطأ في   \cmd{quranayah[x][y]} عن طريق وضعه داخل مجموعة. شكراً لـسيد سعيد موسوي ندوشني للإبلاغ عن هذه المشكلة.
         \item تحديثات الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2016/08/22 v1.261}}}]
+\item[\opt{2016/08/22 v1.261}]
 \begin{itemize}
      \item []
         \item تحديثات الوثائق -- تصحيح خطأ مطبعي في رقم الإصدار.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/10/22 v1.3}}}]
+\item[\opt{2017/10/22 v1.3}]
 \begin{itemize}
      \item []
         \item إضافة دعم للنسخ الصوتي (الترجمة الحرفية). أصبحت جميع الأوامر تتضمن الآن نسخة ''lt''
         لتنضيد النسخ الصوتي للأوامر الأصلية. شكراً لـحميدرضا احمديان
         لاقتراحه هذه الميزة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/10/28 v1.4}}}]
+\item[\opt{2017/10/28 v1.4}]
 \begin{itemize}
      \item []
         \item إضافة الترجمات الفارسية والإنجليزية والألمانية مع
         تضمين النسخ ''fa" و ''en" و ''de" من الأوامر. تم تقديم ثلاثة خيارات جديدة،
-\textenglish{ \textcolor{blue}{\texttt{transfa}}}، \textenglish{ \textcolor{blue}{\texttt{transen}}}، و \textenglish{ \textcolor{blue}{\texttt{transde}}}،
+\opt{transfa}، \opt{transen}، و \opt{transde}،
         لتمكين هذه الترجمات.
-        \item تقديم خيار جديد، \textenglish{ \textcolor{blue}{\texttt{trans}}}، والذي يمكن أن يقبل القيم "lt"، ''fa" و ''en" و ''de"
+        \item تقديم خيار جديد، \opt{trans}، والذي يمكن أن يقبل القيم "lt"، ''fa" و ''en" و ''de"
         مفصولة بفواصل، مما يسمح بالاستخدام المتزامن لترجمات متعددة.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/12/22 v1.41}}}]
+\item[\opt{2017/12/22 v1.41}]
     \begin{itemize}
      \item []
-        \item في الإصدارات السابقة، كان الأمران   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}} و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}} حساسين لحالة الأحرف فيما يتعلق بأسماء السور. اعتباراً من هذا الإصدار، أصبح كلا الأمرين غير حساسين لحالة الأحرف. يسمح هذا التغيير بأي توليفة من الأحرف الكبيرة والصغيرة عند تحديد أسماء السور، بحيث تُعامل ''Al-Fatihda" و ''al-fatiha" و ''al-Fatiha" بشكل متكافئ.
+        \item في الإصدارات السابقة، كان الأمران   \cmd{quransurah} و   \cmd{quranayah} حساسين لحالة الأحرف فيما يتعلق بأسماء السور. اعتباراً من هذا الإصدار، أصبح كلا الأمرين غير حساسين لحالة الأحرف. يسمح هذا التغيير بأي توليفة من الأحرف الكبيرة والصغيرة عند تحديد أسماء السور، بحيث تُعامل ''Al-Fatihda" و ''al-fatiha" و ''al-Fatiha" بشكل متكافئ.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/12/22 v1.42}}}]
+\item[\opt{2017/12/22 v1.42}]
 \begin{itemize}
      \item []
-        \item ابتداءً من هذا الإصدار، يدعم الأمران   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurahX}}} و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayahX}}} أيضاً عدم الحساسية لحالة الأحرف للعناوين الإنجليزية للسور. هنا، يمثل ''X'' رموز اللغات ''en'' (الإنجليزية)، ''de'' (الألمانية)، ''fa'' (الفارسية)، أو ''lt'' (اللاتينية).  وهذا يضمن أن الاختلافات في حالة الأحرف لا تؤثر على وظيفة الأمر.
+        \item ابتداءً من هذا الإصدار، يدعم الأمران   \cmd{quransurahX} و   \cmd{quranayahX} أيضاً عدم الحساسية لحالة الأحرف للعناوين الإنجليزية للسور. هنا، يمثل ''X'' رموز اللغات ''en'' (الإنجليزية)، ''de'' (الألمانية)، ''fa'' (الفارسية)، أو ''lt'' (اللاتينية).  وهذا يضمن أن الاختلافات في حالة الأحرف لا تؤثر على وظيفة الأمر.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2017/12/22 v1.42a}}}]
+\item[\opt{2017/12/22 v1.42a}]
     \begin{itemize}
      \item []
         \item تحديث الوثائق -- تم تصحيح خطأ مطبعي.
         \item بعض الملفات فُقدت في آخر تحديث لـ \href{https://ctan.org/}{CTAN}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2018/11/29 v1.42b}}}]
+\item[\opt{2018/11/29 v1.42b}]
 \begin{itemize}
      \item []
         \item تصحيح خطأ مطبعي في quran-transde.def .
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2018/12/01}}}]
+\item[\opt{2018/12/01}]
     \begin{itemize}
      \item []
         \item تم إصدار حزمة \href{https://github.com/javadr/quran-de}{\textenglish{\texttt{quran-de}}}،  مضيفة دعم لثلاث ترجمات إضافية إلى الألمانية.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2018/12/31 v1.5}}}]
+\item[\opt{2018/12/31 v1.5}]
     \begin{itemize}
      \item []
-        \item إصلاح أخطاء بسيطة في   \textenglish{ \textcolor{blue}{\texttt{\textbackslash ToggleBasmalah}}} و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quransurah}}}.
+        \item إصلاح أخطاء بسيطة في   \cmd{ToggleBasmalah} و   \cmd{quransurah}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2019/05/03}}}]
+\item[\opt{2019/05/03}]
 \begin{itemize}
      \item []
         \item تم إصدار حزمة \href{https://github.com/javadr/quran-ur}{\textenglish{\texttt{{quran-ur}}}}، مضيفة ثماني ترجمات إلى الأردية.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2019/05/04 v1.51}}}]
+\item[\opt{2019/05/04 v1.51}]
     \begin{itemize}
      \item []
         \item تصحيح خطأ مطبعي في quran-transde.def .
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/03/07 v1.6}}}]
+\item[\opt{2020/03/07 v1.6}]
     \begin{itemize}
      \item []
         \item إضافة دعم لجلب أي مقاطع من آية مع وسيطين اختياريين إضافيين للأمرين   
-        \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}} و   
-        \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}}. هذه الميزة اقترحها و  دعمها مادياً عطية الشيخ بارك الله فيه. 
-        \item أصبح   \textenglish{ \textcolor{blue}{\texttt{\textbackslash Basmalah}}} الآن يخرج البسملة دون أي مسافات بيضاء محيطة.
+        \cmd{qurantext} و   
+        \cmd{quranayah}. هذه الميزة اقترحها و  دعمها مادياً عطية الشيخ بارك الله فيه. 
+        \item أصبح   \cmd{Basmalah} الآن يخرج البسملة دون أي مسافات بيضاء محيطة.
         \item تم تنقيح الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/03/09 v1.61}}}]
+\item[\opt{2020/03/09 v1.61}]
 \begin{itemize}
      \item []
-        \item يُطبق الآن الخط الحالي للنص على الحواشي السفلية عند استدعاء   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}} أو   \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}}
+        \item يُطبق الآن الخط الحالي للنص على الحواشي السفلية عند استدعاء   \cmd{quranayah} أو   \cmd{qurantext}
         مع وسيطه الاختياري \texttt{+}. سابقاً، كانت الحواشي السفلية تستخدم خط  Amiri .
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/03/12 v1.62}}}]
+\item[\opt{2020/03/12 v1.62}]
     \begin{itemize}
      \item []
         \item تم تحديث الترخيص من LPPL الإصدار $1.3$ إلى LPPL الإصدار  $1.3c $ .
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/03/14 v1.63}}}]
+\item[\opt{2020/03/14 v1.63}]
     \begin{itemize}
      \item []
-        \item تمت إزالة علامات الوقف من   \textenglish{ \textcolor{blue}{\texttt{\textbackslash quranayah}}} و   \textenglish{ \textcolor{blue}{\texttt{\textbackslash qurantext}}} عند استخدام المعامل الاختياري 
-        \textenglish{ \textcolor{blue}{\texttt{[<chunk range>]}}} نطاق المقطع. 
+        \item تمت إزالة علامات الوقف من   \cmd{quranayah} و   \cmd{qurantext} عند استخدام المعامل الاختياري 
+        \opt{[<chunk range>]} نطاق المقطع. 
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/06/10 v1.7}}}]
+\item[\opt{2020/06/10 v1.7}]
 \begin{itemize}
      \item []
         \item إضافة الترجمة الفرنسية مع تقديم النسخة ''fr'' من الأوامر.
         تم تعريف الخيار الجديد 
-       \textenglish{ \textcolor{blue}{\texttt{transfr}}} لهذه الترجمة.
-        \item إضافة قيمة جديدة \textenglish{ \textcolor{blue}{\texttt{fr}}} إلى الخيار \textenglish{ \textcolor{blue}{\texttt{trans}}}.
+       \opt{transfr} لهذه الترجمة.
+        \item إضافة قيمة جديدة \opt{fr} إلى الخيار \opt{trans}.
         \item تحديثات الوثائق.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/06/12 v1.7a}}}]
+\item[\opt{2020/06/12 v1.7a}]
     \begin{itemize}
      \item []
         \item تم رفع بعض الملفات المفقودة المتعلقة بالترجمة الفرنسية إلى \href{https://ctan.org/}{CTAN}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2020/10/14 v1.8}}}]
+\item[\opt{2020/10/14 v1.8}]
     \begin{itemize}
      \item []
         \item إضافة خيار جديد 
-        ''\textenglish{ \textcolor{blue}{\texttt{uthmani-min}}}''
+        ''\opt{uthmani-min}''
         ؛ يعمل بنفس طريقة
         الخيار
- ''\textenglish{ \textcolor{blue}{\texttt{uthmani}}}''
+ ''\opt{uthmani}''
          قبل هذا الإصدار.
-        \item أصبح الخيار ''\textenglish{ \textcolor{blue}{\texttt{uthmani}}}'' الآن ينضّد نص القرآن الكريم بعلامات تشكيل أكثر،
+        \item أصبح الخيار ''\opt{uthmani}'' الآن ينضّد نص القرآن الكريم بعلامات تشكيل أكثر،
         كما طُلب في 
         \href{https://github.com/javadr/quran/issues/4}{هذه المشكلة}.  
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2021/02/01}}}]
+\item[\opt{2021/02/01}]
 \begin{itemize}
      \item []
-        \item تم إصدار حزمة \href{https://github.com/javadr/quran-bn}{\textenglish{ \textcolor{blue}{\texttt{quran-bn}}}}، مضيفة ترجمتين إلى البنغالية،  كما طُلب في 
+        \item تم إصدار حزمة \href{https://github.com/javadr/quran-bn}{\opt{quran-bn}}، مضيفة ترجمتين إلى البنغالية،  كما طُلب في 
         \href{https://github.com/javadr/quran/issues/2}{هذه المشكلة}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2021/02/02 v1.81}}}]
+\item[\opt{2021/02/02 v1.81}]
     \begin{itemize}
      \item []
-        \item تحديث الوثائق بما يتوافق مع الإصدار الأول لحزمة \textenglish{ \textcolor{blue}{\texttt{quran-bn}}}.
+        \item تحديث الوثائق بما يتوافق مع الإصدار الأول لحزمة \opt{quran-bn}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2023/06/28 v1.9}}}]
+\item[\opt{2023/06/28 v1.9}]
     \begin{itemize}
      \item []
-        \item يضيف الخيار الجديد ''\textenglish{ \textcolor{blue}{\texttt{ornbraces}}}'' أقواساً زخرفية حول النص القرآني.
-        \item يسمح الأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash SetOrnamentalBraces}}} بـتخصيص الأقواس الزخرفية المحيطة بالنص القرآني.
+        \item يضيف الخيار الجديد ''\opt{ornbraces}'' أقواساً زخرفية حول النص القرآني.
+        \item يسمح الأمر   \cmd{SetOrnamentalBraces} بـتخصيص الأقواس الزخرفية المحيطة بالنص القرآني.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2023/07/10 v2.0}}}]
+\item[\opt{2023/07/10 v2.0}]
 \begin{itemize}
      \item []
         \item تم تحديث نص القرآن الكريم في الحزمة ليتوافق مع \href{https://tanzil.net/updates/}{نص تنزيل الإصدار 1.1}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2023/07/27 v2.1}}}]
+\item[\opt{2023/07/27 v2.1}]
 \begin{itemize}
 \item []
 \item تنقيح الأسماء الإنجليزية لسور القرآن باستخدام \href{http://tanzil.net/res/text/metadata/quran-data.xml}{بيانات القرآن الوصفية}. انظر الجدول~\ref{tab:newnames} 
-\item إصلاح مشكلة إسقاط   \textenglish{ \textcolor{blue}{\texttt{\textbackslash par}}} التي ظهرت في الإصدار 1.9.
+\item إصلاح مشكلة إسقاط   \cmd{par} التي ظهرت في الإصدار 1.9.
 \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2023/08/01 v2.2}}}]
+    \item[\opt{2023/08/01 v2.2}]
      \begin{itemize}
      \item []
         \item إضافة دعم للأسماء الإنجليزية القديمة لسور القرآن، لضمان التوافق مع الإصدارات السابقة من الحزمة.
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2023/11/01}}}]
+    \item[\opt{2023/11/01}]
     \begin{itemize}
      \item []
         \item تم إصدار حزمة \href{https://github.com/javadr/quran-id}{\textenglish{ \texttt{quran-id}}}،  مضيفة ثلاث ترجمات إلى الإندونيسية كما طُلب في
          \href{https://github.com/javadr/quran/issues/11}{هذه المشكلة}.  
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2023/11/04}}}]
+    \item[\opt{2023/11/04}]
     \begin{itemize}
      \item []
         \item تم إصدار حزمة \href{https://github.com/javadr/quran-en}{\textenglish{\texttt{quran-en}}}،   مضيفة ثلاث ترجمات إلى الإنجليزية كما طُلب في 
         \href{https://github.com/javadr/quran/issues/7}{هذه المشكلة}. 
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2023/12/21}}}]
+    \item[\opt{2023/12/21}]
   \begin{itemize}
      \item []
         \item تم إصدار \href{https://github.com/javadr/gedit-quran}{إضافة Quran}  
         لمحرر النصوص 
         \href{https://gedit-text-editor.org/}{gedit}   لتنضيد الآيات القرآنية، بما في ذلك النصوص الكاملة وأوامر حزمة Quran المساعدة.
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2024/09/05}}}]
+    \item[\opt{2024/09/05}]
     \begin{itemize}
      \item []
         \item تم إصدار حزمة \href{https://github.com/javadr/quran-es}{\textenglish{\texttt{quran-es}}}،   مضيفة ثلاث ترجمات إلى الإسبانية كما طُلب في 
         \href{https://github.com/javadr/quran/issues/12}{هذه المشكلة}.  
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2024/09/07 v2.3}}}]
+    \item[\opt{2024/09/07 v2.3}]
     \begin{itemize}
      \item []
         \item تحديث الوثائق مع إصدار \href{https://github.com/javadr/quran-es}{\textenglish{\texttt{quran-es}}}.   
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2025/03/31 v2.31}}}]
+    \item[\opt{2025/03/31 v2.31}]
  \begin{itemize}
      \item []
-        \item تنفيذ جديد للأمر   \textenglish{ \textcolor{blue}{\texttt{\textbackslash qt@no}}} في quran.sty لتحسين استخدام المساحة في نصوص القرآن.
+        \item تنفيذ جديد للأمر   \cmd{qt@no} في quran.sty لتحسين استخدام المساحة في نصوص القرآن.
         \item تم تحديث جميع حزم القرآن الأخرى وفقاً للتنفيذ الجديد.
     \end{itemize}
-    \item[\textenglish{ \textcolor{blue}{\texttt{2025/04/25 v2.4}}}]
+    \item[\opt{2025/04/25 v2.4}]
     \begin{itemize}
      \item []
-        \item يسمح   \textenglish{ \textcolor{blue}{\texttt{\textbackslash SetAyahMarkerStyle}}} للمستخدمين بتخصيص النمط البصري لعلامات الآيات، بما في ذلك الرموز التي تحيط بأرقام الآيات.
-        \item يعيد   \textenglish{ \textcolor{blue}{\texttt{\textbackslash ResetAyahMarkerStyle}}} نمط علامة الآية إلى الإعداد الافتراضي للحزمة، باستخدام {\char"FD3F}  و  {\char"FD3E}.
+        \item يسمح   \cmd{SetAyahMarkerStyle} للمستخدمين بتخصيص النمط البصري لعلامات الآيات، بما في ذلك الرموز التي تحيط بأرقام الآيات.
+        \item يعيد   \cmd{ResetAyahMarkerStyle} نمط علامة الآية إلى الإعداد الافتراضي للحزمة، باستخدام {\char"FD3F}  و  {\char"FD3E}.
     \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2025/04/26 v2.41}}}]
+\item[\opt{2025/04/26 v2.41}]
 \begin{itemize}
 \item []
 \item  تم إهمال وإزالة خيار الحزمة 
-\textenglish{ \textcolor{blue}{\texttt{ornbraces}}}. أصبحت الأوامر
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash SetOrnamentalBraces}}}، \textenglish{ \textcolor{blue}{\texttt{\textbackslash SetAyahMarkerStyle}}}، و
-\textenglish{ \textcolor{blue}{\texttt{\textbackslash ResetAyahMarkerStyle}}} متاحة الآن افتراضياً ولم تعد تتطلب تفعيل خيار صريح.
+\opt{ornbraces}. أصبحت الأوامر
+\cmd{SetOrnamentalBraces}، \cmd{SetAyahMarkerStyle}، و
+\cmd{ResetAyahMarkerStyle} متاحة الآن افتراضياً ولم تعد تتطلب تفعيل خيار صريح.
 \end{itemize}
-\item[\textenglish{ \textcolor{blue}{\texttt{2026/03/12 v2.42}}}]
+\item[\opt{2026/03/12 v2.42}]
 \begin{itemize}
 \item []
-\item تقديم خيار الحزمة \textenglish{ \textcolor{blue}{\texttt{nobasmalah}}}، الذي يمنع طباعة البسملة في بداية السور.
+\item تقديم خيار الحزمة \opt{nobasmalah}، الذي يمنع طباعة البسملة في بداية السور.
 \end{itemize}
 \end{description}
 
