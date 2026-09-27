@@ -52,6 +52,11 @@
 % set fonr for quran text.
 \bidi@preto\qurantext{\quran}
 \makeatother
+% Workaround for a mismatch between bidi's array patch (array-xetex-bidi.def)
+% and array.sty v2.7b: bidi's \@@tabular still uses \UseMathForPositioningText,
+% which was dropped in array v2.7b. Providing it as a no-op restores the
+% array v2.6 behaviour that the rest of the patch is written against.
+\providecommand\UseMathForPositioningText{}
 \usepackage{bidi}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\tt#1{\LRE{\texttt{#1}}}
