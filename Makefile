@@ -7,10 +7,11 @@ all: readme doc test cleanup
 
 .PHONY: doc
 doc:
-	$(MAKE) -C doc
 	cd doc || exit
 	xelatex quran-doc
 	xelatex quran-doc
+	xelatex quran-doc-ar
+	xelatex quran-doc-ar
 
 .PHONY: test
 test:
@@ -46,6 +47,7 @@ ctan: readme
 	cp -v qurantext-fr.translation.def quran-transfr.def		../quran/tex
 	cd ../doc/ || exit
 	cp -v quran-doc.pdf quran-doc.tex quran.png     ../quran/doc
+	cp -v quran-doc-ar.pdf quran-doc-ar.tex         ../quran/doc
 	cd ../sample || exit
 	cp -v quran-test*.{tex,pdf}    ../quran/doc
 	cd ..
