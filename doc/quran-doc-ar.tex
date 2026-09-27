@@ -64,6 +64,17 @@
 %   \opt{foo}  ⟵  foo      (خيارات وأسماء حزم، بلا شرطة مائلة عكسية)
 \newcommand{\cmd}[1]{\textenglish{\textcolor{blue}{\texttt{\textbackslash #1}}}}
 \newcommand{\opt}[1]{\textenglish{\textcolor{blue}{\texttt{#1}}}}
+% رقم الإصدار داخل جدول عربي: \textenglish يفرض طباعته من اليسار إلى اليمين،
+% و\arabicfont يبقيه بالخط العربي المتسق مع بقية الجدول، وإلا انقلب
+% (مثل: 2.31 تظهر 31.2). \textenglish وحده يغيّر الخط إلى الخط اللاتيني.
+\newcommand{\vers}[1]{\textenglish{\arabicfont #1}}
+% أرقام الأقسام الفرعية (مثل: 2.1) تنقلب هي أيضًا داخل السياق العربي، فنلفّها LTR.
+% نعرّفها في \AtBeginDocument لأن polyglossia يعيد ضبط العدّادات بعد التحميل.
+\AtBeginDocument{%
+  \renewcommand{\thesubsection}{\vers{\thesection.\arabic{subsection}}}%
+}
+% ... مع إبقاء نص PDF (الفهرس والعلامات) سليمًا من تحذيرات hyperref.
+\pdfstringdefDisableCommands{\def\vers#1{#1}}
 % ============================================================
 % Polyglossia للغة العربية
 % ============================================================
@@ -129,7 +140,7 @@
     };
     \node (hole) [anchor=north east, left=5pt ] at (box.north east) { \tikz\fill[very thick,white] (0,0) circle (12pt); };
     \node[ ] at (hole.center) {\includegraphics[width=.05\textwidth]{quran.png}};
-    \node[fancytitle, anchor=west, right=7pt, rounded corners=2pt] at (box.north west) {\small \IfBooleanTF{#1}{#2}{\texttt{\cs{#2}}}};
+    \node[fancytitle, anchor=west, right=7pt, rounded corners=2pt] at (box.north west) {\small \IfBooleanTF{#1}{#2}{\textenglish{\cs{#2}}}};
     \end{tikzpicture}%
 }
 
@@ -197,7 +208,7 @@
 }
 
 \date{%
-  \textcolor{green!50!black}{\Huge جوان 2026}
+  \textcolor{green!50!black}{\Huge سبتمبر 2026}
 }
 
 \maketitle
@@ -297,7 +308,7 @@
 \begin{english}
 \begin{quote}
 \begin{lstlisting}[style=BashInputStyle]
-Package: quran 2026/03/12 v2.42
+Package: quran 2026/09/27 v2.5
 An easy way to typeset the whole or any parts of the Holy Quran
 \end{lstlisting}
 \end{quote}
@@ -405,7 +416,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
 % ============================================================
 \newcounter{ct}
 \def\mycell#1{%
-    \texttt{\surahname[\value{#1}]}%
+    \textenglish{\texttt{\surahname[\value{#1}]}}%
     \addtocounter{ct}{38}%
 }
 \newcommand{\alternaterow}{%
@@ -417,7 +428,9 @@ An easy way to typeset the whole or any parts of the Holy Quran
 }
 % الجدول الطويل بأسماء السور (ينكسر عبر الصفحات)
 % ============================================================
-\begin{longtable}{|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{3.5cm}|>{\centering\arraybackslash}p{1.2cm}|>{\centering\arraybackslash}p{3.5cm}|}
+\newcolumntype{N}{>{\centering\arraybackslash}p{1.2cm}}
+\newcolumntype{T}{>{\arraybackslash}p{3.5cm}}
+\begin{longtable}{|N|T|N|T|N|T|}
 \caption{العناوين الإنجليزية لأسماء السور}
 \label{tab:surah-titles} \\
 \hline
@@ -847,7 +860,7 @@ Index \the\index\ belongs to ayah number \the\ayahcount\
 of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \end{SaveVerbatim}
 
-\centerline{\mybox*{\ttfamily\textbackslash{}indexconvert}{\UseVerbatim{VerbIdxAr}
+\centerline{\mybox*{\ttfamily\textbackslash{}indexconvert}{\textenglish{\UseVerbatim{VerbIdxAr}}%
 \newcount\index \index=5678
 \indexconvert{\index}{\surahcount}{\ayahcount}
 الفهرس 5678 ينتمي إلى الآية رقم 6 من السورة رقم 78 (=النبأ).}+}
@@ -923,11 +936,11 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 
 \centerline{\mybox*{أمثلة للتجربة}{%
 الخط الافتراضي (البسيط)
-\LRE{\UseVerbatim{VerbSimpleAr}}
+\textenglish{\UseVerbatim{VerbSimpleAr}}
 الرسم العثماني
-\LRE{\UseVerbatim{VerbUthmaniAr}}
+\textenglish{\UseVerbatim{VerbUthmaniAr}}
 الرسم العثماني المبسّط
-\LRE{\UseVerbatim{VerbUthmaniMinAr}}
+\textenglish{\UseVerbatim{VerbUthmaniMinAr}}
 }}
 
 بدءاً من الإصدار $1.3$، يمكن للحزمة تنضيد النسخ الصوتي (الترجمة الحرفية) للقرآن الكريم. هذه الميزة مفيدة بشكل خاص لمن لا يجيدون قراءة النص العربي. بتمكين الخيار 
@@ -1655,6 +1668,12 @@ trans={de, en, lt}
 \item []
 \item تقديم خيار الحزمة \opt{nobasmalah}، الذي يمنع طباعة البسملة في بداية السور.
 \end{itemize}
+\item[\opt{2026/09/27 v2.5}]
+\begin{itemize}
+\item []
+\item إصدار الترجمة العربية لهذه الوثائق، \texttt{quran-doc-ar.tex}، بترجمة
+د. سوالمية رشيد، مع الحزمة.
+\end{itemize}
 \end{description}
 
 \newpage 
@@ -1712,128 +1731,128 @@ trans={de, en, lt}
     \endfirsthead
     \hline
     \endlastfoot
-2015/06/01 & 0.1 & الإصدار الأولي في \LaTeX Parsi، باسم \texttt{qurantext}.\par
+2015/06/01 & \vers{0.1} & الإصدار الأولي في \LaTeX Parsi، باسم \texttt{qurantext}.\par
 \texttt{\textbackslash qurantext}. 
 \\
-2015/06/02 & 0.2 & تنفيذ \texttt{\textbackslash do@qt} بأسلوب غير استدعائي ذاتي (غير متكرر). 
+2015/06/02 & \vers{0.2} & تنفيذ \texttt{\textbackslash do@qt} بأسلوب غير استدعائي ذاتي (غير متكرر). 
 \\
-2015/06/02 & 0.3 & إلحاق رقم الآية بكل آية. 
+2015/06/02 & \vers{0.3} & إلحاق رقم الآية بكل آية. 
 \\
-2015/06/04 & 0.4 & \texttt{\textbackslash surahname} يخرج العنوان العربي/الإنجليزي للسورة.\par
+2015/06/04 & \vers{0.4} & \texttt{\textbackslash surahname} يخرج العنوان العربي/الإنجليزي للسورة.\par
                      إعادة تسمية الحزمة إلى \texttt{quran}.
 \\
-2015/06/24 & 0.5 & \texttt{\textbackslash quranayah} و \texttt{\textbackslash quransurah}.
+2015/06/24 & \vers{0.5} & \texttt{\textbackslash quranayah} و \texttt{\textbackslash quransurah}.
 \\
-2015/06/28 & 0.6 & \texttt{\textbackslash quranjuz}. 
+2015/06/28 & \vers{0.6} & \texttt{\textbackslash quranjuz}. 
 \\
-2015/06/30 & 0.7 & \texttt{\textbackslash quranpage}. 
+2015/06/30 & \vers{0.7} & \texttt{\textbackslash quranpage}. 
 \\
-2015/07/02 & 0.71 & البسملة متبوعة بـ \texttt{par}.
+2015/07/02 & \vers{0.71} & البسملة متبوعة بـ \texttt{par}.
  \\
-2015/07/02 & 0.72 & \texttt{\textbackslash basmalah} -- \Basmalah. 
+2015/07/02 & \vers{0.72} & \texttt{\textbackslash basmalah} -- \Basmalah. 
 \\
-2015/07/04 & 0.8 & \texttt{\textbackslash quranquarter} و \texttt{\textbackslash quranruku}.
+2015/07/04 & \vers{0.8} & \texttt{\textbackslash quranquarter} و \texttt{\textbackslash quranruku}.
 \\
-2015/07/07 & 0.9 & \texttt{\textbackslash quranhizb} و \texttt{\textbackslash quranmanzil}.\par
+2015/07/07 & \vers{0.9} & \texttt{\textbackslash quranhizb} و \texttt{\textbackslash quranmanzil}.\par
                      الإصدار الأولي للحزمة في CTAN.
 \\
-2015/07/10 & 0.91 & ``الإخلاص'' كمعامل افتراضي لـ \texttt{\textbackslash quransurah}.
+2015/07/10 & \vers{0.91} & ``الإخلاص'' كمعامل افتراضي لـ \texttt{\textbackslash quransurah}.
 \\
-2015/07/11 & 0.94 & \texttt{\textbackslash ChangeAyahNumber} و \texttt{\textbackslash ChangeBasmalah}.\par
+2015/07/11 & \vers{0.94} & \texttt{\textbackslash ChangeAyahNumber} و \texttt{\textbackslash ChangeBasmalah}.\par
                      حل خطأ بسيط. 
 \\
-  2015/07/11 & 0.941 & تحسين في \texttt{\textbackslash qurantext}.
+  2015/07/11 & \vers{0.941} & تحسين في \texttt{\textbackslash qurantext}.
 \\
-2016/02/05 & 1.0 & \texttt{\textbackslash quransurah} و \texttt{\textbackslash quranayah} يدعمان العنوان الإنجليزي للسور.
+2016/02/05 & \vers{1.0} & \texttt{\textbackslash quransurah} و \texttt{\textbackslash quranayah} يدعمان العنوان الإنجليزي للسور.
 \\
-2016/02/09 & 1.05 & إعادة تسمية \texttt{\textbackslash ChangeBasmalah} و \texttt{\textbackslash ChangeAyahNumber} إلى
+2016/02/09 & \vers{1.05} & إعادة تسمية \texttt{\textbackslash ChangeBasmalah} و \texttt{\textbackslash ChangeAyahNumber} إلى
                    \texttt{\textbackslash ToggleBasmalah} و \texttt{\textbackslash ToggleAyahNumber}.\par
                    إصلاح خطأ بسيط في \texttt{\textbackslash quransurah*}.
 \\
-2016/04/21 & 1.1 & \texttt{\textbackslash indexconvert}.
+2016/04/21 & \vers{1.1} & \texttt{\textbackslash indexconvert}.
  \\
-2016/05/15 & 1.14 & تحديثات الوثائق. 
+2016/05/15 & \vers{1.14} & تحديثات الوثائق. 
 \\
-2016/10/05 & 1.2 & إضافة الخيار \texttt{uthmani} لدعم الخط العثماني. 
+2016/10/05 & \vers{1.2} & إضافة الخيار \texttt{uthmani} لدعم الخط العثماني. 
 \\
-2016/11/07 & 1.21 & إصلاح بعض الأخطاء البسيطة. 
+2016/11/07 & \vers{1.21} & إصلاح بعض الأخطاء البسيطة. 
 \\
-2016/11/08 & 1.22 & تحديثات الوثائق. 
+2016/11/08 & \vers{1.22} & تحديثات الوثائق. 
 \\
-2016/11/12 & 1.24 & تحديثات الوثائق.\par
+2016/11/12 & \vers{1.24} & تحديثات الوثائق.\par
                    فُقدت علامات الوقف من الخط العثماني.
  \\
-2016/11/15 & 1.241 & تحديثات الوثائق. 
+2016/11/15 & \vers{1.241} & تحديثات الوثائق. 
 \\
-2016/12/25 & 1.25 & تحديثات الوثائق. 
+2016/12/25 & \vers{1.25} & تحديثات الوثائق. 
 \\
-2016/12/25 & 1.251 & تحديثات الوثائق. 
+2016/12/25 & \vers{1.251} & تحديثات الوثائق. 
 \\
-2017/02/28 & 1.252 & تحسينات طفيفة. 
+2017/02/28 & \vers{1.252} & تحسينات طفيفة. 
 \\
-2017/08/22 & 1.26 & تحسينات طفيفة.\par
+2017/08/22 & \vers{1.26} & تحسينات طفيفة.\par
                    إصلاح خطأ في \texttt{\textbackslash quranayah[x][y]} . \par
                    تحديثات الوثائق. 
 \\
-2016/08/22 & 1.261 & تحديثات الوثائق. 
+2016/08/22 & \vers{1.261} & تحديثات الوثائق. 
 \\
-2017/10/22 & 1.3 & إضافة دعم للنسخ الصوتي (الترجمة الحرفية) عبر الخيار \texttt{translt}.
+2017/10/22 & \vers{1.3} & إضافة دعم للنسخ الصوتي (الترجمة الحرفية) عبر الخيار \texttt{translt}.
  \\
-2017/10/28 & 1.4 & الترجمات الفارسية والإنجليزية والألمانية عبر الخيارات
+2017/10/28 & \vers{1.4} & الترجمات الفارسية والإنجليزية والألمانية عبر الخيارات
                    \texttt{transfa}، \texttt{transen}، و \texttt{transde}.\par
                    الخيار \texttt{trans} مع القيم \texttt{lt}، \texttt{en}،
                    \texttt{de}، و \texttt{fa}. 
 \\
-   2017/12/22 & 1.41 & عدم حساسية \texttt{\textbackslash quransurah} و \texttt{\textbackslash quranayah} لحالة الأحرف. 
+   2017/12/22 & \vers{1.41} & عدم حساسية \texttt{\textbackslash quransurah} و \texttt{\textbackslash quranayah} لحالة الأحرف. 
 \\
-2017/12/22 & 1.42 & عدم حساسية \texttt{\textbackslash quransurahX} و \texttt{\textbackslash quranayahX} لحالة الأحرف.\par
+2017/12/22 & \vers{1.42} & عدم حساسية \texttt{\textbackslash quransurahX} و \texttt{\textbackslash quranayahX} لحالة الأحرف.\par
                   \textenglish{  \texttt{X} $\in$ \{\texttt{en}, \texttt{de}, \texttt{fa}, \texttt{lt}\}}.
 \\
-2017/12/22 & 1.42a & تحديثات الوثائق. 
+2017/12/22 & \vers{1.42a} & تحديثات الوثائق. 
 \\
-2018/11/29 & 1.42b & تصحيح خطأ مطبعي في \texttt{quran-transde.def} .
+2018/11/29 & \vers{1.42b} & تصحيح خطأ مطبعي في \texttt{quran-transde.def} .
  \\
 2018/12/01 & \multicolumn{2}{c|}{ \hrulefill\  الإصدار الأولي لحزمة
     \href{https://github.com/javadr/quran-de}{\texttt{quran-de}}  \hrulefill\ }
 \\
-2018/12/31 & 1.5 & إصلاح خطأ في \texttt{\textbackslash ToggleBasmalah} و \texttt{\textbackslash quransurah}.
+2018/12/31 & \vers{1.5} & إصلاح خطأ في \texttt{\textbackslash ToggleBasmalah} و \texttt{\textbackslash quransurah}.
  \\
 2019/05/03 & \multicolumn{2}{c|}{  \hrulefill\  الإصدار الأولي لحزمة
     \href{https://github.com/javadr/quran-ur}{\texttt{quran-ur}}   \hrulefill\ }
 \\
-2019/05/04 & 1.51 & تصحيح خطأ مطبعي في \texttt{quran-transde.def} .
+2019/05/04 & \vers{1.51} & تصحيح خطأ مطبعي في \texttt{quran-transde.def} .
  \\
-2020/03/07 & 1.6 & \texttt{\textbackslash qurantext} و \texttt{\textbackslash quranayah} يدعمان أي مقاطع من آية.\par
+2020/03/07 & \vers{1.6} & \texttt{\textbackslash qurantext} و \texttt{\textbackslash quranayah} يدعمان أي مقاطع من آية.\par
 \texttt{\textbackslash Basmalah}. تنقيح الوثائق. 
 \\
-2020/03/09 & 1.61 & تحديث بسيط في \texttt{\textbackslash quranayah} و \texttt{\textbackslash qurantext}.
+2020/03/09 & \vers{1.61} & تحديث بسيط في \texttt{\textbackslash quranayah} و \texttt{\textbackslash qurantext}.
  \\
-2020/03/12 & 1.62 & تحديث الترخيص إلى LPPL الإصدار $1.3c$.
+2020/03/12 & \vers{1.62} & تحديث الترخيص إلى LPPL الإصدار $1.3c$.
  \\
-2020/03/14 & 1.63 & إزالة علامات الوقف مع المعامل الاختياري {نطاق المقطع}. 
+2020/03/14 & \vers{1.63} & إزالة علامات الوقف مع المعامل الاختياري {نطاق المقطع}. 
 \\
-2020/06/10 & 1.7 & الترجمة الفرنسية متاحة عبر
+2020/06/10 & \vers{1.7} & الترجمة الفرنسية متاحة عبر
                    الخيار \texttt{transfr}، أو
                    الخيار \texttt{trans} بالقيمة \texttt{fr} .
 \\
-2020/06/12 & 1.7a & تصحيح رفع CTAN . 
+2020/06/12 & \vers{1.7a} & تصحيح رفع CTAN . 
 \\
-  2020/10/14 & 1.8 & إعادة تسمية \texttt{uthmani} إلى \texttt{uthmani-min}.\par
+  2020/10/14 & \vers{1.8} & إعادة تسمية \texttt{uthmani} إلى \texttt{uthmani-min}.\par
                    أصبح \texttt{uthmani} الآن ينضّد نص القرآن الكريم بعلامات تشكيل أكثر. 
  \\
 2021/02/01 & \multicolumn{2}{c|}{ \hrulefill\ الإصدار الأولي لحزمة
     \href{https://github.com/javadr/quran-bn}{\texttt{quran-bn}}   \hrulefill\ }
 \\
-2021/02/02 & 1.81 & تحديثات الوثائق. 
+2021/02/02 & \vers{1.81} & تحديثات الوثائق. 
 \\
-2023/06/28 & 1.9 & إضافة الخيار \texttt{ornbraces} .\par
+2023/06/28 & \vers{1.9} & إضافة الخيار \texttt{ornbraces} .\par
 \texttt{\textbackslash SetOrnamentalBraces} لتخصيص الأقواس الزخرفية.
 \\
-2023/07/10 & 2.0 & تحديث نص القرآن بما يتوافق مع تنزيل الإصدار 1.1. 
+2023/07/10 & \vers{2.0} & تحديث نص القرآن بما يتوافق مع تنزيل الإصدار 1.1. 
 \\
-2023/07/27 & 2.1 & تنقيح الأسماء الإنجليزية لسور القرآن. 
+2023/07/27 & \vers{2.1} & تنقيح الأسماء الإنجليزية لسور القرآن. 
 \\
-2023/08/01 & 2.2 & إضافة دعم للأسماء الإنجليزية القديمة لسور القرآن. 
+2023/08/01 & \vers{2.2} & إضافة دعم للأسماء الإنجليزية القديمة لسور القرآن. 
 \\
 2023/11/01 & \multicolumn{2}{c|}{  \hrulefill\  الإصدار الأولي لحزمة
     \href{https://github.com/javadr/quran-id}{\texttt{quran-id}}   \hrulefill\ } 
@@ -1849,16 +1868,19 @@ trans={de, en, lt}
 \\ 
 2024/09/05 & \multicolumn{2}{c|}{  \hrulefill\  الإصدار الأولي لحزمة
     \href{https://github.com/javadr/quran-es}{\texttt{quran-es}}   \hrulefill\ } \\
-2024/09/07 & 2.3 & تحسينات في الوثائق. 
+2024/09/07 & \vers{2.3} & تحسينات في الوثائق. 
 \\
-2025/03/31 & 2.31 & إعادة تنفيذ الأمر \texttt{\textbackslash qt@no} .
+2025/03/31 & \vers{2.31} & إعادة تنفيذ الأمر \texttt{\textbackslash qt@no} .
 \\
-2025/04/25 & 2.4 & تقديم الأمر \texttt{\textbackslash SetAyahMarkerStyle} لتخصيص نمط رقم الآية.\par
+2025/04/25 & \vers{2.4} & تقديم الأمر \texttt{\textbackslash SetAyahMarkerStyle} لتخصيص نمط رقم الآية.\par
                   تقديم الأمر \texttt{\textbackslash ResetAyahMarkerStyle} لاستعادة السلوك الافتراضي. 
 \\
-2025/04/26 & 2.41 & إهمال الخيار \texttt{ornbraces} .
+2025/04/26 & \vers{2.41} & إهمال الخيار \texttt{ornbraces} .
 \\
-2026/03/12 & 2.42 & تقديم الخيار \texttt{nobasmalah} .
+2026/03/12 & \vers{2.42} & تقديم الخيار \texttt{nobasmalah} .
+\\
+2026/09/27 & \vers{2.5} & إصدار الترجمة العربية للوثائق \texttt{quran-doc-ar.tex}، 
+            بترجمة د. سوالمية رشيد. 
 \\
 \hline
 \end{longtable}
