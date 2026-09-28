@@ -20,9 +20,14 @@ jobs:
           # apt only supplies the system fonts, which TeX Live does not ship.
           sudo apt-get update
           sudo apt-get install -y fonts-hosny-amiri fonts-sil-scheherazade fonts-noto-core
-          wget -q https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-          tar -xzf install-tl-unx.tar.gz
-          cd install-tl-*
+          # Unpack the installer into its own directory, so that the checkout
+          # never holds both the tarball and the extracted tree; a glob such as
+          # "cd install-tl-*" would then expand to two arguments and abort.
+          TL_SETUP="$(mktemp -d)"
+          wget -q -O "$TL_SETUP/installer.tar.gz" \
+            https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
+          tar -xzf "$TL_SETUP/installer.tar.gz" -C "$TL_SETUP" --strip-components=1
+          cd "$TL_SETUP"
           # scheme-full is also the install-tl default, i.e. what
           # ./install-tl --no-interaction would pick on its own. For a much
           # smaller install, replace the two lines below by:
