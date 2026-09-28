@@ -34,6 +34,7 @@ jobs:
             texlive-latex-extra \
             texlive-lang-arabic \
             texlive-fonts-extra \
+            texlive-fonts-recommended \
             fonts-hosny-amiri \
             fonts-sil-scheherazade \
             fonts-noto-core \

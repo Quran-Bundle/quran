@@ -100,7 +100,15 @@
 % ============================================================
 % تعيين خط للغة الإنجليزية
 % ============================================================
-\newfontfamily\englishfont[Scale=1.0, BoldFont={*}]{Linux Libertine}
+% خط النص الإنجليزي: خط Times New Roman غير متوفر افتراضيًا على لينكس،
+% لذا نستخدم Linux Libertine. ويختلف اسم العائلة بين ملفاته: ملفات OpenType
+% التي توفّرها دبيان وTeX Live تسجّلها باسم "Linux Libertine O"، بينما تسجّل
+% بعض الأنظمة ملفات TrueType باسم "Linux Libertine"، لذا نجرّب الاسمين.
+\IfFontExistsTF{Linux Libertine O}{%
+  \newfontfamily\englishfont[Scale=1.0, BoldFont={*}]{Linux Libertine O}%
+}{%
+  \newfontfamily\englishfont[Scale=1.0, BoldFont={*}]{Linux Libertine}%
+}
 % خطوط اللغة الإنجليزية التي تحتاجها polyglossia (مثل قوائم الكود)
 \newfontfamily\englishfontsf[Scale=1.0]{lmsans10-regular.otf}
 \newfontfamily\englishfonttt[Scale=1.0]{lmmono10-regular.otf}
