@@ -77,10 +77,27 @@ jobs:
           cp sample/quran-test*.tex sample/quran-test*.pdf quran/doc/ 2>/dev/null || true
           zip -r quran.zip quran
 
+      - name: Resolve release tag
+        id: release
+        run: |
+          # A manual run starts from a branch, so github.ref_name would name a
+          # release after that branch. Fall back to the version the package
+          # itself declares, which makes a manual run reproduce the tagged run
+          # of the current release.
+          if [ -n "${{ inputs.ref }}" ]; then
+            TAG="${{ inputs.ref }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            TAG="${{ github.ref_name }}"
+          else
+            TAG="v$(sed -n 's/.*quranversion{\([^}]*\)}.*/\1/p' tex/quran.sty)"
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Release tag: $TAG"
+
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ inputs.ref || github.ref_name }}
+          tag_name: ${{ steps.release.outputs.tag }}
           files: |
             doc/quran-doc.pdf
             doc/quran-doc-ar.pdf
