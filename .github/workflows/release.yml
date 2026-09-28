@@ -19,7 +19,7 @@ permissions:
   contents: write
 
 jobs:
-  test:
+  release:
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v5
