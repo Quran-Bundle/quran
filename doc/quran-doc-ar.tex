@@ -75,6 +75,11 @@
 }
 % ... مع إبقاء نص PDF (الفهرس والعلامات) سليمًا من تحذيرات hyperref.
 \pdfstringdefDisableCommands{\def\vers#1{#1}}
+% holtxdoc (عبر hologo) يعرّف شعارَي \XeTeX و\XeLaTeX، وbidi حتى الإصدار 46
+% يعيد تعريفهما بـ \newcommand، فيقع خطأ "Command \XeTeX already defined".
+% نحرّر الاسمين ليستطيع bidi تعريفهما، فنستخدم شعار bidi بدل شعار doc.
+\let\XeTeX\relax
+\let\XeLaTeX\relax
 % ============================================================
 % Polyglossia للغة العربية
 % ============================================================
