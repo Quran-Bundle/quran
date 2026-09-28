@@ -9,58 +9,28 @@ permissions:
   contents: write
 
 jobs:
-  release:
-    runs-on: ubuntu-26.04
+  test:
+    runs-on: ubuntu-26.10
     steps:
       - uses: actions/checkout@v5
 
-      - name: Install TeX Live
+      - name: Install TeX Live 2026 and fonts
         run: |
-          # TeX Live comes from CTAN (newest release, so bidi is new enough);
-          # apt only supplies the system fonts, which TeX Live does not ship.
           sudo apt-get update
-          sudo apt-get install -y fonts-hosny-amiri fonts-sil-scheherazade fonts-noto-core
-          # Unpack the installer into its own directory, so that the checkout
-          # never holds both the tarball and the extracted tree; a glob such as
-          # "cd install-tl-*" would then expand to two arguments and abort.
-          TL_SETUP="$(mktemp -d)"
-          wget -q -O "$TL_SETUP/installer.tar.gz" \
-            https://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz
-          tar -xzf "$TL_SETUP/installer.tar.gz" -C "$TL_SETUP" --strip-components=1
-          cd "$TL_SETUP"
-          # scheme-full is also the install-tl default, i.e. what
-          # ./install-tl --no-interaction would pick on its own. For a much
-          # smaller install, replace the two lines below by:
-          #   selected_scheme scheme-custom
-          #   collection-basic
-          #   collection-latex
-          #   collection-latexrecommended
-          #   collection-latexextra
-          #   collection-xetex
-          #   collection-langarabic
-          #   collection-pictures
-          #   collection-plaingeneric
-          #   collection-fontsrecommended
-          #   collection-fontsextra
-          printf '%s\n' \
-            'selected_scheme scheme-full' \
-            'TEXDIR /usr/local/texlive' \
-            'TEXMFLOCAL /usr/local/texlive/texmf-local' \
-            'TEXMFCONFIG /usr/local/texlive/texmf-config' \
-            'TEXMFSYSCONFIG /usr/local/texlive/texmf-config' \
-            'TEXMFVAR /usr/local/texlive/texmf-var' \
-            'TEXMFSYSVAR /usr/local/texlive/texmf-var' \
-            'TEXMFHOME /var/local/texmf' \
-            > tl.profile
-          sudo ./install-tl --no-interaction -profile=tl.profile
-          # install-tl cannot see the runner user's PATH through sudo, so make
-          # the new binaries visible to every later step.
-          # bin/<arch>/xelatex is a symlink to xetex, so no -type f here.
-          TL_BIN="$(dirname "$(find /usr/local/texlive -path '*/bin/*' -name xelatex -print -quit)")"
-          test -x "$TL_BIN/xelatex"
-          echo "$TL_BIN" >> "$GITHUB_PATH"
-          df -h / | tail -1
-          echo "TeX Live binaries: $TL_BIN"
+          sudo apt-get install -y \
+            texlive-xetex \
+            texlive-latex-extra \
+            texlive-lang-arabic \
+            texlive-fonts-extra \
+            fonts-hosny-amiri \
+            fonts-sil-scheherazade \
+            fonts-noto-core \
+            fonts-linuxlibertine
+
+      - name: Check TeX Live version
+        run: |
+          xelatex --version
+          tlmgr --version
 
       - name: Increase TeX memory limit
         run: |
@@ -71,8 +41,7 @@ jobs:
             else
               echo "main_memory = 8000000" | sudo tee -a "$FILE"
             fi
-            # sudo resets PATH, so hand the TeX Live bin dir over explicitly.
-            sudo env PATH="$PATH" fmtutil-sys --byfmt xelatex
+            sudo fmtutil-sys --all
           fi
 
       - name: Install development quran.sty
@@ -80,7 +49,7 @@ jobs:
           TEXMF_LOCAL=$(kpsewhich -var-value TEXMFLOCAL)
           sudo mkdir -p "$TEXMF_LOCAL/tex/latex/quran"
           sudo cp tex/*.def tex/quran.sty "$TEXMF_LOCAL/tex/latex/quran/"
-          sudo env PATH="$PATH" mktexlsr
+          sudo mktexlsr
 
       - name: Build documentation
         run: make doc
