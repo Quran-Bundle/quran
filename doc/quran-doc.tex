@@ -176,7 +176,13 @@ I would like to express my utmost gratitude to:
 
 \newpage
 
-\section{Loading the Package}
+\section{Loading the Package}\label{sec:loading}
+
+By default, the package typesets the Holy Quran in the riwayah of
+\href{https://en.wikipedia.org/wiki/Hafs_recitation}{Hafs} from `Asim
+(the text of Tanzil), which is the most widespread one. The \xmgpar{warsh} option
+switches to the riwayah of
+\href{https://en.wikipedia.org/wiki/Warsh_recitation}{Warsh} from Nafi' (Section~\ref{sec:warsh}).
 
 The package can be loaded using the standard command:\\
 \cs{usepackage[option]\{quran\}}\\
@@ -483,115 +489,6 @@ To fetch a single word from an Ayah, the \meta{chunk range}
 must have both \meta{numbers} set to the same value.
 
 \centerline{\mx{quranayah[18][19][34-34]}{\quranayah[18][19][34-34]} }
-
-\section{Miscellaneous}
-
-\subsection{Name of Surah}
-\begin{declcs}{surahname}\oarg{index}\\
-\cs{surahname*}\oarg{index}
-\end{declcs}
-
-These commands return the Anglicized or Arabic title of the \textit{index}\textsuperscript{th}
-surah of the Holy Quran, as shown in Table~\ref{tab1} and Table~\ref{tab2}.
-
-    \centerline{\mx{surahname[19]}{\surahname[19]}
-    \hfill
-    \mx{surahname*[19]}{\quran\surahname*[19]}}
-
-\def\mycell#1#2{%
-    \hboxR{\amiri\phantom{آح}\surahname*[\value{#1}]}%
-    \addtocounter{ct}{#2}%
-}
-\begin{table}[!hbtp]
-    \centering
-%    \fontsize{12}{14}\selectfont
-    \begin{RTL}
-    \begin{tabular}{|@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r|}
-    \hline
-     Order & \multicolumn{1}{c||@{\hspace{1mm}}}{Title} & Order  & \multicolumn{1}{c||@{\hspace{1mm}}}{Title}
-     & Order  & \multicolumn{1}{c||@{\hspace{1mm}}}{Title}  & Order  & \multicolumn{1}{c|}{Title}  \\
-    \hline\hline%
-    \forloop{ct}{1}{\value{ct} < 29}{%
-        \ifnum\thect=1\phantom{..}\fi\thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} & \thect & \mycell{ct}{28} & \thect & \mycell{ct}{28}\\
-        \addtocounter{ct}{-114}
-    }%
-    \thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} &  &  &  & \\%
-    \hline
-    \end{tabular}
-    \end{RTL}
-    \protect\caption{\scshape Arabic Titles of Surahs}\label{tab2}
-\end{table}
-
-\subsection{Basmalah}\label{sec:basmalah}
-\begin{declcs}{basmalah}\\
-\cs{Basmalah}
-\end{declcs}
-It provides the Basmalah (\RLE{\quran\Basmalah}) in Arabic text.
-There is a subtle difference between \cs{Basmalah} and \cs{basmalah} --
-the latter may be followed by a \cs{par} depending on the package option.
-
-    \centerline{\mx{basmalah\textbackslash{}quranayah*[14][1]}{\quran\basmalah\quranayah*[14][1]} \hfill
-    \mx{Basmalah\textbackslash{}space\textbackslash{}quranayah*[14][1}{\quran\Basmalah\ \quranayah*[14][1]}}
-
-
-\subsection{Enclosing Ornamental Braces}
-
-As of version~1.9, the package introduces a new macro designed to place decorative braces around Quranic text. 
-These ornamental elements are fully customizable, allowing users to adapt the visual appearance to suit specific typographic or stylistic requirements.
-
-To define a pair of custom ornamental braces, use the following macro:
-
-\begin{declcs}{SetOrnamentalBraces}\marg{opening brace}\marg{closing brace}
-\end{declcs}
-
-\subsection{Ayah Marker Style}\label{sec:ayahmarker}
-
-Starting from version~2.4, the package supports enhanced control over Ayah marker symbols via two dedicated macros:
-
-\begin{declcs}{SetAyahMarkerStyle}\marg{begin marker}\marg{end marker}\\
-\cs{ResetAyahMarkerStyle}
-\end{declcs}
-
-\begin{itemize}
-    \item \cs{SetAyahMarkerStyle} defines the delimiters used to enclose Ayah numbers.
-    \item \cs{ResetAyahMarkerStyle} reverts to the package’s default Ayah marker formatting.
-\end{itemize}
-
-By default, Ayah markers utilize the glyphs {\amiri\char"FD3F} and {\amiri\char"FD3E}, 
-which correspond to classical Arabic typographic ornaments commonly employed in traditional Quranic scripts.
-
-\centerline{\mxf{SetOrnamentalBraces\{[\}\{]\}\textbackslash{}SetAyahMarkerStyle\{(\}\{)\}\textbackslash{}quransurah*}
-{\SetOrnamentalBraces{[}{]}\SetAyahMarkerStyle{(}{)}\quransurah*}}
-
-
-
-\subsection{Index Converting}
-\begin{declcs}{indexconvert}\marg{index}\marg{surah macro}\marg{ayah macro}
-\end{declcs}
-
-It converts an index number between $1$ and $6236$ to its corresponding surah and ayah indices.
-The index can be either a number or a \TeX{} counter.
-If the surah and ayah macros are not already defined,
-they will be automatically set as \TeX{} counters,
-representing the surah and ayah of the given index in the text of the Holy Quran.
-
-\begin{SaveVerbatim}{VerbEnv}
-\newcount\index \index=5678
-
-\indexconvert{\index}{\surahcount}{\ayahcount}
-
-Index \the\index\ belongs to ayah number \the\ayahcount\
-of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
-
-\end{SaveVerbatim}
-
-\centerline{\mybox*{\ttfamily\textbackslash{}indexconvert}{
-\UseVerbatim{VerbEnv}
-\newcount\index \index=5678
-\indexconvert{\index}{\surahcount}{\ayahcount}
-Index \the\index\ belongs to ayah number \the\ayahcount\ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
-}+}
-
 \section{Options for the Package}\label{sec:options}
 
 By default, all macros in the package separate Ayahs with \cs{par}.
@@ -777,11 +674,11 @@ these options will add the following macros:
     \hfill
     \mx{quransurahfa[108]}{\quransurahfa[108]}}
 
-\subsection{Warsh Riwayah}\label{sec:warsh}
+\section{Warsh Riwayah}\label{sec:warsh}
 
 The \xmgpar{warsh} option typesets the Holy Quran in the riwayah of Warsh
 from Nafi', using the text of the King Fahd Glorious Quran Printing Complex
-(KFGQPC). Warsh counts verses differently from Hafs: the text has 6214 verses
+(KFGQPC) instead of the default riwayah of Hafs (Section~\ref{sec:loading}). Warsh counts verses differently from Hafs: the text has 6214 verses
 (for example, Al-Baqarah has 285 verses, and Al-Fatiha has 7 verses without
 the Basmalah), so the verse numbers given to \cs{quranayah}, \cs{quranjuz}
 and \cs{quranpage} follow the Warsh numbering. Verse~1 of each surah except
@@ -791,7 +688,6 @@ Al-Fatiha and At-Tawba is preceded by the Basmalah, as in the other options.
 \begin{lstlisting}[style=BashInputStyle]
 \usepackage[warsh]{quran}
 \newfontfamily\arabicfont[Script=Arabic]{KFGQPC Warsh V3}
-\SetAyahMarkerStyle{\char"06DD}{}
 \end{lstlisting}
 \end{quote}
 
@@ -813,7 +709,6 @@ instead of the default braces:
 
 \begin{quote}
 \begin{lstlisting}[style=BashInputStyle]
-\usepackage[warsh]{quran}
 \SetAyahMarkerStyle{\char"06DD}{} % the sign U+06DD, or type it directly
 \end{lstlisting}
 \end{quote}
@@ -979,6 +874,115 @@ Juz & Hafs & Warsh & Juz & Hafs & Warsh & Juz & Hafs & Warsh \\\hline\hline
 10 & 8:41 & 8:41 & 20 & \textcolor{red!75!black}{27:56} & \textcolor{red!75!black}{27:58} & 30 & 78:1 & 78:1 \\
 \hline\end{tabular}\end{table}
 
+
+
+\section{Miscellaneous}
+
+\subsection{Name of Surah}
+\begin{declcs}{surahname}\oarg{index}\\
+\cs{surahname*}\oarg{index}
+\end{declcs}
+
+These commands return the Anglicized or Arabic title of the \textit{index}\textsuperscript{th}
+surah of the Holy Quran, as shown in Table~\ref{tab1} and Table~\ref{tab2}.
+
+    \centerline{\mx{surahname[19]}{\surahname[19]}
+    \hfill
+    \mx{surahname*[19]}{\quran\surahname*[19]}}
+
+\def\mycell#1#2{%
+    \hboxR{\amiri\phantom{آح}\surahname*[\value{#1}]}%
+    \addtocounter{ct}{#2}%
+}
+\begin{table}[!hbtp]
+    \centering
+%    \fontsize{12}{14}\selectfont
+    \begin{RTL}
+    \begin{tabular}{|@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r|}
+    \hline
+     Order & \multicolumn{1}{c||@{\hspace{1mm}}}{Title} & Order  & \multicolumn{1}{c||@{\hspace{1mm}}}{Title}
+     & Order  & \multicolumn{1}{c||@{\hspace{1mm}}}{Title}  & Order  & \multicolumn{1}{c|}{Title}  \\
+    \hline\hline%
+    \forloop{ct}{1}{\value{ct} < 29}{%
+        \ifnum\thect=1\phantom{..}\fi\thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} & \thect & \mycell{ct}{28} & \thect & \mycell{ct}{28}\\
+        \addtocounter{ct}{-114}
+    }%
+    \thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} &  &  &  & \\%
+    \hline
+    \end{tabular}
+    \end{RTL}
+    \protect\caption{\scshape Arabic Titles of Surahs}\label{tab2}
+\end{table}
+
+\subsection{Basmalah}\label{sec:basmalah}
+\begin{declcs}{basmalah}\\
+\cs{Basmalah}
+\end{declcs}
+It provides the Basmalah (\RLE{\quran\Basmalah}) in Arabic text.
+There is a subtle difference between \cs{Basmalah} and \cs{basmalah} --
+the latter may be followed by a \cs{par} depending on the package option.
+
+    \centerline{\mx{basmalah\textbackslash{}quranayah*[14][1]}{\quran\basmalah\quranayah*[14][1]} \hfill
+    \mx{Basmalah\textbackslash{}space\textbackslash{}quranayah*[14][1}{\quran\Basmalah\ \quranayah*[14][1]}}
+
+
+\subsection{Enclosing Ornamental Braces}
+
+As of version~1.9, the package introduces a new macro designed to place decorative braces around Quranic text. 
+These ornamental elements are fully customizable, allowing users to adapt the visual appearance to suit specific typographic or stylistic requirements.
+
+To define a pair of custom ornamental braces, use the following macro:
+
+\begin{declcs}{SetOrnamentalBraces}\marg{opening brace}\marg{closing brace}
+\end{declcs}
+
+\subsection{Ayah Marker Style}\label{sec:ayahmarker}
+
+Starting from version~2.4, the package supports enhanced control over Ayah marker symbols via two dedicated macros:
+
+\begin{declcs}{SetAyahMarkerStyle}\marg{begin marker}\marg{end marker}\\
+\cs{ResetAyahMarkerStyle}
+\end{declcs}
+
+\begin{itemize}
+    \item \cs{SetAyahMarkerStyle} defines the delimiters used to enclose Ayah numbers.
+    \item \cs{ResetAyahMarkerStyle} reverts to the package’s default Ayah marker formatting.
+\end{itemize}
+
+By default, Ayah markers utilize the glyphs {\amiri\char"FD3F} and {\amiri\char"FD3E}, 
+which correspond to classical Arabic typographic ornaments commonly employed in traditional Quranic scripts.
+
+\centerline{\mxf{SetOrnamentalBraces\{[\}\{]\}\textbackslash{}SetAyahMarkerStyle\{(\}\{)\}\textbackslash{}quransurah*}
+{\SetOrnamentalBraces{[}{]}\SetAyahMarkerStyle{(}{)}\quransurah*}}
+
+
+
+\subsection{Index Converting}
+\begin{declcs}{indexconvert}\marg{index}\marg{surah macro}\marg{ayah macro}
+\end{declcs}
+
+It converts an index number between $1$ and $6236$ to its corresponding surah and ayah indices.
+The index can be either a number or a \TeX{} counter.
+If the surah and ayah macros are not already defined,
+they will be automatically set as \TeX{} counters,
+representing the surah and ayah of the given index in the text of the Holy Quran.
+
+\begin{SaveVerbatim}{VerbEnv}
+\newcount\index \index=5678
+
+\indexconvert{\index}{\surahcount}{\ayahcount}
+
+Index \the\index\ belongs to ayah number \the\ayahcount\
+of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
+
+\end{SaveVerbatim}
+
+\centerline{\mybox*{\ttfamily\textbackslash{}indexconvert}{
+\UseVerbatim{VerbEnv}
+\newcount\index \index=5678
+\indexconvert{\index}{\surahcount}{\ayahcount}
+Index \the\index\ belongs to ayah number \the\ayahcount\ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
+}+}
 
 \section{Frequently Asked Questions}
     \subsection{What is the most suitable font for typesetting Quranic text?}
@@ -1550,7 +1554,7 @@ fontspec{,} and bidi"]
 
     \begin{Version}{2026/09/27 v2.5}
         \item Arabic translation of this documentation, \texttt{quran-doc-ar.tex}, translated by
-        Dr.~Soualmia Rashid, is released and shipped with the package.
+        Soualmia Rashid, is released and shipped with the package.
     \end{Version}
 
     \begin{Version}{2026/10/28 v2.6}
