@@ -1,0 +1,34 @@
+% Typesetting the Quran in the riwayah of Warsh (compile with XeLaTeX).
+% Warsh numbers verses differently from Hafs: 6214 verses in total.
+\documentclass{article}
+\usepackage[a5paper,margin=1.5cm]{geometry}
+\usepackage{fontspec}
+\usepackage{arabxetex}
+% The KFGQPC Warsh font is not distributed with the package (all rights
+% reserved by KFGQPC); download warsh.10.ttf from https://qurancomplex.gov.sa
+% and install it, or put it next to this file and use:
+%   \newfontfamily\arabicfont[Script=Arabic,Path=./,Extension=.ttf]{warsh.10}
+\newfontfamily\arabicfont[Script=Arabic]{KFGQPC WARSH Uthmanic Script}
+% Fallback that covers every character of the text (Hafs/Mashriqi letter forms):
+% \newfontfamily\arabicfont[Script=Arabic]{Amiri Quran}
+\usepackage[warsh]{quran}
+
+\begin{document}
+\parindent=0pt
+\thispagestyle{empty}
+
+\section*{Surah \surahname[1]}
+\begin{arab}[utf]
+  \quransurah[1]
+\end{arab}
+
+\section*{Last verse of Al-Baqarah (2:285 in Warsh numbering)}
+\begin{arab}[utf]
+  \quranayah[2][285]
+\end{arab}
+
+\section*{Juz 30, first surah}
+\begin{arab}[utf]
+  \quransurah[78]
+\end{arab}
+\end{document}

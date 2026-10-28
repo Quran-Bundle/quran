@@ -777,6 +777,38 @@ these options will add the following macros:
     \hfill
     \mx{quransurahfa[108]}{\quransurahfa[108]}}
 
+\subsection{Warsh Riwayah}\label{sec:warsh}
+
+The \xmgpar{warsh} option typesets the Holy Quran in the riwayah of Warsh
+from Nafi', using the text of the King Fahd Glorious Quran Printing Complex
+(KFGQPC). Warsh counts verses differently from Hafs: the text has 6214 verses
+(for example, Al-Baqarah has 285 verses, and Al-Fatiha has 7 verses without
+the Basmalah), so the verse numbers given to \cs{quranayah}, \cs{quranjuz}
+and \cs{quranpage} follow the Warsh numbering. Verse~1 of each surah except
+Al-Fatiha and At-Tawba is preceded by the Basmalah, as in the other options.
+
+\begin{quote}
+\begin{lstlisting}[style=BashInputStyle]
+\usepackage[warsh]{quran}
+\newfontfamily\arabicfont[Script=Arabic]{KFGQPC WARSH Uthmanic Script}
+\end{lstlisting}
+\end{quote}
+
+\paragraph{Font.} The package does not select a font. For the Maghribi letter
+forms and the Warsh marks of the printed Madinah mushaf, use the
+\emph{KFGQPC Warsh Uthmanic Script} font (\texttt{warsh.10.ttf}).
+It is the property of KFGQPC and may not be reproduced or modified without
+their written approval, so it is not distributed with this package: download
+it from the KFGQPC website (\url{https://qurancomplex.gov.sa}) and accept its
+license. Amiri Quran or Scheherazade also cover every character of the text and
+can be used as a fallback, but they draw the Hafs/Mashriqi forms.
+
+\paragraph{Limitations.} \cs{quranquarter}, \cs{quranruku} and \cs{quranhizb}
+are not available yet, and the translation options (\xmgpar{trans}, \xmgpar{transen}, \dots)
+are disabled with \xmgpar{warsh}. A complete example is in
+\texttt{sample/quran-test-warsh.tex}.
+
+
 \section{Frequently Asked Questions}
     \subsection{What is the most suitable font for typesetting Quranic text?}
     ``Scheherazade"%
