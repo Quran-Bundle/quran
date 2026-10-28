@@ -4,24 +4,19 @@
 \usepackage[a5paper,margin=1.5cm]{geometry}
 \usepackage{fontspec}
 \usepackage{arabxetex}
-% Font: "KFGQPC WARSH Uthmanic Script" version 0.10 (warsh.10.ttf) by the King Fahd Glorious
-% Quran Printing Complex (KFGQPC). Its end-user license allows free use, but forbids selling
-% or modifying it, so it is NOT distributed with this package. Download exactly this version:
-%   https://raw.githubusercontent.com/thetruetruth/quran-data-kfgqpc/main/warsh/font/warsh.10.ttf
-% (a mirror of the KFGQPC font; sha256 e6347a1b4cf0ca32...). The newer versions on the KFGQPC
-% site (https://fonts.qurancomplex.gov.sa/warsh-reading, V2.1 and V3.0) encode the text
-% differently and do not match this text yet.
-% Install it (e.g. in ~/.fonts, then run fc-cache), or place warsh.10.ttf next to this file
-% and use instead:
-%   \newfontfamily\arabicfont[Script=Arabic,Path=./,Extension=.ttf]{warsh.10}
-\newfontfamily\arabicfont[Script=Arabic]{KFGQPC WARSH Uthmanic Script}
-% Fallback that covers every character of the text (Hafs/Mashriqi letter forms):
-% \newfontfamily\arabicfont[Script=Arabic]{Amiri Quran}
+% Font: "KFGQPC Warsh V3" (version 3.0) by the King Fahd Glorious Quran Printing Complex
+% (KFGQPC). Its end-user license allows free use, but forbids selling or modifying it, so it
+% is NOT distributed with this package. Download it (zip with the font and a Word file):
+%   page:   https://fonts.qurancomplex.gov.sa/warsh-reading
+%   direct: https://fonts.qurancomplex.gov.sa/?fdc_download=https%3A%2F%2Ffonts.qurancomplex.gov.sa%2Ffonts%2FKFGQPC-Warsh-V30.zip
+% The text of the package is the one of that release; older versions of the font (V2.1 and
+% earlier) lack some of its characters. Install it (e.g. in ~/.fonts, then run fc-cache), or
+% place "KFGQPC Warsh V30.ttf" next to this file and use instead:
+%   \newfontfamily\arabicfont[Script=Arabic,Path=./,Extension=.ttf]{KFGQPC Warsh V30}
+\newfontfamily\arabicfont[Script=Arabic]{KFGQPC Warsh V3}
+% Other fonts (Amiri Quran, Scheherazade) lack some characters of this text.
 \usepackage[warsh]{quran}
-
-% The Warsh font draws the verse number inside its own ornament, so the braces of the
-% package around the number are blanked.
-\SetAyahMarkerStyle{}{}
+\SetAyahMarkerStyle{۝}{}
 
 \begin{document}
 \parindent=0pt

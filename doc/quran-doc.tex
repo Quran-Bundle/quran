@@ -790,32 +790,33 @@ Al-Fatiha and At-Tawba is preceded by the Basmalah, as in the other options.
 \begin{quote}
 \begin{lstlisting}[style=BashInputStyle]
 \usepackage[warsh]{quran}
-\newfontfamily\arabicfont[Script=Arabic]{KFGQPC WARSH Uthmanic Script}
+\newfontfamily\arabicfont[Script=Arabic]{KFGQPC Warsh V3}
+\SetAyahMarkerStyle{\char"06DD}{}
 \end{lstlisting}
 \end{quote}
 
 \paragraph{Font.} The package does not select a font. For the Maghribi letter
 forms and the Warsh marks of the printed Madinah mushaf, use the
-\emph{KFGQPC Warsh Uthmanic Script} font (\texttt{warsh.10.ttf}).
+\emph{KFGQPC Warsh V3} font (version~3.0, \texttt{KFGQPC Warsh V30.ttf}); the text of
+the package is the one of the official Word file shipped with that font, and it uses
+characters that older versions of the font (V2.1 and before) do not contain.
 It is the property of KFGQPC and may not be reproduced or modified without
 their written approval, so it is not distributed with this package: download
-it from the KFGQPC website (\url{https://qurancomplex.gov.sa}) and accept its
-license. Amiri Quran or Scheherazade also cover every character of the text and
-can be used as a fallback, but they draw the Hafs/Mashriqi forms.
+it from \url{https://fonts.qurancomplex.gov.sa/warsh-reading} and accept its
+license. Other Arabic fonts, such as Amiri Quran or Scheherazade, lack some of the
+characters of this text (U+0870, U+0872, U+0874, U+08CC, \dots) and cannot replace it.
 
-\paragraph{Verse numbers.} The KFGQPC Warsh font (version 0.10) draws every verse number
-inside its own ornament. Together with the braces that the package prints around the
-number this gives a doubled decoration, so blank the braces with
-\cs{SetAyahMarkerStyle} (see Section~\ref{sec:ayahmarker}) after loading the package:
+\paragraph{Verse numbers.} The KFGQPC Warsh V3 font draws the end-of-ayah sign U+06DD
+together with the digits following it as one number inside an ornament.
+Use \cs{SetAyahMarkerStyle} (see Section~\ref{sec:ayahmarker}) to print that sign
+instead of the default braces:
 
 \begin{quote}
 \begin{lstlisting}[style=BashInputStyle]
 \usepackage[warsh]{quran}
-\SetAyahMarkerStyle{}{}
+\SetAyahMarkerStyle{\char"06DD}{} % the sign U+06DD, or type it directly
 \end{lstlisting}
 \end{quote}
-
-With a fallback font such as Amiri Quran, which has no such ornament, keep the default braces.
 
 \paragraph{Limitations.} \cs{quranquarter} and \cs{quranruku}
 are not available yet (\cs{quranhizb} works and uses the 60 Maghribi hizb of the Warsh mushaf), and the translation options (\xmgpar{trans}, \xmgpar{transen}, \dots)
@@ -836,15 +837,25 @@ For example, the Hafs verse 2:255 (Ayat al-Kursi) is split over the Warsh verses
 % wordwise option, typeset only the given chunk (words) of the given text index.
 % The text file is read inside a \vbox: in horizontal mode its line ends would add spaces.
 \makeatletter
-\newcommand\riwayahcell[3]{{\quran\large\RLE{\begingroup
+% The Warsh text uses the characters of the KFGQPC Warsh V3 font (see Section~\ref{sec:warsh});
+% without that font installed the cells fall back to Scheherazade and miss some marks.
+\IfFontExistsTF{KFGQPC Warsh V3}{\newfontfamily\warshfont[Script=Arabic,Scale=0.85]{KFGQPC Warsh V3}}{\let\warshfont\quran}
+% the font follows the text file (the package prepends \quran to the text): Warsh needs the KFGQPC font
+\newcommand\riwayahfont[1]{\def\qt@a{#1}\def\qt@b{qurantext-warsh.def}\ifx\qt@a\qt@b\let\quran\warshfont\fi\quran}
+% verse numbers are hidden unless a cell does \let\riwayahnonum\relax (the text of a cut-off cell never reaches them)
+\newcommand\riwayahnonum{\def\qt@no##1{}}
+\newcommand\riwayahcell[3]{{\riwayahfont{#1}\large\RLE{\begingroup
   \setbox\z@\vbox{\makeatletter\let\qt@newcmd\gdef\input{#1}}%
-  \let\basmalah\relax\def\qt@no##1{}%
+  \let\basmalah\relax\riwayahnonum
   \qurantext*[#2][#3]\,{\normalfont\textellipsis}\endgroup}}}
 % whole verse on one line (natural width)
-\newcommand\riwayahverse[2]{{\quran\large\RLE{\begingroup
+\newcommand\riwayahverse[2]{{\riwayahfont{#1}\large\RLE{\begingroup
   \setbox\z@\vbox{\makeatletter\let\qt@newcmd\gdef\input{#1}}%
-  \let\basmalah\relax\def\qt@no##1{}%
+  \let\basmalah\relax\riwayahnonum
   \qurantext*[#2]\endgroup}}}
+% verse with its number
+\newcommand\hafsnum[1]{{\let\riwayahnonum\relax\riwayahverse{qurantext-uthmani.def}{#1}}}
+\newcommand\warshnum[1]{{\let\riwayahnonum\relax\SetAyahMarkerStyle{\textcolor{green!35!black}\bgroup\char"06DD}{\egroup}\riwayahverse{qurantext-warsh.def}{#1}}}
 \newsavebox\fatihabox
 \newcommand\hafscell[2]{\riwayahcell{qurantext-uthmani.def}{#1}{#2}}
 \newcommand\warshcell[2]{\riwayahcell{qurantext-warsh.def}{#1}{#2}}
@@ -855,15 +866,15 @@ For example, the Hafs verse 2:255 (Ayat al-Kursi) is split over the Warsh verses
 \caption{Al-Fatiha. Hafs counts the Basmalah as verse~1, Warsh does not,
 so both end with verse~7 but the verses are not the same.}\label{tab:warsh-fatiha}
 \global\setbox\fatihabox\hbox{%
-\begin{tabular}{c@{\hspace{1.5em}}r@{\hspace{1.5em}}r}\toprule
-Verse & Hafs & Warsh \\\midrule
-1 & \riwayahverse{qurantext-uthmani.def}{1} & \riwayahverse{qurantext-warsh.def}{1} \\
-2 & \riwayahverse{qurantext-uthmani.def}{2} & \riwayahverse{qurantext-warsh.def}{2} \\
-3 & \riwayahverse{qurantext-uthmani.def}{3} & \riwayahverse{qurantext-warsh.def}{3} \\
-4 & \riwayahverse{qurantext-uthmani.def}{4} & \riwayahverse{qurantext-warsh.def}{4} \\
-5 & \riwayahverse{qurantext-uthmani.def}{5} & \riwayahverse{qurantext-warsh.def}{5} \\
-6 & \riwayahverse{qurantext-uthmani.def}{6} & \riwayahverse{qurantext-warsh.def}{6} \\
-7 & \riwayahverse{qurantext-uthmani.def}{7} & \riwayahverse{qurantext-warsh.def}{7} \\
+\begin{tabular}{r@{\hspace{1.5em}}r}\toprule
+Hafs & Warsh \\\midrule
+\hafsnum{1} & \warshnum{1} \\
+\hafsnum{2} & \warshnum{2} \\
+\hafsnum{3} & \warshnum{3} \\
+\hafsnum{4} & \warshnum{4} \\
+\hafsnum{5} & \warshnum{5} \\
+\hafsnum{6} & \warshnum{6} \\
+\hafsnum{7} & \warshnum{7} \\
 \bottomrule\end{tabular}}\usebox\fatihabox\end{table}
 
 \begin{table}[ht]\centering\small
@@ -877,7 +888,7 @@ Hafs & Text & Warsh & Text \\\midrule
 2:256 & \hafscell{263}{1-9} & 2:255 & \warshcell{262}{1-9} \\
 2:282 & \hafscell{289}{1-6} & 2:281 & \warshcell{288}{1-6} \\
 2:286 & \hafscell{293}{1-6} & 2:285 & \warshcell{292}{1-6} \\
-36:1--2 & \riwayahverse{qurantext-uthmani.def}{3706-3707} & 36:1 & \riwayahverse{qurantext-warsh.def}{3701} \\
+36:1--2 & \hafsnum{3706-3707} & 36:1 & \warshnum{3701} \\
 \bottomrule\end{tabular*}\end{table}
 \restorehafstext
 
@@ -953,19 +964,19 @@ Surahs with a different number of verses & \multicolumn{2}{c}{50} \\
 }
 
 \begin{table}[ht]\centering\small
-\caption{First verse of each juz (surah:verse) in the two numberings. Gray entries are the juz whose first verse has a different number.}\label{tab:warsh-juz}
+\caption{First verse of each juz (surah:verse) in the two numberings. Red entries are the juz whose first verse has a different number.}\label{tab:warsh-juz}
 \begin{tabular}{|r|l|l||r|l|l||r|l|l|}\hline
 Juz & Hafs & Warsh & Juz & Hafs & Warsh & Juz & Hafs & Warsh \\\hline\hline
-1 & 1:1 & 1:1 & 11 & \textcolor{gray}{9:93} & \textcolor{gray}{9:94} & 21 & 29:46 & 29:46 \\
-2 & \textcolor{gray}{2:142} & \textcolor{gray}{2:141} & 12 & 11:6 & 11:6 & 22 & 33:31 & 33:31 \\
-3 & \textcolor{gray}{2:253} & \textcolor{gray}{2:251} & 13 & 12:53 & 12:53 & 23 & \textcolor{gray}{36:28} & \textcolor{gray}{36:27} \\
-4 & \textcolor{gray}{3:93} & \textcolor{gray}{3:91} & 14 & 15:1 & 15:1 & 24 & \textcolor{gray}{39:32} & \textcolor{gray}{39:31} \\
-5 & 4:24 & 4:24 & 15 & 17:1 & 17:1 & 25 & \textcolor{gray}{41:47} & \textcolor{gray}{41:46} \\
-6 & \textcolor{gray}{4:148} & \textcolor{gray}{4:147} & 16 & \textcolor{gray}{18:75} & \textcolor{gray}{18:74} & 26 & 46:1 & 46:1 \\
-7 & \textcolor{gray}{5:82} & \textcolor{gray}{5:84} & 17 & 21:1 & 21:1 & 27 & 51:31 & 51:31 \\
-8 & \textcolor{gray}{6:111} & \textcolor{gray}{6:112} & 18 & 23:1 & 23:1 & 28 & 58:1 & 58:1 \\
-9 & \textcolor{gray}{7:88} & \textcolor{gray}{7:87} & 19 & 25:21 & 25:21 & 29 & 67:1 & 67:1 \\
-10 & 8:41 & 8:41 & 20 & \textcolor{gray}{27:56} & \textcolor{gray}{27:58} & 30 & 78:1 & 78:1 \\
+1 & 1:1 & 1:1 & 11 & \textcolor{red!75!black}{9:93} & \textcolor{red!75!black}{9:94} & 21 & 29:46 & 29:46 \\
+2 & \textcolor{red!75!black}{2:142} & \textcolor{red!75!black}{2:141} & 12 & 11:6 & 11:6 & 22 & 33:31 & 33:31 \\
+3 & \textcolor{red!75!black}{2:253} & \textcolor{red!75!black}{2:251} & 13 & 12:53 & 12:53 & 23 & \textcolor{red!75!black}{36:28} & \textcolor{red!75!black}{36:27} \\
+4 & \textcolor{red!75!black}{3:93} & \textcolor{red!75!black}{3:91} & 14 & 15:1 & 15:1 & 24 & \textcolor{red!75!black}{39:32} & \textcolor{red!75!black}{39:31} \\
+5 & 4:24 & 4:24 & 15 & 17:1 & 17:1 & 25 & \textcolor{red!75!black}{41:47} & \textcolor{red!75!black}{41:46} \\
+6 & \textcolor{red!75!black}{4:148} & \textcolor{red!75!black}{4:147} & 16 & \textcolor{red!75!black}{18:75} & \textcolor{red!75!black}{18:74} & 26 & 46:1 & 46:1 \\
+7 & \textcolor{red!75!black}{5:82} & \textcolor{red!75!black}{5:84} & 17 & 21:1 & 21:1 & 27 & 51:31 & 51:31 \\
+8 & \textcolor{red!75!black}{6:111} & \textcolor{red!75!black}{6:112} & 18 & 23:1 & 23:1 & 28 & 58:1 & 58:1 \\
+9 & \textcolor{red!75!black}{7:88} & \textcolor{red!75!black}{7:87} & 19 & 25:21 & 25:21 & 29 & 67:1 & 67:1 \\
+10 & 8:41 & 8:41 & 20 & \textcolor{red!75!black}{27:56} & \textcolor{red!75!black}{27:58} & 30 & 78:1 & 78:1 \\
 \hline\end{tabular}\end{table}
 
 
@@ -988,6 +999,15 @@ Juz & Hafs & Warsh & Juz & Hafs & Warsh & Juz & Hafs & Warsh \\\hline\hline
     It is a revival of the beautiful typeface pioneered in early 20$^{th}$ century by Bulaq Press in Cairo,
     also known as Amiria Press, after which the font is named.
     Amiri is a free, open source project that everyone is encouraged to use and modify.
+    \end{quote}
+    For the riwayah of Warsh (the \xoption{warsh} option), the most suitable font is
+    ``KFGQPC Warsh V3"%
+    \footnote{\url{https://fonts.qurancomplex.gov.sa/warsh-reading}}
+    of the King Fahd Glorious Quran Printing Complex; see Section~\ref{sec:warsh}.
+    \begin{quote}
+    \emph{KFGQPC Warsh V3} follows the Maghribi letter forms and the Warsh marks of the printed Madinah mushaf.
+    It is free to use and copy, but it may not be sold or modified,
+    so it is not shipped with this package.
     \end{quote}
 
     \subsection{How to use the \xpackage{quran} package?}
@@ -1534,10 +1554,9 @@ fontspec{,} and bidi"]
     \end{Version}
 
     \begin{Version}{2026/10/28 v2.6}
-        \item Introduced the \xoption{warsh} package option, which typesets the Holy Quran in the
-        riwayah of Warsh from Nafi' (KFGQPC text). It uses the Warsh verse numbering (6214 verses),
-        so \cs{quranayah}, \cs{quranjuz}, \cs{quranpage} and \cs{quranhizb} follow the Warsh mushaf.
-        \item Quarters, rukus and translations are not available with \xoption{warsh} yet.
+        \item Introduced the \xoption{warsh} package option for the riwayah of Warsh from Nafi'
+        (KFGQPC text, version~3.0, 6214 verses), suggested by \emph{Mohamed Naji}. Quarters, rukus and
+        translations are not available with it yet.
         \item New sample \texttt{quran-test-warsh.tex} and a section in this documentation comparing the
         Hafs and Warsh verse numbering.
     \end{Version}
@@ -1641,8 +1660,7 @@ fontspec{,} and bidi"]
                             \cb Introduced the \cs{ResetAyahMarkerStyle} macro to restore the default behavior. \\
         2025/04/26 & 2.41 & \cb Deprecated the \xoption{ornbraces} option. \\
         2026/03/12 & 2.42 & \cb Introduced the \xoption{nobasmalah} option. \\
-        2026/09/27 & 2.5 & \cb Arabic translation of the documentation, \texttt{quran-doc-ar.tex}, \par
-                            by Dr.~Soualmia Rashid. \\
+        2026/09/27 & 2.5 & \cb Arabic translation of the documentation, \texttt{quran-doc-ar.tex}. \\
         2026/10/28 & 2.6 & \cb Introduced the \xoption{warsh} option (riwayah of Warsh, 6214 verses). \par
                             \cb New sample \texttt{quran-test-warsh.tex} and Hafs/Warsh comparison tables. \\
         \bottomrule

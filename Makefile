@@ -15,21 +15,22 @@ doc:
 
 .PHONY: test
 test:
-	$(MAKE) -C sample  quran-test.tex quran-test1.tex quran-test2.tex
+	$(MAKE) -C sample  quran-test.tex quran-test1.tex quran-test2.tex quran-test-warsh.tex
 	cd sample || exit
 	xelatex quran-test
 	xelatex quran-test1
 	xelatex quran-test2
+	xelatex quran-test-warsh
 	cd .. || exit
 
 # The Warsh sample needs the KFGQPC Warsh font (not shipped with the package, see the manual);
 # it is skipped when the font is not installed.
 .PHONY: test-warsh
 test-warsh:
-	@if fc-list | grep -qi "KFGQPC WARSH"; then \
+	@if fc-list | grep -qi "KFGQPC Warsh V3"; then \
 	  cd sample && xelatex quran-test-warsh; \
 	else \
-	  echo "KFGQPC Warsh font not installed: skipping sample/quran-test-warsh.tex"; \
+	  echo "KFGQPC Warsh V3 font not installed: skipping sample/quran-test-warsh.tex"; \
 	fi
 
 .PHONY: cleanup
