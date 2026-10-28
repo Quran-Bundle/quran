@@ -1521,6 +1521,15 @@ fontspec{,} and bidi"]
         Dr.~Soualmia Rashid, is released and shipped with the package.
     \end{Version}
 
+    \begin{Version}{2026/10/28 v2.6}
+        \item Introduced the \xoption{warsh} package option, which typesets the Holy Quran in the
+        riwayah of Warsh from Nafi' (KFGQPC text). It uses the Warsh verse numbering (6214 verses),
+        so \cs{quranayah}, \cs{quranjuz}, \cs{quranpage} and \cs{quranhizb} follow the Warsh mushaf.
+        \item Quarters, rukus and translations are not available with \xoption{warsh} yet.
+        \item New sample \texttt{quran-test-warsh.tex} and a section in this documentation comparing the
+        Hafs and Warsh verse numbering.
+    \end{Version}
+
 
     \newpage 
     
@@ -1622,6 +1631,8 @@ fontspec{,} and bidi"]
         2026/03/12 & 2.42 & \cb Introduced the \xoption{nobasmalah} option. \\
         2026/09/27 & 2.5 & \cb Arabic translation of the documentation, \texttt{quran-doc-ar.tex}, \par
                             by Dr.~Soualmia Rashid. \\
+        2026/10/28 & 2.6 & \cb Introduced the \xoption{warsh} option (riwayah of Warsh, 6214 verses). \par
+                            \cb New sample \texttt{quran-test-warsh.tex} and Hafs/Warsh comparison tables. \\
         \bottomrule
     \end{longtable}
     \end{small}

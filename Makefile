@@ -40,6 +40,7 @@ ctan: readme
 	cp -v README        quran
 	cd tex || exit
 	cp -v quran.sty qurantext-uthmani.def qurantext-uthmani-min.def qurantext-simple.def      ../quran/tex
+	cp -v qurantext-warsh.def quran-warsh-tables.def		../quran/tex
 	cp -v qurantext-en.transliteration.def quran-translt.def	../quran/tex
 	cp -v qurantext-en.translation.def quran-transen.def		../quran/tex
 	cp -v qurantext-de.translation.def quran-transde.def		../quran/tex
@@ -49,12 +50,24 @@ ctan: readme
 	cp -v quran-doc.pdf quran-doc.tex quran.png     ../quran/doc
 	cp -v quran-doc-ar.pdf quran-doc-ar.tex         ../quran/doc
 	cd ../sample || exit
-	cp -v quran-test*.{tex,pdf}    ../quran/doc
+	cp -v quran-test*.tex    ../quran/doc
+	cp -v quran-test.pdf quran-test1.pdf quran-test2.pdf    ../quran/doc
 	cd ..
 	zip -r quran.zip quran
 	mv -fv quran.zip ..
 	rm -rfv ../quran
 	mv -fv quran ..
+
+# Regenerate the Warsh files (the generators and the KFGQPC data live outside this repository):
+#   make warsh PREP=../preparation
+PREP ?= ../preparation
+WARSH_DATA = $(PREP)/original/warsh
+WARSH_HIZB ?= $(PREP)/original/warsh_hizb.json
+
+.PHONY: warsh
+warsh:
+	python3 -I $(PREP)/make_warsh_tables.py $(WARSH_DATA)/warshData_v10.json tex/quran-warsh-tables.def $(WARSH_HIZB)
+	python3 -I $(PREP)/make_warsh_text.py $(PREP)/text/quran-warsh.txt tex/qurantext-warsh.def
 
 .PHONY: increase_tex_memory
 increase_tex_memory:
