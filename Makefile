@@ -3,7 +3,7 @@
 .ONESHELL:
 
 .PHONY: all
-all: readme doc test cleanup
+all: readme doc test test-warsh cleanup
 
 .PHONY: doc
 doc:
@@ -15,12 +15,23 @@ doc:
 
 .PHONY: test
 test:
-	$(MAKE) -C sample  quran-test.tex quran-test1.tex quran-test2.tex
+	$(MAKE) -C sample  quran-test.tex quran-test1.tex quran-test2.tex quran-test-warsh.tex
 	cd sample || exit
 	xelatex quran-test
 	xelatex quran-test1
 	xelatex quran-test2
+	xelatex quran-test-warsh
 	cd .. || exit
+
+# The Warsh sample needs the KFGQPC Warsh font (not shipped with the package, see the manual);
+# it is skipped when the font is not installed.
+.PHONY: test-warsh
+test-warsh:
+	@if fc-list | grep -qi "KFGQPC Warsh V3"; then \
+	  cd sample && xelatex quran-test-warsh; \
+	else \
+	  echo "KFGQPC Warsh V3 font not installed: skipping sample/quran-test-warsh.tex"; \
+	fi
 
 .PHONY: cleanup
 cleanup:
@@ -40,6 +51,7 @@ ctan: readme
 	cp -v README        quran
 	cd tex || exit
 	cp -v quran.sty qurantext-uthmani.def qurantext-uthmani-min.def qurantext-simple.def      ../quran/tex
+	cp -v qurantext-warsh.def quran-warsh-tables.def		../quran/tex
 	cp -v qurantext-en.transliteration.def quran-translt.def	../quran/tex
 	cp -v qurantext-en.translation.def quran-transen.def		../quran/tex
 	cp -v qurantext-de.translation.def quran-transde.def		../quran/tex
@@ -49,7 +61,9 @@ ctan: readme
 	cp -v quran-doc.pdf quran-doc.tex quran.png     ../quran/doc
 	cp -v quran-doc-ar.pdf quran-doc-ar.tex         ../quran/doc
 	cd ../sample || exit
-	cp -v quran-test*.{tex,pdf}    ../quran/doc
+	cp -v quran-test*.tex    ../quran/doc
+	cp -v quran-test.pdf quran-test1.pdf quran-test2.pdf    ../quran/doc
+	cp -v quran-test-warsh.pdf    ../quran/doc 2>/dev/null || true
 	cd ..
 	zip -r quran.zip quran
 	mv -fv quran.zip ..
@@ -94,7 +108,7 @@ readme:
 	@echo "" >> "${readme-file}"
 	@echo "Release Date of the Current Version: ${QURANDATE}" >> "${readme-file}"
 	@echo "___________________" >> "${readme-file}"
-	@echo "Seiied-Mohammad-Javad Razvian" >> "${readme-file}"
+	@echo "Javad Razavian" >> "${readme-file}"
 	@echo "javadr@gmail.com" >> "${readme-file}"
 	@echo "" >> "${readme-file}"
 	@echo "Copyright © 2015-${YEAR}" >> "${readme-file}"

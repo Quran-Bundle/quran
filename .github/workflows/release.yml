@@ -2,6 +2,8 @@ name: Release
 
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
   # Manual runs are handy to rebuild the release without moving a tag. The
@@ -19,7 +21,40 @@ permissions:
   contents: write
 
 jobs:
+  # Decide whether to release and under which tag; empty tag means skip.
+  check:
+    runs-on: ubuntu-26.04
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Resolve release tag
+        id: tag
+        run: |
+          TAG=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            # Manual run: the given ref, else the version the package declares.
+            TAG="${{ inputs.ref }}"
+            [ -n "$TAG" ] || TAG="v$(sed -n 's/.*quranversion{\([^}]*\)}.*/\1/p' tex/quran.sty)"
+          elif git merge-base --is-ancestor HEAD origin/main; then
+            if [ "${{ github.ref_type }}" = "tag" ]; then
+              # Tag pushed on main: release under exactly that tag.
+              TAG="${{ github.ref_name }}"
+            else
+              # Push to main: release only if HEAD is tagged.
+              TAG=$(git tag --points-at HEAD | grep '^v' | head -n1 || true)
+            fi
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Release tag: ${TAG:-<none, skipping>}"
+
   release:
+    needs: check
+    if: needs.check.outputs.tag != ''
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v5
@@ -78,27 +113,10 @@ jobs:
           cp sample/quran-test*.tex sample/quran-test*.pdf quran/doc/ 2>/dev/null || true
           zip -r quran.zip quran
 
-      - name: Resolve release tag
-        id: release
-        run: |
-          # A manual run starts from a branch, so github.ref_name would name a
-          # release after that branch. Fall back to the version the package
-          # itself declares, which makes a manual run reproduce the tagged run
-          # of the current release.
-          if [ -n "${{ inputs.ref }}" ]; then
-            TAG="${{ inputs.ref }}"
-          elif [ "${{ github.event_name }}" = "push" ]; then
-            TAG="${{ github.ref_name }}"
-          else
-            TAG="v$(sed -n 's/.*quranversion{\([^}]*\)}.*/\1/p' tex/quran.sty)"
-          fi
-          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
-          echo "Release tag: $TAG"
-
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.release.outputs.tag }}
+          tag_name: ${{ needs.check.outputs.tag }}
           files: |
             doc/quran-doc.pdf
             doc/quran-doc-ar.pdf

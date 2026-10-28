@@ -1,4 +1,7 @@
 %% Change Log
+%% ver 2.6 ## October 28th, 2026
+%% New option introduced, warsh: the riwayah of Warsh from Nafi' (KFGQPC text v3.0, 6214 verses, Warsh verse numbering); use the KFGQPC Warsh V3 font and \SetAyahMarkerStyle{۝}{}
+%% This feature was suggested by Mohamed Naji.
 %% ver 2.5 ## September 27th, 2026
 %% Arabic translation of the documentation (quran-doc-ar), translated by Dr. Soualmia Rashid
 %% ver 2.42 ## March 12th, 2026

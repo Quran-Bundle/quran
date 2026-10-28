@@ -1,7 +1,7 @@
 %% This is file `quran.sty',
 %%
 %% Copyright © 2015-2026
-%% Seiied-Mohammad-Javad Razavian <javadr@gmail.com>
+%% Javad Razavian <javadr@gmail.com>
 %%
 %% This work may be distributed and/or modified under the
 %% conditions of the LaTeX Project Public License, either version 1.3c
@@ -15,13 +15,13 @@
 %%
 %% This work is “author-maintained” (as per LPPL maintenance status).
 %%
-%% The Current Maintainer of this work is Seiied-Mohammad-Javad Razavian.
+%% The Current Maintainer of this work is Javad Razavian.
 %%
 %% To one who has devoted his life to Quran
 %%
 \NeedsTeXFormat{LaTeX2e}
-\def\qurandate{2026/09/27}
-\def\quranversion{2.5}
+\def\qurandate{2026/10/28}
+\def\quranversion{2.6}
 \ProvidesPackage{quran}[\qurandate\space v\quranversion^^JAn easy way to typeset the whole or any parts of the holy Quran]
 \RequirePackage{ifxetex}
 \RequirePackage{biditools}
@@ -36,6 +36,7 @@
 \newif\ifqt@qurantext% Ensure the correct ornamental braces are applied inside the \qt@no command.
 \newif\ifqt@uthmani%
 \newif\ifqt@uthmanimin%
+\newif\ifqt@warsh%
 \newif\ifqt@basmalah\qt@basmalahtrue%
 \newif\ifqt@nobasmalah\qt@nobasmalahfalse%
 \newif\ifqt@translt%
@@ -66,6 +67,7 @@
 \DeclareOptionX{nobasmalah}{\qt@nobasmalahtrue\qt@debug{basmalah is disabled}}
 \DeclareOptionX{uthmani}{\qt@uthmanitrue}
 \DeclareOptionX{uthmani-min}{\qt@uthmanimintrue}
+\DeclareOptionX{warsh}{\qt@warshtrue}
 \DeclareOptionX{translt}{\qt@translttrue}
 \DeclareOptionX{transen}{\qt@transentrue}
 \DeclareOptionX{transde}{\qt@transdetrue}
@@ -557,6 +559,39 @@
   \ifqt@transde\ToggleBasmalahde\fi%
   \ifqt@transfa\ToggleBasmalahfa\fi%
 }%
+\ifqt@warsh%
+  % Warsh (riwayat of Nafi' from Warsh, KFGQPC text): 6214 verses with its own numbering.
+  \input{quran-warsh-tables.def}%
+  \let\qt@getversenum\qt@warsh@getversenum%
+  \let\qt@getjuzdomain\qt@warsh@getjuzdomain%
+  \let\qt@getpagedomain\qt@warsh@getpagedomain%
+  \let\qt@gethizbdomain\qt@warsh@gethizbdomain%
+  % \quranhizb: the Hafs version goes through 4 quarters per hizb, Warsh has its own 60 hizb table
+  \def\@quranhizb[#1]{%
+    \expandafter\qt@minmax\expandafter{#1}%
+    \ifx\qt@max\qt@min%
+      \edef\qt@hizb{\qt@gethizbdomain{\qt@min}}%
+      \begingroup\qurantext[\qt@hizb]\endgroup%
+    \else%
+      \edef\qt@hizb@start{\qt@gethizbdomain{\qt@min}}%
+      \edef\qt@hizb@end{\qt@gethizbdomain{\qt@max}}%
+      \expandafter\qt@minmax\expandafter{\qt@hizb@start}%
+      \setcounter{qt@start}{\qt@min}%
+      \expandafter\qt@minmax\expandafter{\qt@hizb@end}%
+      \setcounter{qt@end}{\qt@max}%
+      \begingroup\qurantext[\value{qt@start}-\value{qt@end}]\endgroup%
+    \fi%
+  }%
+  \def\qt@getquarterdomain#1{\PackageError{quran}{Quarters (\string\quranquarter) are not available with the warsh option yet}{}}%
+  \def\qt@getrukudomain#1{\PackageError{quran}{Rukus (\string\quranruku) are not available with the warsh option yet}{}}%
+  \ifqt@translt\PackageWarning{quran}{Translations are not available with the warsh option yet}\fi%
+  \ifqt@transen\PackageWarning{quran}{Translations are not available with the warsh option yet}\fi%
+  \ifqt@transde\PackageWarning{quran}{Translations are not available with the warsh option yet}\fi%
+  \ifqt@transfa\PackageWarning{quran}{Translations are not available with the warsh option yet}\fi%
+  \ifqt@transfr\PackageWarning{quran}{Translations are not available with the warsh option yet}\fi%
+  \qt@transltfalse\qt@transenfalse\qt@transdefalse\qt@transfafalse\qt@transfrfalse%
+  \input{qurantext-warsh.def}%
+\else%
 \ifqt@uthmani%
   \input{qurantext-uthmani.def}%
 \else%
@@ -566,6 +601,7 @@
     \input{qurantext-simple.def}%
   \fi%
 \fi%
+\fi% end of \ifqt@warsh
 %%
 \ifqt@translt%
   \input{qurantext-en.transliteration.def}%
