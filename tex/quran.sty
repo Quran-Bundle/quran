@@ -566,6 +566,22 @@
   \let\qt@getjuzdomain\qt@warsh@getjuzdomain%
   \let\qt@getpagedomain\qt@warsh@getpagedomain%
   \let\qt@gethizbdomain\qt@warsh@gethizbdomain%
+  % \quranhizb: the Hafs version goes through 4 quarters per hizb, Warsh has its own 60 hizb table
+  \def\@quranhizb[#1]{%
+    \expandafter\qt@minmax\expandafter{#1}%
+    \ifx\qt@max\qt@min%
+      \edef\qt@hizb{\qt@gethizbdomain{\qt@min}}%
+      \begingroup\qurantext[\qt@hizb]\endgroup%
+    \else%
+      \edef\qt@hizb@start{\qt@gethizbdomain{\qt@min}}%
+      \edef\qt@hizb@end{\qt@gethizbdomain{\qt@max}}%
+      \expandafter\qt@minmax\expandafter{\qt@hizb@start}%
+      \setcounter{qt@start}{\qt@min}%
+      \expandafter\qt@minmax\expandafter{\qt@hizb@end}%
+      \setcounter{qt@end}{\qt@max}%
+      \begingroup\qurantext[\value{qt@start}-\value{qt@end}]\endgroup%
+    \fi%
+  }%
   \def\qt@getquarterdomain#1{\PackageError{quran}{Quarters (\string\quranquarter) are not available with the warsh option yet}{}}%
   \def\qt@getrukudomain#1{\PackageError{quran}{Rukus (\string\quranruku) are not available with the warsh option yet}{}}%
   \ifqt@translt\PackageWarning{quran}{Translations are not available with the warsh option yet}\fi%
