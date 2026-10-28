@@ -808,6 +808,154 @@ are not available yet (\cs{quranhizb} works and uses the 60 Maghribi hizb of the
 are disabled with \xmgpar{warsh}. A complete example is in
 \texttt{sample/quran-test-warsh.tex}.
 
+\paragraph{Differences between Hafs and Warsh numbering.}
+The two riwayat share the same text for most of the Holy Quran, but they divide
+it into verses differently. The Warsh mushaf has 6214 verses against 6236 in
+Hafs. The verse count differs in 50 of the 114 surahs
+(Tables~\ref{tab:warsh-totals} and~\ref{tab:warsh-surahs}), and because the counts
+accumulate, the same verse can carry a different number from Surah~2 onwards.
+Always give \cs{quranayah} the number of the numbering selected by the package option.
+For example, the Hafs verse 2:255 (Ayat al-Kursi) is split over the Warsh verses
+2:253 and 2:254 (Table~\ref{tab:warsh-landmarks}).
+
+\begin{table}[ht]\centering\small
+\caption{Al-Fatiha. Hafs counts the Basmalah as verse~1, Warsh does not,
+so both end with verse~7 but the verses are not the same.}\label{tab:warsh-fatiha}
+\begin{tabular}{rll}\toprule
+Verse & Hafs & Warsh \\\midrule
+1 & Bismillahi r-rahmani r-rahim & Alhamdu lillahi rabbi l-`alamin \\
+2 & Alhamdu lillahi rabbi l-`alamin & Ar-rahmani r-rahim \\
+3 & Ar-rahmani r-rahim & Maliki yawmi d-din \\
+4 & Maliki yawmi d-din & Iyyaka na`budu wa-iyyaka nasta`in \\
+5 & Iyyaka na`budu wa-iyyaka nasta`in & Ihdina s-sirata l-mustaqim \\
+6 & Ihdina s-sirata l-mustaqim & Sirata l-ladhina an`amta `alayhim \\
+7 & Sirata l-ladhina an`amta `alayhim\ldots & Ghayri l-maghdubi `alayhim wa-la d-dallin \\
+\bottomrule\end{tabular}\end{table}
+
+\begin{table}[ht]\centering\small
+\caption{Some verses and their number in each riwayah, checked against the
+text of both (Hafs: Tanzil, Warsh: KFGQPC).}\label{tab:warsh-landmarks}
+\begin{tabular}{lll}\toprule
+Verse (first words) & Hafs & Warsh \\\midrule
+Ya ayyuha l-ladhina amanu anfiqu & 2:254 & 2:252 \\
+Allahu la ilaha illa huwa (Ayat al-Kursi) & 2:255 & 2:253--254 \\
+La ikraha fi d-din & 2:256 & 2:255 \\
+Ya ayyuha l-ladhina amanu idha tadayantum & 2:282 & 2:281 \\
+La yukallifu llahu nafsan & 2:286 & 2:285 \\
+Ya Sin. Wa-l-Qur'ani l-hakim & 36:1--2 & 36:1 \\
+\bottomrule\end{tabular}\end{table}
+
+\begin{table}[ht]\centering\small
+\caption{Totals in the Hafs and Warsh numbering.}\label{tab:warsh-totals}
+\begin{tabular}{lrr}\toprule
+ & Hafs & Warsh \\\midrule
+Verses in the Holy Quran & 6236 & 6214 \\
+Surahs & 114 & 114 \\
+Surahs with the same number of verses & \multicolumn{2}{c}{64} \\
+Surahs with a different number of verses & \multicolumn{2}{c}{50} \\
+\quad{} Warsh has more verses & \multicolumn{2}{c}{18} \\
+\quad{} Warsh has fewer verses & \multicolumn{2}{c}{32} \\
+\bottomrule\end{tabular}\end{table}
+
+{\small
+\begin{longtable}{rlrrr}
+\caption{Surahs whose number of verses differs between Hafs and Warsh.}\label{tab:warsh-surahs}\\
+\toprule No. & Surah & Hafs & Warsh & Warsh$-$Hafs \\\midrule\endfirsthead
+\toprule No. & Surah & Hafs & Warsh & Warsh$-$Hafs \\\midrule\endhead
+\bottomrule\endfoot
+2 & \surahname[2] & 286 & 285 & -1 \\
+4 & \surahname[4] & 176 & 175 & -1 \\
+5 & \surahname[5] & 120 & 122 & +2 \\
+6 & \surahname[6] & 165 & 167 & +2 \\
+8 & \surahname[8] & 75 & 76 & +1 \\
+9 & \surahname[9] & 129 & 130 & +1 \\
+11 & \surahname[11] & 123 & 121 & -2 \\
+13 & \surahname[13] & 43 & 44 & +1 \\
+14 & \surahname[14] & 52 & 54 & +2 \\
+17 & \surahname[17] & 111 & 110 & -1 \\
+18 & \surahname[18] & 110 & 105 & -5 \\
+19 & \surahname[19] & 98 & 99 & +1 \\
+20 & \surahname[20] & 135 & 134 & -1 \\
+21 & \surahname[21] & 112 & 111 & -1 \\
+22 & \surahname[22] & 78 & 76 & -2 \\
+23 & \surahname[23] & 118 & 119 & +1 \\
+24 & \surahname[24] & 64 & 62 & -2 \\
+26 & \surahname[26] & 227 & 226 & -1 \\
+27 & \surahname[27] & 93 & 95 & +2 \\
+30 & \surahname[30] & 60 & 59 & -1 \\
+31 & \surahname[31] & 34 & 33 & -1 \\
+35 & \surahname[35] & 45 & 46 & +1 \\
+36 & \surahname[36] & 83 & 82 & -1 \\
+38 & \surahname[38] & 88 & 86 & -2 \\
+39 & \surahname[39] & 75 & 72 & -3 \\
+40 & \surahname[40] & 85 & 84 & -1 \\
+41 & \surahname[41] & 54 & 53 & -1 \\
+42 & \surahname[42] & 53 & 50 & -3 \\
+44 & \surahname[44] & 59 & 56 & -3 \\
+45 & \surahname[45] & 37 & 36 & -1 \\
+46 & \surahname[46] & 35 & 34 & -1 \\
+47 & \surahname[47] & 38 & 39 & +1 \\
+52 & \surahname[52] & 49 & 47 & -2 \\
+53 & \surahname[53] & 62 & 61 & -1 \\
+55 & \surahname[55] & 78 & 77 & -1 \\
+56 & \surahname[56] & 96 & 99 & +3 \\
+57 & \surahname[57] & 29 & 28 & -1 \\
+58 & \surahname[58] & 22 & 21 & -1 \\
+67 & \surahname[67] & 30 & 31 & +1 \\
+71 & \surahname[71] & 28 & 30 & +2 \\
+73 & \surahname[73] & 20 & 18 & -2 \\
+74 & \surahname[74] & 56 & 55 & -1 \\
+75 & \surahname[75] & 40 & 39 & -1 \\
+79 & \surahname[79] & 46 & 45 & -1 \\
+89 & \surahname[89] & 30 & 32 & +2 \\
+96 & \surahname[96] & 19 & 20 & +1 \\
+99 & \surahname[99] & 8 & 9 & +1 \\
+101 & \surahname[101] & 11 & 10 & -1 \\
+106 & \surahname[106] & 4 & 5 & +1 \\
+107 & \surahname[107] & 7 & 6 & -1 \\
+\end{longtable}
+}
+
+{\small
+\begin{longtable}{rll}
+\caption{First verse of each juz (surah:verse) in the two numberings.}\label{tab:warsh-juz}\\
+\toprule Juz & Hafs & Warsh \\\midrule\endfirsthead
+\toprule Juz & Hafs & Warsh \\\midrule\endhead
+\bottomrule\endfoot
+1 & 1:1 & 1:1 \\
+2 & 2:142 & 2:141 \\
+3 & 2:253 & 2:251 \\
+4 & 3:93 & 3:91 \\
+5 & 4:24 & 4:24 \\
+6 & 4:148 & 4:147 \\
+7 & 5:82 & 5:84 \\
+8 & 6:111 & 6:112 \\
+9 & 7:88 & 7:87 \\
+10 & 8:41 & 8:41 \\
+11 & 9:93 & 9:94 \\
+12 & 11:6 & 11:6 \\
+13 & 12:53 & 12:53 \\
+14 & 15:1 & 15:1 \\
+15 & 17:1 & 17:1 \\
+16 & 18:75 & 18:74 \\
+17 & 21:1 & 21:1 \\
+18 & 23:1 & 23:1 \\
+19 & 25:21 & 25:21 \\
+20 & 27:56 & 27:58 \\
+21 & 29:46 & 29:46 \\
+22 & 33:31 & 33:31 \\
+23 & 36:28 & 36:27 \\
+24 & 39:32 & 39:31 \\
+25 & 41:47 & 41:46 \\
+26 & 46:1 & 46:1 \\
+27 & 51:31 & 51:31 \\
+28 & 58:1 & 58:1 \\
+29 & 67:1 & 67:1 \\
+30 & 78:1 & 78:1 \\
+\end{longtable}
+
+}
+
 
 \section{Frequently Asked Questions}
     \subsection{What is the most suitable font for typesetting Quranic text?}
