@@ -108,7 +108,7 @@ readme:
 	@echo "" >> "${readme-file}"
 	@echo "Release Date of the Current Version: ${QURANDATE}" >> "${readme-file}"
 	@echo "___________________" >> "${readme-file}"
-	@echo "Seiied-Mohammad-Javad Razvian" >> "${readme-file}"
+	@echo "Javad Razavian" >> "${readme-file}"
 	@echo "javadr@gmail.com" >> "${readme-file}"
 	@echo "" >> "${readme-file}"
 	@echo "Copyright © 2015-${YEAR}" >> "${readme-file}"
