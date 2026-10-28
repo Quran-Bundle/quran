@@ -544,7 +544,7 @@ To define a pair of custom ornamental braces, use the following macro:
 \begin{declcs}{SetOrnamentalBraces}\marg{opening brace}\marg{closing brace}
 \end{declcs}
 
-\subsection{Ayah Marker Style}
+\subsection{Ayah Marker Style}\label{sec:ayahmarker}
 
 Starting from version~2.4, the package supports enhanced control over Ayah marker symbols via two dedicated macros:
 
@@ -803,6 +803,20 @@ it from the KFGQPC website (\url{https://qurancomplex.gov.sa}) and accept its
 license. Amiri Quran or Scheherazade also cover every character of the text and
 can be used as a fallback, but they draw the Hafs/Mashriqi forms.
 
+\paragraph{Verse numbers.} The KFGQPC Warsh font (version 0.10) draws every verse number
+inside its own ornament. Together with the braces that the package prints around the
+number this gives a doubled decoration, so blank the braces with
+\cs{SetAyahMarkerStyle} (see Section~\ref{sec:ayahmarker}) after loading the package:
+
+\begin{quote}
+\begin{lstlisting}[style=BashInputStyle]
+\usepackage[warsh]{quran}
+\SetAyahMarkerStyle{}{}
+\end{lstlisting}
+\end{quote}
+
+With a fallback font such as Amiri Quran, which has no such ornament, keep the default braces.
+
 \paragraph{Limitations.} \cs{quranquarter} and \cs{quranruku}
 are not available yet (\cs{quranhizb} works and uses the 60 Maghribi hizb of the Warsh mushaf), and the translation options (\xmgpar{trans}, \xmgpar{transen}, \dots)
 are disabled with \xmgpar{warsh}. A complete example is in
@@ -818,32 +832,54 @@ Always give \cs{quranayah} the number of the numbering selected by the package o
 For example, the Hafs verse 2:255 (Ayat al-Kursi) is split over the Warsh verses
 2:253 and 2:254 (Table~\ref{tab:warsh-landmarks}).
 
+% The Arabic cells below load the Hafs (uthmani) or the Warsh text on the fly and, thanks to the
+% wordwise option, typeset only the given chunk (words) of the given text index.
+% The text file is read inside a \vbox: in horizontal mode its line ends would add spaces.
+\makeatletter
+\newcommand\riwayahcell[3]{{\quran\large\RLE{\begingroup
+  \setbox\z@\vbox{\makeatletter\let\qt@newcmd\gdef\input{#1}}%
+  \let\basmalah\relax\def\qt@no##1{}%
+  \qurantext*[#2][#3]\,{\normalfont\textellipsis}\endgroup}}}
+% whole verse on one line (natural width)
+\newcommand\riwayahverse[2]{{\quran\large\RLE{\begingroup
+  \setbox\z@\vbox{\makeatletter\let\qt@newcmd\gdef\input{#1}}%
+  \let\basmalah\relax\def\qt@no##1{}%
+  \qurantext*[#2]\endgroup}}}
+\newsavebox\fatihabox
+\newcommand\hafscell[2]{\riwayahcell{qurantext-uthmani.def}{#1}{#2}}
+\newcommand\warshcell[2]{\riwayahcell{qurantext-warsh.def}{#1}{#2}}
+\newcommand\restorehafstext{\setbox\z@\vbox{\makeatletter\let\qt@newcmd\gdef\input{qurantext-uthmani.def}}}
+\makeatother
+
 \begin{table}[ht]\centering\small
 \caption{Al-Fatiha. Hafs counts the Basmalah as verse~1, Warsh does not,
 so both end with verse~7 but the verses are not the same.}\label{tab:warsh-fatiha}
-\begin{tabular}{rll}\toprule
+\global\setbox\fatihabox\hbox{%
+\begin{tabular}{c@{\hspace{1.5em}}r@{\hspace{1.5em}}r}\toprule
 Verse & Hafs & Warsh \\\midrule
-1 & Bismillahi r-rahmani r-rahim & Alhamdu lillahi rabbi l-`alamin \\
-2 & Alhamdu lillahi rabbi l-`alamin & Ar-rahmani r-rahim \\
-3 & Ar-rahmani r-rahim & Maliki yawmi d-din \\
-4 & Maliki yawmi d-din & Iyyaka na`budu wa-iyyaka nasta`in \\
-5 & Iyyaka na`budu wa-iyyaka nasta`in & Ihdina s-sirata l-mustaqim \\
-6 & Ihdina s-sirata l-mustaqim & Sirata l-ladhina an`amta `alayhim \\
-7 & Sirata l-ladhina an`amta `alayhim\ldots & Ghayri l-maghdubi `alayhim wa-la d-dallin \\
-\bottomrule\end{tabular}\end{table}
+1 & \riwayahverse{qurantext-uthmani.def}{1} & \riwayahverse{qurantext-warsh.def}{1} \\
+2 & \riwayahverse{qurantext-uthmani.def}{2} & \riwayahverse{qurantext-warsh.def}{2} \\
+3 & \riwayahverse{qurantext-uthmani.def}{3} & \riwayahverse{qurantext-warsh.def}{3} \\
+4 & \riwayahverse{qurantext-uthmani.def}{4} & \riwayahverse{qurantext-warsh.def}{4} \\
+5 & \riwayahverse{qurantext-uthmani.def}{5} & \riwayahverse{qurantext-warsh.def}{5} \\
+6 & \riwayahverse{qurantext-uthmani.def}{6} & \riwayahverse{qurantext-warsh.def}{6} \\
+7 & \riwayahverse{qurantext-uthmani.def}{7} & \riwayahverse{qurantext-warsh.def}{7} \\
+\bottomrule\end{tabular}}\usebox\fatihabox\end{table}
 
 \begin{table}[ht]\centering\small
-\caption{Some verses and their number in each riwayah, checked against the
-text of both (Hafs: Tanzil, Warsh: KFGQPC).}\label{tab:warsh-landmarks}
-\begin{tabular}{lll}\toprule
-Verse (first words) & Hafs & Warsh \\\midrule
-Ya ayyuha l-ladhina amanu anfiqu & 2:254 & 2:252 \\
-Allahu la ilaha illa huwa (Ayat al-Kursi) & 2:255 & 2:253--254 \\
-La ikraha fi d-din & 2:256 & 2:255 \\
-Ya ayyuha l-ladhina amanu idha tadayantum & 2:282 & 2:281 \\
-La yukallifu llahu nafsan & 2:286 & 2:285 \\
-Ya Sin. Wa-l-Qur'ani l-hakim & 36:1--2 & 36:1 \\
-\bottomrule\end{tabular}\end{table}
+\caption{Some verses and their number in each riwayah, checked against the text of both
+(Hafs: Tanzil, Warsh: KFGQPC). Only the beginning of each verse is shown, followed
+by an ellipsis when the verse continues. Hafs 2:255 is Ayat al-Kursi.}\label{tab:warsh-landmarks}
+\begin{tabular*}{\textwidth}{@{}l@{\extracolsep{\fill}}r@{\extracolsep{\fill}\hspace{1.5em}}l@{\extracolsep{\fill}}r@{}}\toprule
+Hafs & Text & Warsh & Text \\\midrule
+2:254 & \hafscell{261}{1-6} & 2:252 & \warshcell{259}{1-6} \\
+2:255 & \hafscell{262}{1-7} & 2:253--254 & \warshcell{260}{1-7} \\
+2:256 & \hafscell{263}{1-9} & 2:255 & \warshcell{262}{1-9} \\
+2:282 & \hafscell{289}{1-6} & 2:281 & \warshcell{288}{1-6} \\
+2:286 & \hafscell{293}{1-6} & 2:285 & \warshcell{292}{1-6} \\
+36:1--2 & \riwayahverse{qurantext-uthmani.def}{3706-3707} & 36:1 & \riwayahverse{qurantext-warsh.def}{3701} \\
+\bottomrule\end{tabular*}\end{table}
+\restorehafstext
 
 \begin{table}[ht]\centering\small
 \caption{Totals in the Hafs and Warsh numbering.}\label{tab:warsh-totals}

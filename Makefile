@@ -3,7 +3,7 @@
 .ONESHELL:
 
 .PHONY: all
-all: readme doc test cleanup
+all: readme doc test test-warsh cleanup
 
 .PHONY: doc
 doc:
@@ -21,6 +21,16 @@ test:
 	xelatex quran-test1
 	xelatex quran-test2
 	cd .. || exit
+
+# The Warsh sample needs the KFGQPC Warsh font (not shipped with the package, see the manual);
+# it is skipped when the font is not installed.
+.PHONY: test-warsh
+test-warsh:
+	@if fc-list | grep -qi "KFGQPC WARSH"; then \
+	  cd sample && xelatex quran-test-warsh; \
+	else \
+	  echo "KFGQPC Warsh font not installed: skipping sample/quran-test-warsh.tex"; \
+	fi
 
 .PHONY: cleanup
 cleanup:
@@ -52,22 +62,12 @@ ctan: readme
 	cd ../sample || exit
 	cp -v quran-test*.tex    ../quran/doc
 	cp -v quran-test.pdf quran-test1.pdf quran-test2.pdf    ../quran/doc
+	cp -v quran-test-warsh.pdf    ../quran/doc 2>/dev/null || true
 	cd ..
 	zip -r quran.zip quran
 	mv -fv quran.zip ..
 	rm -rfv ../quran
 	mv -fv quran ..
-
-# Regenerate the Warsh files (the generators and the KFGQPC data live outside this repository):
-#   make warsh PREP=../preparation
-PREP ?= ../preparation
-WARSH_DATA = $(PREP)/original/warsh
-WARSH_HIZB ?= $(PREP)/original/warsh_hizb.json
-
-.PHONY: warsh
-warsh:
-	python3 -I $(PREP)/make_warsh_tables.py $(WARSH_DATA)/warshData_v10.json tex/quran-warsh-tables.def $(WARSH_HIZB)
-	python3 -I $(PREP)/make_warsh_text.py $(PREP)/text/quran-warsh.txt tex/qurantext-warsh.def
 
 .PHONY: increase_tex_memory
 increase_tex_memory:
