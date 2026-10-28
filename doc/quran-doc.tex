@@ -257,7 +257,7 @@ the output will be as shown below:
 \begin{table}[!htb]
     \centering
     \fontsize{8}{10}\selectfont
-    \begin{tabular}{|*{3}{c|l|}}
+    \begin{tabular}{|c|l||c|l||c|l|}
     \hline
      Order & Anglicized Title & Order  & Anglicized Title  & Order  & Anglicized Title  \\
     \hline\hline%
@@ -506,10 +506,10 @@ surah of the Holy Quran, as shown in Table~\ref{tab1} and Table~\ref{tab2}.
     \centering
 %    \fontsize{12}{14}\selectfont
     \begin{RTL}
-    \begin{tabular}{|*{4}{@{\hspace{1mm}}c@{\hspace{1mm}}|r|}}
+    \begin{tabular}{|@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r||@{\hspace{1mm}}c@{\hspace{1mm}}|r|}
     \hline
-     Order & \multicolumn{1}{c|@{\hspace{1mm}}}{Title} & Order  & \multicolumn{1}{c|@{\hspace{1mm}}}{Title}
-     & Order  & \multicolumn{1}{c|@{\hspace{1mm}}}{Title}  & Order  & \multicolumn{1}{c|}{Title}  \\
+     Order & \multicolumn{1}{c||@{\hspace{1mm}}}{Title} & Order  & \multicolumn{1}{c||@{\hspace{1mm}}}{Title}
+     & Order  & \multicolumn{1}{c||@{\hspace{1mm}}}{Title}  & Order  & \multicolumn{1}{c|}{Title}  \\
     \hline\hline%
     \forloop{ct}{1}{\value{ct} < 29}{%
         \ifnum\thect=1\phantom{..}\fi\thect & \mycell{ct}{29} & \thect & \mycell{ct}{29} & \thect & \mycell{ct}{28} & \thect & \mycell{ct}{28}\\
@@ -918,7 +918,7 @@ Surahs with a different number of verses & \multicolumn{2}{c}{50} \\
 
 \begin{table}[ht]\centering\small
 \caption{First verse of each juz (surah:verse) in the two numberings. Gray entries are the juz whose first verse has a different number.}\label{tab:warsh-juz}
-\begin{tabular}{|*{3}{r|l|l|}}\hline
+\begin{tabular}{|r|l|l||r|l|l||r|l|l|}\hline
 Juz & Hafs & Warsh & Juz & Hafs & Warsh & Juz & Hafs & Warsh \\\hline\hline
 1 & 1:1 & 1:1 & 11 & \textcolor{gray}{9:93} & \textcolor{gray}{9:94} & 21 & 29:46 & 29:46 \\
 2 & \textcolor{gray}{2:142} & \textcolor{gray}{2:141} & 12 & 11:6 & 11:6 & 22 & 33:31 & 33:31 \\
