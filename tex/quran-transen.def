@@ -80,7 +80,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \DeclareDocumentCommand{\quranayahen}{ s o o o t{+} }{%
     \let\qt@doqt\qt@doen%
-    \let\ToggleBasmalah\ToggleBasmalahlt%
+    \let\ToggleBasmalah\ToggleBasmalahen%
     \IfBooleanTF{#1}%
     {\IfBooleanTF{#5}{\quranayah*[#2][#3][#4]+}{\quranayah*[#2][#3][#4]}}%
     {\IfBooleanTF{#5}{\quranayah[#2][#3][#4]+}{\quranayah[#2][#3][#4]}}%
