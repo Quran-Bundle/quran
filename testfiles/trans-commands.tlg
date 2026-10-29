@@ -1,0 +1,91 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: transliteration commands
+============================================================
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line ....
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line ....
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+============================================================
+============================================================
+TEST 2: English commands
+============================================================
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+============================================================
+============================================================
+TEST 3: German commands
+============================================================
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+============================================================
+============================================================
+TEST 4: Persian commands
+============================================================
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+============================================================
+============================================================
+TEST 5: French commands
+============================================================
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+============================================================
+============================================================
+TEST 6: a translation ayah is not the Arabic one
+============================================================
+PASSED
+============================================================
+============================================================
+TEST 7: quranayah[1][1] leaves every basmalah state unchanged
+============================================================
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+PASSED
+============================================================

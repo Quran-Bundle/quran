@@ -7,6 +7,7 @@
 % Every command ends in \qt@doqt, with \qt@min..\qt@max set, so we record those there.
 \let\orig@doqt\qt@doqt
 \def\qt@doqt{\xdef\got{\the\numexpr\qt@min\relax-\the\numexpr\qt@max\relax}\orig@doqt}
+\hfuzz=\maxdimen \vfuzz=\maxdimen \hbadness=10000 \vbadness=10000 % silence overfull-line noise
 \newcommand\CHK[3]{%
   \tracinglostchars=0 \setbox0\vbox{#1}%
   \ASSERT{\got}{#2-#3}}

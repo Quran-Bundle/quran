@@ -1,0 +1,158 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: juz out of range
+============================================================
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ...\TEST{juz out of range}{\BAD{\quranjuz[31]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ...\TEST{juz out of range}{\BAD{\quranjuz[31]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ...\TEST{juz out of range}{\BAD{\quranjuz[31]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ...\TEST{juz out of range}{\BAD{\quranjuz[31]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+returned
+============================================================
+============================================================
+TEST 2: surah out of range
+============================================================
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......urah out of range}{\BAD{\quransurah[115]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+returned
+============================================================
+============================================================
+TEST 3: unknown surah name
+============================================================
+! Missing number, treated as zero.
+<to be read again> 
+                   \qt@surah@bogus-name 
+l. ......surah name}{\BAD{\quransurah[bogus-name]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \qt@surah@bogus-name 
+l. ......surah name}{\BAD{\quransurah[bogus-name]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \qt@surah@bogus-name 
+l. ......surah name}{\BAD{\quransurah[bogus-name]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+returned
+============================================================
+============================================================
+TEST 4: ayah past the text database
+============================================================
+returned
+============================================================
+============================================================
+TEST 5: page, hizb and manzil out of range
+============================================================
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+returned
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+returned
+! Missing \endcsname inserted.
+<to be read again> 
+                   \relax 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+The control sequence marked <to be read again> should
+not appear between \csname and \endcsname.
+! Missing number, treated as zero.
+<to be read again> 
+                   \qt@surah@ 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Missing number, treated as zero.
+<to be read again> 
+                   \qt@surah@ 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+! Extra \endcsname.
+\qt@min ->\qt@surah@ \relax \endcsname 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+I'm ignoring this, since I wasn't doing a \csname.
+! Missing number, treated as zero.
+<to be read again> 
+                   \qt@surah@ 
+l. ......\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+returned
+============================================================

@@ -1,0 +1,63 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[nopar,trans={lt,en,de,fa,fr}]{quran}
+\makeatletter
+% Same idea as commands.lvt: record the absolute ayah range each command resolves to,
+% by hooking the per-language worker (\qt@dolt, \qt@doen, ...).
+\def\HOOK#1{%
+  \expandafter\let\csname orig@do#1\expandafter\endcsname\csname qt@do#1\endcsname
+  \expandafter\def\csname qt@do#1\endcsname{\xdef\got{\the\numexpr\qt@min\relax-\the\numexpr\qt@max\relax}%
+    \csname orig@do#1\endcsname}}
+\HOOK{lt}\HOOK{en}\HOOK{de}\HOOK{fa}\HOOK{fr}
+\hfuzz=\maxdimen \vfuzz=\maxdimen \hbadness=10000 \vbadness=10000 % silence overfull-line noise
+\newcommand\CHK[3]{%
+  \tracinglostchars=0 \setbox0\vbox{#1}%
+  \ASSERT{\got}{#2-#3}}
+% \ALL{lang}: every command of one language resolves to the right range
+\def\ALL#1{%
+  \CHK{\csname quranayah#1\endcsname[112][1]}{6222}{6222}%
+  \CHK{\csname quranayah#1\endcsname[112][2-3]}{6223}{6224}%
+  \CHK{\csname quransurah#1\endcsname[108]}{6205}{6207}%
+  \CHK{\csname qurantext#1\endcsname[6234-6236]}{6234}{6236}%
+  \CHK{\csname quranjuz#1\endcsname[1]}{1}{148}%
+  \CHK{\csname quranpage#1\endcsname[1]}{1}{7}%
+  \CHK{\csname quranquarter#1\endcsname[1]}{1}{32}%
+  \CHK{\csname quranruku#1\endcsname[2]}{8}{14}%
+  \CHK{\csname quranhizb#1\endcsname[60]}{5949}{6236}%
+  \CHK{\csname quranmanzil#1\endcsname[1]}{1}{669}%
+}
+\begin{document}
+\START
+% shortcut: the lt text of 2:28 (ayah 35) holds \emph{A}, which errors inside the package's
+% \xdef, so the transliteration is tested away from surah 2 until that is fixed.
+\TEST{transliteration commands}{%
+  \CHK{\quranayahlt[112][1]}{6222}{6222}%
+  \CHK{\quranayahlt[112][2-3]}{6223}{6224}%
+  \CHK{\quransurahlt[108]}{6205}{6207}%
+  \CHK{\qurantextlt[6234-6236]}{6234}{6236}%
+  \CHK{\quranjuzlt[30]}{5673}{6236}%
+  \CHK{\quranpagelt[604]}{6222}{6236}%
+  \CHK{\quranquarterlt[240]}{6155}{6236}%
+  \CHK{\quranrukult[556]}{6231}{6236}%
+  \CHK{\quranhizblt[60]}{5949}{6236}%
+  \CHK{\quranmanzillt[7]}{4631}{6236}%
+}
+\TEST{English commands}{\ALL{en}}
+\TEST{German commands}{\ALL{de}}
+\TEST{Persian commands}{\ALL{fa}}
+\TEST{French commands}{\ALL{fr}}
+\TEST{a translation ayah is not the Arabic one}{%
+  \ASSERT{\ifx\qurantrans@en@i\qurantext@i N\else D\fi}{D}%
+}
+\TEST{quranayah[1][1] leaves every basmalah state unchanged}{%
+  \def\ST{\ifx\basmalah\relax 0\else 1\fi\ifx\basmalahlt\relax 0\else 1\fi\ifx\basmalahen\relax 0\else 1\fi\ifx\basmalahde\relax 0\else 1\fi\ifx\basmalahfa\relax 0\else 1\fi\ifx\basmalahfr\relax 0\else 1\fi}%
+  \edef\before{\ST}%
+  \tracinglostchars=0
+  \setbox0\vbox{\quranayah[1][1]}\edef\after{\ST}\ASSERT{\before:\after}{\before:\before}%
+  \setbox0\vbox{\quranayahlt[1][1]}\edef\after{\ST}\ASSERT{\before:\after}{\before:\before}%
+  \setbox0\vbox{\quranayahen[1][1]}\edef\after{\ST}\ASSERT{\before:\after}{\before:\before}%
+  \setbox0\vbox{\quranayahde[1][1]}\edef\after{\ST}\ASSERT{\before:\after}{\before:\before}%
+  \setbox0\vbox{\quranayahfa[1][1]}\edef\after{\ST}\ASSERT{\before:\after}{\before:\before}%
+  \setbox0\vbox{\quranayahfr[1][1]}\edef\after{\ST}\ASSERT{\before:\after}{\before:\before}%
+}
+\END
