@@ -1,0 +1,36 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{Anglicized and old spelling tables}{%
+  \typeout{new: \@surahname[1] | \@surahname[36] | \@surahname[114]}%
+  \typeout{old: \@surahname@old[1] | \@surahname@old[36] | \@surahname@old[114]}%
+}
+\TEST{Arabic name table}{%
+  \edef\x{\@@surahname[1]}\typeout{[\detokenize\expandafter{\x}]}%
+  \edef\x{\@@surahname[114]}\typeout{[\detokenize\expandafter{\x}]}%
+}
+% \surahname is robust and cannot be expanded; check it typesets something.
+\TEST{surahname typesets a name}{%
+  \setbox0\hbox{\surahname[36]}%
+  \ASSERT{\ifdim\wd0>0pt Y\else N\fi}{Y}%
+}
+\TEST{every surah name maps back to its number (new and old spelling)}{%
+  \newcount\i \newcount\bad
+  \i=1
+  \loop
+    \edef\t{\lowercase{\edef\noexpand\n{\@surahname[\the\i]}}}\t
+    \edef\t{\lowercase{\edef\noexpand\o{\@surahname@old[\the\i]}}}\t
+    \edef\v{\csname qt@surah@\n\endcsname}\ifnum\v=\i\else\advance\bad1 \typeout{new mismatch \the\i}\fi
+    \edef\v{\csname qt@surah@\o\endcsname}\ifnum\v=\i\else\advance\bad1 \typeout{old mismatch \the\i}\fi
+  \ifnum\i<114 \advance\i1 \repeat
+  \ASSERT{\the\bad}{0}%
+}
+\TEST{verse counts add up to 6236}{%
+  \newcount\i \newcount\sum \i=1 \sum=0
+  \loop \advance\sum\qt@getversenum{\i} \ifnum\i<114 \advance\i1 \repeat
+  \typeout{total \the\sum}%
+}
+\END

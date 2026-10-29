@@ -1,0 +1,18 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+% Out-of-range arguments currently surface as raw TeX errors, not package messages.
+% This records that (and that nothing hangs); if you add friendly PackageErrors,
+% update the baseline with `l3build save badinput`.
+\hfuzz=\maxdimen \vfuzz=\maxdimen \hbadness=10000 \vbadness=10000
+\def\BAD#1{\tracinglostchars=0 \setbox0\vbox{#1}\typeout{returned}}
+\begin{document}
+\START
+\TEST{juz out of range}{\BAD{\quranjuz[31]}}
+\TEST{surah out of range}{\BAD{\quransurah[115]}}
+\TEST{unknown surah name}{\BAD{\quransurah[bogus-name]}}
+\TEST{ayah past the text database}{\BAD{\qurantext[6237]}}
+\TEST{page, hizb and manzil out of range}{%
+  \BAD{\quranpage[605]}\BAD{\quranhizb[61]}\BAD{\quranmanzil[8]}}
+\END

@@ -1,0 +1,16 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[trans={lt,en,de,fa,fr}]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{every translation has 6236 ayahs}{%
+  \def\CHECK#1{%
+    \ASSERT{\ifcsname qurantrans@#1@mmmmmmccxxxvi\endcsname Y\else N\fi}{Y}%
+    \ASSERT{\ifcsname qurantrans@#1@mmmmmmccxxxvii\endcsname Y\else N\fi}{N}}%
+  \CHECK{lt}\CHECK{en}\CHECK{de}\CHECK{fa}\CHECK{fr}%
+}
+\TEST{\q@e survives \xdef (it is protected, unlike a bare \emph)}{%
+  \xdef\x{\q@e{A}}\typeout{[\detokenize\expandafter{\x}]}%
+}
+\END

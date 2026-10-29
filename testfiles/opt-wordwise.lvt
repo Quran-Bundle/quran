@@ -1,0 +1,14 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[wordwise]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{wordwise uses plain newcommand}{%
+  \ASSERT{\ifx\qt@newcmd\newcommand Y\else N\fi}{Y}%
+}
+\TEST{wordwise selects words of an ayah}{%
+  \tracinglostchars=0 \setbox0\vbox{\qurantext[1][1-2]\xdef\n{\qt@wordslen}}%
+  \typeout{words:\n}%
+}
+\END

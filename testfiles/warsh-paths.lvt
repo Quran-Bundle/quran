@@ -1,0 +1,44 @@
+\documentclass{article}
+\input{regression-test}
+% record warnings and errors the package raises instead of stopping on them
+\def\PackageWarning#1#2{\xdef\seenwarning{#1: #2}}
+\def\PackageError#1#2#3{\xdef\seenerror{#1: #2}}
+\def\seenwarning{none}\def\seenerror{none}
+\usepackage[warsh,trans=en]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{translations are dropped with warsh}{%
+  \typeout{[\seenwarning]}%
+  \ASSERT{\ifqt@transen Y\else N\fi}{N}%
+}
+\TEST{quarters and rukus are unavailable with warsh}{%
+  \qt@getquarterdomain{1}\typeout{[\seenerror]}%
+  \def\seenerror{none}%
+  \qt@getrukudomain{1}\typeout{[\seenerror]}%
+}
+\TEST{warsh hizb table (60) is contiguous and ends at 6214}{%
+  \newcount\i \newcount\prev \newcount\bad \i=1 \prev=0 \bad=0
+  \loop
+    \edef\d{\qt@gethizbdomain{\the\i}}\expandafter\qt@minmax\expandafter{\d}%
+    \ifnum\qt@min=\numexpr\prev+1\relax\else\advance\bad1 \fi
+    \prev=\qt@max
+  \ifnum\i<60 \advance\i1 \repeat
+  \ASSERT{\the\bad:\the\prev}{0:6214}%
+}
+\TEST{warsh page table is contiguous and ends at 6214}{%
+  \i=1 \prev=0 \bad=0
+  \loop
+    \edef\d{\qt@getpagedomain{\the\i}}\expandafter\qt@minmax\expandafter{\d}%
+    \ifnum\qt@min=\numexpr\prev+1\relax\else\advance\bad1 \fi
+    \prev=\qt@max
+  \ifnum\i<604 \advance\i1 \repeat
+  \ASSERT{\the\bad:\the\prev}{0:6214}%
+}
+\TEST{warsh hizb command resolves its range}{%
+  \let\orig@doqt\qt@doqt
+  \def\qt@doqt{\xdef\got{\the\numexpr\qt@min\relax-\the\numexpr\qt@max\relax}\orig@doqt}%
+  \tracinglostchars=0 \setbox0\vbox{\quranhizb[1]}%
+  \typeout{[\got]}%
+}
+\END

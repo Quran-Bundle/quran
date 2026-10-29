@@ -22,6 +22,7 @@
 \bidi@newrobustcmd\q@b[1]{\textbf{#1}}%
 \bidi@newrobustcmd\q@i[1]{\textit{#1}}%
 \bidi@newrobustcmd\q@u[1]{\underline{#1}}%
+\bidi@newrobustcmd\q@e[1]{\emph{#1}}%
 \let\qt@doqt@orig\qt@doqt%
 \let\ToggleBasmalah@orig\ToggleBasmalah%
 %%%%%%%%%%%%%%%%%%%%%%%%%%

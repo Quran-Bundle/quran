@@ -1,0 +1,35 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{SetOrnamentalBraces}{%
+  \SetOrnamentalBraces{(}{)}%
+  \typeout{[\meaning\qt@ob@begin][\meaning\qt@ob@end]}%
+}
+\TEST{setqurantextdefault and setsurahdefault}{%
+  \typeout{before: \qt@default{} \qt@surah@default}%
+  \setqurantextdefault{2-5}\setsurahdefault{36}%
+  \typeout{after: \qt@default{} \qt@surah@default}%
+}
+\TEST{ToggleBasmalah flips flag and macro}{%
+  \ASSERT{\ifqt@basmalah Y\else N\fi}{Y}%
+  \ToggleBasmalah
+  \ASSERT{\ifqt@basmalah Y\else N\fi}{N}%
+  \ASSERT{\ifx\basmalah\relax N\else Y\fi}{N}%
+  \ToggleBasmalah
+  \ASSERT{\ifqt@basmalah Y\else N\fi}{Y}%
+  \ASSERT{\ifx\basmalah\relax N\else Y\fi}{Y}%
+}
+\TEST{qt@minmax edge cases}{%
+  \qt@minmax{1-1}\typeout{[\qt@min][\qt@max]}%
+  \qt@minmax{10-3}\typeout{[\qt@min][\qt@max]}%
+  \qt@minmax{114}\typeout{[\qt@min][\qt@max]}%
+}
+\TEST{indexconvert at surah boundaries}{%
+  \indexconvert{7}{\tsurah}{\tayah}\typeout{\the\tsurah:\the\tayah}%
+  \indexconvert{293}{\tsurah}{\tayah}\typeout{\the\tsurah:\the\tayah}%
+  \indexconvert{294}{\tsurah}{\tayah}\typeout{\the\tsurah:\the\tayah}%
+}
+\END

@@ -1,0 +1,13 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[nobasmalah]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{nobasmalah option disables basmalah at load}{%
+  \ASSERT{\ifqt@basmalah Y\else N\fi}{N}%
+  \ASSERT{\ifx\basmalah\relax N\else Y\fi}{N}%
+  \ToggleBasmalah
+  \ASSERT{\ifqt@basmalah Y\else N\fi}{Y}%
+}
+\END

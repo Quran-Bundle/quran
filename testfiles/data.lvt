@@ -1,0 +1,39 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\newcount\i \newcount\s \newcount\a \newcount\abs \newcount\bad
+% Arabic-Indic digits of a number, expandable (\numexpr rounds, so (n-5)/10 = floor(n/10))
+\def\ARAB#1{\ifnum#1>9 \expandafter\ARAB\expandafter{\number\numexpr(#1-5)/10\relax}\fi
+  \Uchar\numexpr"660+#1-10*((#1-5)/10)\relax}
+\begin{document}
+\START
+% The first ayah of every surah carries the basmalah, except Al-Fatiha (where it is the
+% ayah itself) and At-Tawba (which has none).
+\TEST{first ayah of each surah starts with the basmalah}{%
+  \edef\bm{\basmalah}\edef\bm{\detokenize\expandafter{\bm}}% the ayah macros hold it expanded
+  \bad=0 \abs=1 \s=1
+  \loop
+    \edef\t{\csname qurantext@\romannumeral\abs\endcsname}%
+    \edef\t{\detokenize\expandafter{\t}}%
+    \IfBeginWith{\t}{\bm}{\def\has{1}}{\def\has{0}}%
+    \ifnum\s=1 \else\ifnum\s=9 \ifnum\has=1 \advance\bad1 \typeout{surah 9 has basmalah}\fi
+    \else\ifnum\has=0 \advance\bad1 \typeout{surah \the\s\space lacks basmalah}\fi\fi\fi
+    \advance\abs\qt@getversenum{\s}\relax
+    \advance\s1
+  \ifnum\s<115 \repeat
+  \ASSERT{\the\bad:\the\abs}{0:6237}%
+}
+\TEST{the last ayah of each surah carries its own number}{%
+  \qt@qurantexttrue \bad=0 \abs=0 \s=1
+  \loop
+    \advance\abs\qt@getversenum{\s}\relax
+    \edef\t{\csname qurantext@\romannumeral\abs\endcsname}%
+    \edef\t{\detokenize\expandafter{\t}}%
+    \edef\n{\detokenize{﴿}\ARAB{\qt@getversenum{\s}}\detokenize{﴾}}%
+    \IfSubStr{\t}{\n}{}{\advance\bad1 \typeout{surah \the\s\space ends wrongly}}%
+    \advance\s1
+  \ifnum\s<115 \repeat
+  \ASSERT{\the\bad:\the\abs}{0:6236}%
+}
+\END

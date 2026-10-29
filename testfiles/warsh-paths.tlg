@@ -1,0 +1,32 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: translations are dropped with warsh
+============================================================
+[quran: Translations are not available with the warsh option yet]
+PASSED
+============================================================
+============================================================
+TEST 2: quarters and rukus are unavailable with warsh
+============================================================
+[quran: Quarters (\quranquarter) are not available with the warsh option yet]
+[quran: Rukus (\quranruku) are not available with the warsh option yet]
+============================================================
+============================================================
+TEST 3: warsh hizb table (60) is contiguous and ends at 6214
+============================================================
+\i=\count...
+\prev=\count...
+\bad=\count...
+PASSED
+============================================================
+============================================================
+TEST 4: warsh page table is contiguous and ends at 6214
+============================================================
+PASSED
+============================================================
+============================================================
+TEST 5: warsh hizb command resolves its range
+============================================================
+[1-81]
+============================================================

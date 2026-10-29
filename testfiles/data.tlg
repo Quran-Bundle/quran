@@ -1,0 +1,12 @@
+This is a generated file for the l3build validation system.
+Don't change this file in any respect.
+============================================================
+TEST 1: first ayah of each surah starts with the basmalah
+============================================================
+PASSED
+============================================================
+============================================================
+TEST 2: the last ayah of each surah carries its own number
+============================================================
+PASSED
+============================================================

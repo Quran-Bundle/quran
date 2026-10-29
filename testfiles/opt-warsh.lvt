@@ -1,0 +1,30 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[warsh]{quran}
+\makeatletter
+\newcount\i \newcount\sum \newcount\prev \newcount\bad
+\begin{document}
+\START
+\TEST{warsh verse counts differ from hafs}{%
+  \typeout{1:\qt@warsh@getversenum{1} 2:\qt@warsh@getversenum{2} 3:\qt@warsh@getversenum{3}}%
+  \typeout{selected 2:\qt@getversenum{2}}%
+}
+\TEST{warsh verse counts add up to 6214}{%
+  \i=1 \sum=0
+  \loop \advance\sum\qt@getversenum{\i} \ifnum\i<114 \advance\i1 \repeat
+  \ASSERT{\the\sum}{6214}%
+}
+\TEST{warsh juz table (30) is contiguous and ends at 6214}{%
+  \i=1 \prev=0 \bad=0
+  \loop
+    \edef\d{\qt@getjuzdomain{\the\i}}\expandafter\qt@minmax\expandafter{\d}%
+    \ifnum\qt@min=\numexpr\prev+1\relax\else\advance\bad1 \fi
+    \prev=\qt@max
+  \ifnum\i<30 \advance\i1 \repeat
+  \ASSERT{\the\bad:\the\prev}{0:6214}%
+}
+\TEST{warsh text database has 6214 ayahs}{%
+  \ASSERT{\ifcsname qurantext@mmmmmmccxiv\endcsname Y\else N\fi}{Y}%
+  \ASSERT{\ifcsname qurantext@mmmmmmccxv\endcsname Y\else N\fi}{N}%
+}
+\END

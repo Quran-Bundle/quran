@@ -1565,6 +1565,14 @@ fontspec{,} and bidi"]
         Hafs and Warsh verse numbering.
     \end{Version}
 
+    \begin{Version}{2026/10/29 v2.61}
+        \item Added a regression test suite based on \xpackage{l3build} (run it with \texttt{make check}).
+        \item Bug fixes: \cs{ToggleBasmalah} now toggles the French basmalah too; \cs{quranayahen}
+        toggled the transliteration basmalah instead of the English one; and the transliteration of
+        Surah Al-Baqara 2:28 contained a fragile \cs{emph} that raised errors in commands whose range
+        included that ayah (for instance \cs{quranjuzlt[1]}).
+    \end{Version}
+
 
     \newpage 
     
@@ -1667,6 +1675,8 @@ fontspec{,} and bidi"]
         2026/09/27 & 2.5 & \cb Arabic translation of the documentation, \texttt{quran-doc-ar.tex}. \\
         2026/10/28 & 2.6 & \cb Introduced the \xoption{warsh} option (riwayah of Warsh, 6214 verses). \par
                             \cb New sample \texttt{quran-test-warsh.tex} and Hafs/Warsh comparison tables. \\
+        2026/10/29 & 2.61 & \cb Added a regression test suite (\xpackage{l3build}, \texttt{make check}). \par
+                            \cb Fixed the French basmalah toggle, \cs{quranayahen}, and the transliteration of 2:28. \\
         \bottomrule
     \end{longtable}
     \end{small}

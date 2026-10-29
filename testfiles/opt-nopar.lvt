@@ -1,0 +1,10 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[nopar]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{option nopar}{%
+  \ASSERT{\ifx\qt@par\relax N\else P\fi}{N}%
+}
+\END
