@@ -7,3 +7,4 @@ WebNote.*
 test.*
 *-de-*
 .serena
+build/

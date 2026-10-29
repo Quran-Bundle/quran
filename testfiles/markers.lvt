@@ -1,0 +1,17 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{SetAyahMarkerStyle sets both braces}{%
+  \SetAyahMarkerStyle{<}{>}%
+  \typeout{[\meaning\qt@no@ob@begin][\meaning\qt@no@ob@end]}%
+}
+\TEST{ResetAyahMarkerStyle restores defaults}{%
+  \SetAyahMarkerStyle{<}{>}%
+  \ResetAyahMarkerStyle
+  \ASSERT{\ifx\qt@no@ob@begin\relax\else Y\fi}{Y}%
+  \typeout{[\detokenize\expandafter{\qt@no@ob@begin}]}%
+}
+\END
