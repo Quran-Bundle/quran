@@ -1,4 +1,9 @@
 %% Change Log
+%% ver 2.61 ## October 29th, 2026
+%% Regression test suite added (l3build); run it with `make check`.
+%% Fixed \ToggleBasmalah, which did not toggle the French basmalah.
+%% Fixed \quranayahen, which toggled the transliteration basmalah instead of the English one.
+%% Fixed the transliteration of 2:28 (a fragile \emph that broke any command whose range included that ayah, e.g. \quranjuzlt[1]).
 %% ver 2.6 ## October 28th, 2026
 %% New option introduced, warsh: the riwayah of Warsh from Nafi' (KFGQPC text v3.0, 6214 verses, Warsh verse numbering); use the KFGQPC Warsh V3 font and \SetAyahMarkerStyle{۝}{}
 %% This feature was suggested by Mohamed Naji.
