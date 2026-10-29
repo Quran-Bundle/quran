@@ -3,7 +3,7 @@ name: Release
 on:
   push:
     branches:
-      - main
+      - master
     tags:
       - 'v*'
   # Manual runs are handy to rebuild the release without moving a tag. The
@@ -40,7 +40,7 @@ jobs:
             # Manual run: the given ref, else the version the package declares.
             TAG="${{ inputs.ref }}"
             [ -n "$TAG" ] || TAG="v$(sed -n 's/.*quranversion{\([^}]*\)}.*/\1/p' tex/quran.sty)"
-          elif git merge-base --is-ancestor HEAD origin/main; then
+          elif git merge-base --is-ancestor HEAD origin/master; then
             if [ "${{ github.ref_type }}" = "tag" ]; then
               # Tag pushed on main: release under exactly that tag.
               TAG="${{ github.ref_name }}"
