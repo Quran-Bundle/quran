@@ -1,0 +1,13 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[trans={lt,en,de,fa}]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{ToggleBasmalah also flips the translation basmalahs}{%
+  \def\ST{\ifx\basmalah\relax 0\else 1\fi\ifx\basmalahlt\relax 0\else 1\fi\ifx\basmalahen\relax 0\else 1\fi\ifx\basmalahde\relax 0\else 1\fi\ifx\basmalahfa\relax 0\else 1\fi}%
+  \ASSERT{\ST}{11111}%
+  \ToggleBasmalah\ASSERT{\ST}{00000}%
+  \ToggleBasmalah\ASSERT{\ST}{11111}%
+}
+\END

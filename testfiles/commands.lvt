@@ -1,0 +1,66 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[nopar]{quran}
+\makeatletter
+% \CHK{command}{first ayah}{last ayah}: typeset into a box (glyphs are font dependent,
+% so mute missing-char warnings) and check the absolute ayah range the command resolved to.
+% Every command ends in \qt@doqt, with \qt@min..\qt@max set, so we record those there.
+\let\orig@doqt\qt@doqt
+\def\qt@doqt{\xdef\got{\the\numexpr\qt@min\relax-\the\numexpr\qt@max\relax}\orig@doqt}
+\newcommand\CHK[3]{%
+  \tracinglostchars=0 \setbox0\vbox{#1}%
+  \ASSERT{\got}{#2-#3}}
+\begin{document}
+\START
+\TEST{quranayah: single ayah by number and by name}{%
+  \CHK{\quranayah[112][1]}{6222}{6222}
+  \CHK{\quranayah[al-baqara][255]}{262}{262}
+  \CHK{\quranayah[AL-BAQARA][255]}{262}{262}
+}
+\TEST{quranayah: range and clamping past the end of the surah}{%
+  \CHK{\quranayah[112][2-3]}{6223}{6224}
+  \CHK{\quranayah[112][3-99]}{6224}{6225}
+}
+\TEST{quransurah: number, name and ranges}{%
+  \CHK{\quransurah[108]}{6205}{6207}
+  \CHK{\quransurah[an-nasr]}{6214}{6216}
+  \CHK{\quransurah[109-110]}{6208}{6216}
+  \CHK{\quransurah[an-nasr--an-nas]}{6214}{6236}
+}
+\TEST{surah and text defaults}{%
+  \CHK{\quransurah}{6222}{6225}
+  \setsurahdefault{108}\CHK{\quransurah}{6205}{6207}
+  \CHK{\qurantext}{1}{7}
+  \CHK{\qurantext[6236]}{6236}{6236}
+  \CHK{\qurantext[6234-6236]}{6234}{6236}
+  \setqurantextdefault{3-4}\CHK{\qurantext}{3}{4}
+}
+\TEST{juz, page, quarter, ruku, manzil by number}{%
+  \CHK{\quranjuz[1]}{1}{148}
+  \CHK{\quranpage[1]}{1}{7}
+  \CHK{\quranquarter[1]}{1}{32}
+  \CHK{\quranruku[2]}{8}{14}
+  \CHK{\quranmanzil[1]}{1}{669}
+  \CHK{\quranmanzil[6-7]}{3789}{6236}
+}
+\TEST{page, quarter, ruku and hizb ranges}{%
+  \CHK{\quranpage[603-604]}{6208}{6236}
+  \CHK{\quranquarter[239-240]}{6091}{6236}
+  \CHK{\quranruku[555-556]}{6226}{6236}
+  \CHK{\quranhizb[60]}{5949}{6236}
+  \CHK{\quranhizb[1-2]}{1}{148}
+}
+\TEST{text of a single ayah is the database entry}{%
+  \qt@qurantexttrue
+  \tracinglostchars=0 \setbox0\vbox{\quranayah[112][2]\xdef\got{\detokenize\expandafter{\@qtexp}}}%
+  \edef\want{\csname qurantext@\romannumeral 6223\endcsname}%
+  \edef\want{\detokenize\expandafter{\want}}%
+  \IfBeginWith{\got}{\want}{\typeout{same}}{\typeout{different}}%
+}
+\TEST{starred forms keep the paragraph setting}{%
+  \CHK{\quranayah*[112][1]}{6222}{6222}
+  \ASSERT{\ifx\qt@par\relax N\else P\fi}{N}%
+  \CHK{\quransurah*[112]}{6222}{6225}
+  \CHK{\quranjuz*[1]}{1}{148}
+}
+\END
