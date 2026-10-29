@@ -33,6 +33,11 @@ test-warsh:
 	  echo "KFGQPC Warsh V3 font not installed: skipping sample/quran-test-warsh.tex"; \
 	fi
 
+# Regression tests (testfiles/*.lvt vs *.tlg); use `l3build save <name>` to record a new baseline.
+.PHONY: check
+check:
+	l3build check
+
 .PHONY: cleanup
 cleanup:
 	$(MAKE) clean

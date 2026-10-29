@@ -1,0 +1,10 @@
+\documentclass{article}
+\input{regression-test}
+% the log is only compared after \START, so keep the warning and print it inside the test
+\let\OrigPW\PackageWarning
+\def\PackageWarning#1#2{\xdef\seenwarning{#1: #2}}
+\usepackage[bogus]{quran}
+\begin{document}
+\START
+\TEST{unknown option warns and still loads}{\typeout{[\seenwarning]}}
+\END

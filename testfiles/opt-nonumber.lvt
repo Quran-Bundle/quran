@@ -1,0 +1,10 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[nonumber]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{option nonumber}{%
+  \typeout{par:[\detokenize\expandafter{\qt@par}] no:[\detokenize\expandafter{\qt@no{0}}]}%
+}
+\END

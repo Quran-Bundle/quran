@@ -1,0 +1,36 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{verse counts}{%
+  \typeout{1:\qt@getversenum{1} 2:\qt@getversenum{2} 112:\qt@getversenum{112} 114:\qt@getversenum{114}}%
+}
+\TEST{Anglicized surah names}{%
+  \typeout{\@surahname[1] | \@surahname[2] | \@surahname[114]}%
+}
+\TEST{surah name to number}{%
+  \typeout{\csname qt@surah@al-baqara\endcsname{} \csname qt@surah@an-nas\endcsname}%
+}
+\TEST{range parsing}{%
+  \qt@minmax{3-7}\typeout{[\qt@min][\qt@max]}%
+  \qt@minmax{5}\typeout{[\qt@min][\qt@max]}%
+}
+\TEST{indexconvert maps absolute ayah to surah:ayah}{%
+  \indexconvert{8}{\tsurah}{\tayah}\typeout{\the\tsurah:\the\tayah}%
+  \indexconvert{1}{\tsurah}{\tayah}\typeout{\the\tsurah:\the\tayah}%
+  \indexconvert{6236}{\tsurah}{\tayah}\typeout{\the\tsurah:\the\tayah}%
+}
+\TEST{ChangeQtPar toggles paragraph break}{%
+  \ASSERT{\ifx\qt@par\relax N\else P\fi}{P}%
+  \ChangeQtPar\ASSERT{\ifx\qt@par\relax N\else P\fi}{N}%
+  \ChangeQtPar\ASSERT{\ifx\qt@par\relax N\else P\fi}{P}%
+}
+\TEST{ToggleAyahNumber switches numbering off and on}{%
+  \ToggleAyahNumber
+  \typeout{off:[\detokenize\expandafter{\qt@no{0}}]}%
+  \ToggleAyahNumber
+  \typeout{on:[\detokenize\expandafter{\qt@no{0}}]}%
+}
+\END

@@ -1,0 +1,22 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{juz domains}{%
+  \typeout{1:\qt@getjuzdomain{1} 2:\qt@getjuzdomain{2} 30:\qt@getjuzdomain{30}}%
+}
+\TEST{page domains}{%
+  \typeout{1:\qt@getpagedomain{1} 2:\qt@getpagedomain{2}}%
+}
+\TEST{quarter domains}{%
+  \typeout{1:\qt@getquarterdomain{1} 2:\qt@getquarterdomain{2}}%
+}
+\TEST{manzil domains}{%
+  \typeout{1:\qt@getmanzildomain{1} 7:\qt@getmanzildomain{7}}%
+}
+\TEST{ruku domains}{%
+  \typeout{1:\qt@getrukudomain{1} 2:\qt@getrukudomain{2}}%
+}
+\END

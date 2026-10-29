@@ -1,0 +1,11 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage[uthmani]{quran}
+\makeatletter
+\begin{document}
+\START
+\TEST{uthmani database has 6236 ayahs}{%
+  \ASSERT{\ifcsname qurantext@mmmmmmccxxxvi\endcsname Y\else N\fi}{Y}%
+  \ASSERT{\ifcsname qurantext@mmmmmmccxxxvii\endcsname Y\else N\fi}{N}%
+}
+\END

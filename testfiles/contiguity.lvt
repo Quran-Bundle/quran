@@ -1,0 +1,25 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+\makeatletter
+\newcount\prev \newcount\bad \newcount\k
+% \CHECKTABLE{domain macro}{count}{last ayah}: ranges start at 1, abut, and end at last ayah
+\def\CHECKTABLE#1#2#3{%
+  \prev=0 \bad=0 \k=1
+  \loop
+    \edef\d{#1{\the\k}}\expandafter\qt@minmax\expandafter{\d}%
+    \ifnum\qt@min=\numexpr\prev+1\relax\else\advance\bad1 \typeout{gap at \the\k: \d}\fi
+    \ifnum\qt@max<\qt@min\advance\bad1 \typeout{reversed at \the\k: \d}\fi
+    \prev=\qt@max
+  \ifnum\k<#2 \advance\k1 \repeat
+  \ifnum\prev=#3\else\advance\bad1 \typeout{ends at \the\prev}\fi
+  \ASSERT{\the\bad}{0}%
+}
+\begin{document}
+\START
+\TEST{juz table (30)}{\CHECKTABLE\qt@getjuzdomain{30}{6236}}
+\TEST{page table (604)}{\CHECKTABLE\qt@getpagedomain{604}{6236}}
+\TEST{quarter table (240)}{\CHECKTABLE\qt@getquarterdomain{240}{6236}}
+\TEST{ruku table (556)}{\CHECKTABLE\qt@getrukudomain{556}{6236}}
+\TEST{manzil table is contiguous over surahs 1-114}{\CHECKTABLE\qt@getmanzildomain{7}{114}}
+\END
