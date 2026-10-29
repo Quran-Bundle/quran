@@ -10,4 +10,7 @@
     \ASSERT{\ifcsname qurantrans@#1@mmmmmmccxxxvii\endcsname Y\else N\fi}{N}}%
   \CHECK{lt}\CHECK{en}\CHECK{de}\CHECK{fa}\CHECK{fr}%
 }
+\TEST{\q@e survives \xdef (it is protected, unlike a bare \emph)}{%
+  \xdef\x{\q@e{A}}\typeout{[\detokenize\expandafter{\x}]}%
+}
 \END
