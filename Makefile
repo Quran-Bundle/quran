@@ -75,6 +75,13 @@ ctan: readme
 	rm -rfv ../quran
 	mv -fv quran ..
 
+# Same content as `ctan` (whose zip is kept for ctan.org), packed with maximum compression for archiving.
+ARCHIVE = quran-v$(QURANVERSION)-$(subst /,,$(QURANDATE)).tar.xz
+.PHONY: ctan-archive
+ctan-archive: ctan
+	tar -C .. --transform 's,^quran,$(ARCHIVE:.tar.xz=),' -cf - quran | xz -9e -T0 > ../$(ARCHIVE)
+	@echo "Created ../$(ARCHIVE)"
+
 .PHONY: increase_tex_memory
 increase_tex_memory:
 	@FILE=$(shell kpsewhich texmf.cnf) && \
