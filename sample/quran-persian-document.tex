@@ -1,0 +1,40 @@
+% Quoting the Quran inside a Persian document (xepersian).
+% Compile with: xelatex quran-persian-document.tex
+\documentclass{article}
+\usepackage[a5paper, margin=1.5cm]{geometry}
+\usepackage[uthmani, trans={fa}]{quran}
+\usepackage{xepersian}            % loads bidi; the whole document is right-to-left
+\settextfont{Amiri}
+\setlatintextfont{Latin Modern Roman}
+
+\parindent=0pt
+
+\begin{document}
+
+\section*{نقل قول از قرآن در متن فارسی}
+
+خداوند در آیهٔ نخست سورهٔ \surahname*[112] می‌فرماید:
+«\quranayah*[112][1]» یعنی «\quranayahfa*[112][1]».
+
+\medskip
+نام لاتین همین سوره \lr{\surahname[112]} است و متن کامل آن چنین است:
+
+\begin{center}
+  \quransurah[112]
+\end{center}
+
+\section*{متن و ترجمه}
+\quranayah[2][255]
+
+\smallskip
+{\small\quranayahfa[2][255]}
+
+\section*{تبدیل شمارهٔ کلی آیه}
+% \indexconvert turns an index in 1..6236 into surah and ayah counters.
+\indexconvert{5678}{\surahcount}{\ayahcount}
+آیهٔ شمارهٔ ۵۶۷۸ قرآن، آیهٔ \the\ayahcount{} از سورهٔ
+\surahname*[\the\surahcount] (سورهٔ \the\surahcount) است:
+
+\quranayah[\the\surahcount][\the\ayahcount]
+
+\end{document}

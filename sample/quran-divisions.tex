@@ -1,0 +1,77 @@
+% Every traditional division of the Quran the package can typeset.
+% Compile with: xelatex quran-divisions.tex
+%
+%   \quransurah[1-114]     \quranayah[surah][ayah]   \qurantext[1-6236]
+%   \quranjuz[1-30]        \quranhizb[1-60]          \quranquarter[1-240]
+%   \quranruku[1-556]      \quranmanzil[1-7]         \quranpage[1-604]
+% Each has a starred form (\quransurah* ...) that runs the ayahs together.
+\documentclass{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{forloop}
+\usepackage{arabxetex}
+\newfontfamily\arabicfont[Script=Arabic, Scale=1.1]{Amiri}
+\usepackage[uthmani]{quran}
+
+% A centred heading with the Arabic and the anglicized surah name.
+\newcommand\surahtitle[1]{%
+  \par\medskip
+  \centerline{\textarab[utf]{سورة \surahname*[#1]}\quad--\quad Surah \surahname[#1] (#1)}%
+  \smallskip}
+
+\parindent=0pt
+
+\begin{document}
+
+\section{Surah}
+\surahtitle{110}
+\begin{arab}[utf]\quransurah[110]\end{arab}
+
+% A range given by names needs a double dash, since names contain "-".
+\surahtitle{113}\surahtitle{114}
+\begin{arab}[utf]\quransurah*[Al-Falaq--An-Naas]\end{arab}
+
+\section{Ayah}
+% Surah, then ayah (or a range of ayahs). Names are case-insensitive.
+\begin{arab}[utf]
+  \quranayah[Ibrahim][1]
+
+  \basmalah\quranayah[14][1]   % Basmalah is not added to single ayahs
+
+  \quranayah*[al-ahzaab][33-35]
+\end{arab}
+
+\section{Index in the whole text}
+% Ayahs are numbered 1--6236 from Al-Faatiha to An-Naas.
+\begin{arab}[utf]
+  \qurantext*[6231-6236]   % = Surah An-Naas
+\end{arab}
+
+\section{Page of the Madina mushaf}
+\begin{arab}[utf]\quranpage*[604]\end{arab}
+
+\section{Quarter, Hizb, Juz, Manzil and Ruku}
+\begin{arab}[utf]
+  {\small\quranquarter*[240]}  % the last quarter-hizb
+
+  \quranruku*[556]             % the last ruku
+\end{arab}
+% Larger divisions are long; uncomment to try them.
+% \begin{arab}[utf]\quranhizb*[60]\end{arab}
+% \begin{arab}[utf]\quranjuz*[30]\end{arab}
+% \begin{arab}[utf]\quranmanzil*[7]\end{arab}
+
+\section{Looping over divisions}
+% The first three pages, each with its page number.
+\newcounter{pg}
+\forloop{pg}{1}{\value{pg} < 4}{%
+  \hfill Page \arabic{pg}\par
+  \begin{arab}[utf]\quranpage*[\value{pg}]\end{arab}
+  \medskip}
+
+\section{The default surah}
+% With no argument the package uses the default surah (Al-Ikhlaas).
+\begin{arab}[utf]\quransurah*\end{arab}
+\setsurahdefault{108}
+\begin{arab}[utf]\quransurah*\end{arab}
+
+\end{document}

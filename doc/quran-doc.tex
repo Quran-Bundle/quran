@@ -716,7 +716,7 @@ instead of the default braces:
 \paragraph{Limitations.} \cs{quranquarter} and \cs{quranruku}
 are not available yet (\cs{quranhizb} works and uses the 60 Maghribi hizb of the Warsh mushaf), and the translation options (\xmgpar{trans}, \xmgpar{transen}, \dots)
 are disabled with \xmgpar{warsh}. A complete example is in
-\texttt{sample/quran-test-warsh.tex}.
+\texttt{sample/quran-warsh.tex}.
 
 \paragraph{Differences between Hafs and Warsh numbering.}
 The two riwayat share the same text for most of the Holy Quran, but they divide
@@ -955,6 +955,42 @@ which correspond to classical Arabic typographic ornaments commonly employed in 
 \centerline{\mxf{SetOrnamentalBraces\{[\}\{]\}\textbackslash{}SetAyahMarkerStyle\{(\}\{)\}\textbackslash{}quransurah*}
 {\SetOrnamentalBraces{[}{]}\SetAyahMarkerStyle{(}{)}\quransurah*}}
 
+
+\subsection{Coloured Diacritics}\label{sec:diacritics}
+
+\begin{declcs}{SetDiacriticColor}\marg{colour}\\
+\cs{DiacriticColorOff}
+\end{declcs}
+
+\marginpar{\dbend}These macros work with \LuaLaTeX{} only.
+\cs{SetDiacriticColor} colours the diacritics (fatha, kasra, damma, sukun, shadda, tanwin,
+small alef, and so on) of all Arabic text that follows, while the letters keep their own colour.
+It obeys \TeX{} groups, so its effect can be limited by braces;
+\cs{DiacriticColorOff} gives the diacritics back the colour of the letters.
+The \meta{colour} is anything \cs{color} accepts; load \xpackage{xcolor} for mixes such as \texttt{red!75!black}.
+
+The colouring is applied after the font has shaped the text, so letters stay joined and the
+marks stay in place. It works with any OpenType font that classifies its diacritics as marks,
+such as Amiri. Text inside \cs{hbox} or \cs{mbox} is coloured as well.
+Under \XeLaTeX{} both macros are ignored and \cs{SetDiacriticColor} issues a warning,
+so the same document still compiles with either engine.
+
+\begin{lstlisting}[style=BashInputStyle, title=``example: compile with lualatex"]
+\documentclass{article}
+\usepackage{xcolor}
+\usepackage{arabluatex}
+\usepackage{quran}
+\begin{document}
+\SetDiacriticColor{red!75!black}
+\begin{txarab}
+  \quransurah[97]
+  {\SetDiacriticColor{green!50!black}\quranayah[112][1-2]}
+  \textcolor{blue}{\quranayah[1][1-4]} % blue letters, red diacritics
+\end{txarab}
+\end{document}
+\end{lstlisting}
+
+See \texttt{quran-diacritics.tex} among the samples for the output.
 
 
 \subsection{Index Converting}
@@ -1573,6 +1609,16 @@ fontspec{,} and bidi"]
         included that ayah (for instance \cs{quranjuzlt[1]}).
     \end{Version}
 
+    \begin{Version}{2026/11/20 v2.7}
+        \item Introduced the \cs{SetDiacriticColor} and \cs{DiacriticColorOff} macros, which colour the
+        diacritics (harakat) of the Quranic text under \LuaLaTeX{} (new file \texttt{quran-diacritics.lua});
+        under \XeLaTeX{} they are ignored with a warning. See Section~\ref{sec:diacritics}.
+        \item The samples were rewritten as topic-based examples: \texttt{quran-getting-started.tex},
+        \texttt{quran-divisions.tex}, \texttt{quran-ayah-styling.tex}, \texttt{quran-translations.tex},
+        \texttt{quran-persian-document.tex}, \texttt{quran-boxes.tex}, \texttt{quran-warsh.tex} and
+        \texttt{quran-diacritics.tex}.
+    \end{Version}
+
 
     \newpage 
     
@@ -1677,6 +1723,8 @@ fontspec{,} and bidi"]
                             \cb New sample \texttt{quran-test-warsh.tex} and Hafs/Warsh comparison tables. \\
         2026/10/29 & 2.61 & \cb Added a regression test suite (\xpackage{l3build}, \texttt{make check}). \par
                             \cb Fixed the French basmalah toggle, \cs{quranayahen}, and the transliteration of 2:28. \\
+        2026/11/20 & 2.7 & \cb Introduced \cs{SetDiacriticColor} and \cs{DiacriticColorOff} (coloured diacritics, \LuaLaTeX{} only). \par
+                            \cb Samples rewritten as topic-based examples. \\
         \bottomrule
     \end{longtable}
     \end{small}

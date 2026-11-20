@@ -1,8 +1,8 @@
 module = "quran"
 
 sourcefiledir = "tex"
-sourcefiles   = {"quran.sty", "*.def"}
-installfiles  = {"*.sty", "*.def"}
+sourcefiles   = {"quran.sty", "*.def", "*.lua"}
+installfiles  = {"*.sty", "*.def", "*.lua"}
 
 -- quran.sty needs ifxetex/biditools
 checkengines = {"xetex"}

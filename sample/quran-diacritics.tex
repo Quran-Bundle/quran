@@ -1,0 +1,46 @@
+% Coloured diacritics (harakat) with LuaLaTeX and arabluatex.
+% Compile with: lualatex quran-diacritics.tex
+%
+% \SetDiacriticColor{<colour>} colours the diacritics (fatha, kasra, damma,
+% sukun, shadda, tanwin, small alef, ...) from there on, respecting groups;
+% \DiacriticColorOff stops it. Letters keep their colour, so \textcolor around
+% the text still works. Under XeLaTeX both commands are ignored with a warning.
+\documentclass{article}
+\usepackage[a5paper, margin=1.5cm]{geometry}
+\usepackage{xcolor}   % only needed for mixes such as red!75!black
+\usepackage{arabluatex}
+\newfontfamily\arabicfont[Script=Arabic, Scale=1.15]{Amiri}
+\usepackage[uthmani]{quran}
+
+
+\parindent=0pt
+\pagestyle{empty}
+
+\begin{document}
+
+\section*{Surah \surahname[97]}
+% txarab takes Arabic script as input (arab expects transliterated input).
+\begin{txarab}
+  \quransurah[97]
+\end{txarab}
+
+\section*{Red diacritics}
+\SetDiacriticColor{red!75!black}
+\begin{txarab}
+  \quransurah[97]
+\end{txarab}
+
+\section*{Diacritics and letters in different colours}
+% The mark colour wins over \textcolor; the letters stay blue.
+\begin{txarab}
+  \textcolor{blue!60!black}{\quranayah[1][1-4]}
+\end{txarab}
+
+\section*{Changing colour inside a passage}
+\begin{txarab}
+  {\SetDiacriticColor{green!50!black}\quranayah[112][1-2]}
+  \quranayah[112][3]
+  {\DiacriticColorOff\quranayah[112][4]}
+\end{txarab}
+
+\end{document}

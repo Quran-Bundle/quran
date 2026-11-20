@@ -1,4 +1,7 @@
 %% Change Log
+%% ver 2.7 ## November 20th, 2026
+%% New macros \SetDiacriticColor{<colour>} and \DiacriticColorOff colour the diacritics (harakat) under LuaLaTeX (new file quran-diacritics.lua); ignored with a warning under XeLaTeX.
+%% Samples rewritten as topic-based examples (sample/quran-getting-started.tex, quran-divisions.tex, ...).
 %% ver 2.61 ## October 29th, 2026
 %% Regression test suite added (l3build); run it with `make check`.
 %% Fixed \ToggleBasmalah, which did not toggle the French basmalah.

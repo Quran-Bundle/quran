@@ -1,0 +1,66 @@
+% Parts of an ayah, ayah markers, ornamental braces and colour.
+% Compile with: xelatex quran-ayah-styling.tex
+\documentclass{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor}
+\usepackage{arabxetex}
+\newfontfamily\arabicfont[Script=Arabic, Scale=1.15]{Amiri}
+% wordwise : allow picking words (chunks) out of an ayah
+% ornbraces: wrap quoted Quranic text in ornamental braces
+\usepackage[uthmani, wordwise, ornbraces]{quran}
+
+\parindent=0pt
+
+\begin{document}
+
+\section{Picking words out of an ayah}
+% \quranayah[surah][ayah][words]: a single number means "from that word to the end".
+\begin{arab}[utf]
+  \quranayah[2][156][6]
+
+  \quranayah[2][286][31-43]
+
+  \quranayah[18][19][34-34]   % a single word: give the same number twice
+\end{arab}
+
+A trailing \texttt{+} lists the numbered words in a footnote, which helps to
+find the right range:
+\begin{arab}[utf]
+  \quranayah[Ar-Ra'd][23-24][10]+
+\end{arab}
+
+\section{Colouring parts of an ayah}
+\begin{arab}[utf]
+  \textcolor{green!50!black}{\quranayah[2][286][1-6]}
+  \quranayah[2][286][7-30]
+  \textcolor{red!70!black}{\quranayah[2][286][31-45]}
+  \quranayah[2][286][46]
+\end{arab}
+
+\section{Ornamental braces}
+\begin{arab}[utf]
+  \quranayah*[112][1-2]
+
+  \SetOrnamentalBraces{[[}{]]}
+  \quranayah*[112][3-4]
+\end{arab}
+
+\section{Ayah marker style}
+\begin{arab}[utf]
+  \SetAyahMarkerStyle{(\textcolor{red}\bgroup}{\egroup)}
+  \quranayah*[1][1-4]
+
+  \ResetAyahMarkerStyle
+  \quranayah*[1][5-7]
+\end{arab}
+
+\section{Turning ayah numbers and the Basmalah on and off}
+% Both macros toggle the current state; keep them inside a group
+% to limit their effect.
+\begin{arab}[utf]
+  {\ToggleAyahNumber \quransurah*[103]}
+
+  {\ToggleBasmalah   \quransurah*[103]}
+\end{arab}
+
+\end{document}
