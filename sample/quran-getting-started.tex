@@ -1,0 +1,32 @@
+% The smallest useful document with the quran package.
+% Compile with: xelatex quran-getting-started.tex
+\documentclass{article}
+\usepackage[a5paper, margin=1.5cm]{geometry}
+\usepackage{arabxetex}            % right-to-left Arabic via \begin{arab}[utf]
+\newfontfamily\arabicfont[Script=Arabic, Scale=1.15]{Amiri}
+\usepackage[uthmani]{quran}       % Uthmani script; default is the simple script
+
+\parindent=0pt
+\pagestyle{empty}
+
+\begin{document}
+
+\section*{Surah \surahname[1] (\textarab[utf]{\surahname*[1]})}
+% One paragraph per ayah, Basmalah added automatically.
+\begin{arab}[utf]
+  \quransurah[1]
+\end{arab}
+
+\section*{Ayat al-Kursi (2:255)}
+% A single ayah. The surah may be given by number or by name: [Al-Baqara].
+\begin{arab}[utf]
+  \quranayah[Al-Baqara][255]
+\end{arab}
+
+\section*{The last three surahs, as one paragraph}
+% The starred form runs the ayahs together instead of one paragraph each.
+\begin{arab}[utf]
+  \quransurah*[112-114]
+\end{arab}
+
+\end{document}

@@ -1,0 +1,57 @@
+% Translations and transliteration.
+% Compile with: xelatex quran-translations.tex
+%
+% trans={...} adds an lt/en/de/fr/fa twin of every macro, e.g. \quranayahen.
+% Companion packages add more languages: quran-ur, quran-bn, quran-de,
+% quran-en, quran-es, quran-id. Loading many at once may exhaust TeX memory
+% (see "TeX capacity exceeded" in the manual).
+\documentclass{article}
+\usepackage[margin=1.8cm]{geometry}
+\usepackage{multicol}
+\usepackage{forloop}
+\usepackage{arabxetex}
+\newfontfamily\arabicfont[Script=Arabic, Scale=1.1]{Amiri}
+\newfontfamily\bengalifont{Noto Sans Bengali}
+\usepackage[uthmani, trans={lt, en, de, fr, fa}]{quran}
+\usepackage{quran-ur}
+\usepackage{quran-bn}
+
+\parindent=0pt
+
+\begin{document}
+
+\section*{Ayah by ayah: Surah \surahname[103] with English}
+% Interleave the original and the translation, one ayah at a time.
+\newcounter{ayah}
+\forloop{ayah}{1}{\value{ayah} < 4}{%
+  \begin{arab}[utf]\quranayah[103][\value{ayah}]\end{arab}
+  {\small\itshape\quranayahen[103][\value{ayah}]}\par\medskip}
+
+\section*{Surah \surahname[1] in every language}
+\begin{multicols}{2}
+  \subsection*{Arabic}
+  \begin{arab}[utf]\quransurah[1]\end{arab}
+
+  \subsection*{Transliteration}
+  \quransurahlt[1]
+
+  \subsection*{English}
+  \quransurahen[1]
+
+  \subsection*{German}
+  \quransurahde[1]
+
+  \subsection*{French}
+  \quransurahfr[1]
+
+  \subsection*{Persian}
+  \begin{arab}[utf]\quransurahfa[1]\end{arab}
+
+  \subsection*{Urdu}
+  \begin{arab}[utf]\quransurahur[1]\end{arab}
+
+  \subsection*{Bengali}
+  {\bengalifont\quransurahbn[1]}
+\end{multicols}
+
+\end{document}

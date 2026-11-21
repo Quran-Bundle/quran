@@ -20,8 +20,8 @@
 %% To one who has devoted his life to Quran
 %%
 \NeedsTeXFormat{LaTeX2e}
-\def\qurandate{2026/10/29}
-\def\quranversion{2.61}
+\def\qurandate{2026/11/20}
+\def\quranversion{2.7}
 \ProvidesPackage{quran}[\qurandate\space v\quranversion^^JAn easy way to typeset the whole or any parts of the holy Quran]
 \RequirePackage{ifxetex}
 \RequirePackage{biditools}
@@ -146,7 +146,7 @@
 \def\showitemsmacro#1{%
   \begingroup\fboxsep=0.25pt \fboxrule=0.5pt%
   {\ifxetex\beginL\special{color push rgb 1 0 0}\ttfamily\fi%
-  \ifluatex\addfontfeature{Color=FF0000BB}\fi%
+  \ifluatex\textdir TLT\addfontfeature{Color=FF0000BB}\fi% TLT: keep multi-digit numbers left-to-right
   \qt@PrintWordCount%
   \ifxetex\special{color pop}\endL\fi}%
   \mbox{\strut#1}\endgroup%
@@ -625,4 +625,24 @@
   \input{quran-transfr.def}%
 \fi%
 \ifqt@nobasmalah\ToggleBasmalah\fi%
+%%
+%% Coloured diacritics (LuaLaTeX only); the work is done in quran-diacritics.lua.
+%% \SetDiacriticColor{<colour>} colours the diacritics from here on (respects groups),
+%% \DiacriticColorOff gives them back the colour of the letters.
+\ifluatex%
+  \RequirePackage{luacolor}%
+  \newattribute\qt@diacolor%
+  \directlua{require("quran-diacritics")}%
+  \NewDocumentCommand\SetDiacriticColor{m}{%
+    \directlua{quran_diacritics.enable()}%
+    \begingroup\color{#1}%
+    \edef\qt@tmp{\endgroup\setattribute\qt@diacolor{%
+      \directlua{tex.write(oberdiek.luacolor.getvalue("\luaescapestring{\current@color}"))}}}%
+    \qt@tmp}%
+  \newcommand*\DiacriticColorOff{\unsetattribute\qt@diacolor}%
+\else%
+  \NewDocumentCommand\SetDiacriticColor{m}{%
+    \PackageWarning{quran}{\string\SetDiacriticColor\space needs LuaLaTeX; ignored}}%
+  \newcommand*\DiacriticColorOff{}%
+\fi%
 %% End of file `quran.sty'.

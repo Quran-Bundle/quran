@@ -1,0 +1,13 @@
+\documentclass{article}
+\input{regression-test}
+\usepackage{quran}
+% The suite runs on XeTeX, where coloured diacritics are not available:
+% \SetDiacriticColor must only warn and \DiacriticColorOff must do nothing.
+% The LuaLaTeX side is exercised by sample/quran-diacritics.tex (make test).
+\begin{document}
+\START
+\TEST{SetDiacriticColor warns and is ignored outside LuaLaTeX}{%
+  \setbox0\hbox{\SetDiacriticColor{red}}\showbox0}
+\TEST{DiacriticColorOff is a no-op outside LuaLaTeX}{%
+  \setbox0\hbox{\DiacriticColorOff}\showbox0}
+\END

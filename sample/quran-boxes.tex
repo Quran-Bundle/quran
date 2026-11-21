@@ -1,0 +1,86 @@
+% Special boxes for typesetting parts of the Holy Quran.
+% Same look as \mybox in doc/quran-doc.tex (gray body, gray title tab,
+% Quran logo in a white "hole" at the top-right), but built with tcolorbox
+% so long passages break across pages.
+% Compile with: xelatex quran-boxes.tex
+\documentclass{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+\graphicspath{{../doc/}}
+\usepackage[most]{tcolorbox}
+\usepackage{fontspec}
+\usepackage[trans={en, lt}, uthmani]{quran}
+\newfontfamily\quranfont[Script=Arabic]{Amiri}
+\usepackage{bidi}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Base style, mirrors \tikzstyle{mybox} + {fancytitle} of the manual.
+\tcbset{
+  quran/.style={
+    enhanced, breakable,
+    colback=gray!20, colframe=black, boxrule=1.2pt, arc=4pt,
+    left=10pt, right=10pt, top=14pt, bottom=10pt,
+    fonttitle=\small, coltitle=white,
+    attach boxed title to top left={xshift=7pt, yshift=-\tcboxedtitleheight/2},
+    boxed title style={colback=gray, colframe=gray, arc=2pt, boxrule=0pt},
+    before upper=\setRTL\quranfont,
+    % the logo hole, only on the first (or only) part of a broken box
+    overlay unbroken and first={%
+      \fill[white] ([xshift=-20pt]frame.north east) circle (12pt);
+      \node at ([xshift=-20pt]frame.north east)
+        {\includegraphics[width=18pt]{quran.png}};
+    },
+  },
+  % left-to-right content (translations, transliteration)
+  ltr/.style={before upper=\setLTR},
+  % colour variants
+  quran green/.style={colback=green!6, colframe=green!35!black,
+    boxed title style={colback=green!35!black, colframe=green!35!black}},
+  quran red/.style={colback=red!4, colframe=red!60!black,
+    boxed title style={colback=red!60!black, colframe=red!60!black}},
+}
+
+% \begin{quranbox}[<tcolorbox options>]{<title>} ... \end{quranbox}
+\newtcolorbox{quranbox}[2][]{quran, title={#2}, #1}
+
+% \QuranSurahBox[<options>]{<surah>}        whole surah, titled with its name
+\NewDocumentCommand\QuranSurahBox{O{} m}{%
+  \begin{quranbox}[#1]{Surah \surahname[#2] (#2)}\quransurah[#2]\end{quranbox}}
+
+% \QuranAyahBox[<options>]{<surah>}{<ayah or range>}
+\NewDocumentCommand\QuranAyahBox{O{} m m}{%
+  \begin{quranbox}[#1]{\surahname[#2]~#2:#3}\quranayah[#2][#3]\end{quranbox}}
+
+% \QuranTransBox[<options>]{<surah>}{<ayah or range>}
+% Arabic on top, English translation below a dashed rule.
+\NewDocumentCommand\QuranTransBox{O{} m m}{%
+  \begin{quranbox}[quran green, #1]{\surahname[#2]~#2:#3 with translation}
+    \quranayah[#2][#3]
+    \tcblower
+    \quranayahen[#2][#3]
+  \end{quranbox}}
+\tcbset{quran/.append style={lower separated, segmentation style={dashed},
+  before lower=\setLTR\normalfont}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\parindent=0pt
+\begin{document}
+
+\QuranSurahBox{112}
+
+\QuranAyahBox{2}{255}
+
+\QuranTransBox{94}{5-6}
+
+% two boxes side by side, like \mx in the manual (raster boxes must be unbreakable)
+\begin{tcbraster}[raster columns=2, raster equal height]
+  \QuranAyahBox[quran red, unbreakable]{1}{1-4}
+  \begin{quranbox}[ltr, unbreakable]{Transliteration 1:1-4}
+    \normalfont\quranayahlt[1][1-4]
+  \end{quranbox}
+\end{tcbraster}
+
+% a long passage breaks across pages; the logo shows only on the first part
+\QuranSurahBox{36}
+
+\end{document}
