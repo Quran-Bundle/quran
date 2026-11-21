@@ -146,7 +146,7 @@
 \def\showitemsmacro#1{%
   \begingroup\fboxsep=0.25pt \fboxrule=0.5pt%
   {\ifxetex\beginL\special{color push rgb 1 0 0}\ttfamily\fi%
-  \ifluatex\addfontfeature{Color=FF0000BB}\fi%
+  \ifluatex\textdir TLT\addfontfeature{Color=FF0000BB}\fi% TLT: keep multi-digit numbers left-to-right
   \qt@PrintWordCount%
   \ifxetex\special{color pop}\endL\fi}%
   \mbox{\strut#1}\endgroup%

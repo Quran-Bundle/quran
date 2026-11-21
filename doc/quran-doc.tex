@@ -35,8 +35,9 @@
 \usepackage{manfnt}
 
 \usepackage[trans={lt, de, en, fa, fr}, wordwise, uthmani]{quran}
-\newfontfamily\quran[Script=Arabic]{Scheherazade}
-\newfontfamily\amiri[Script=Arabic]{Amiri}
+% HarfBuzz shaping under LuaLaTeX matches XeTeX's Arabic output (ignored by XeTeX)
+\newfontfamily\quran[Script=Arabic, Renderer=HarfBuzz]{Scheherazade}
+\newfontfamily\amiri[Script=Arabic, Renderer=HarfBuzz]{Amiri}
 \hypersetup{%
       plainpages=false,%
       bookmarksnumbered,%
@@ -47,8 +48,10 @@
 }
 \makeatletter
 % because of definition of \XeTeX and \XeLaTeX symbols in bidi, I should undef these macro that are also defined in holtxdoc package.
+\ifxetex
 \bidi@undef\XeTeX
 \bidi@undef\XeLaTeX
+\fi
 % set fonr for quran text.
 \bidi@preto\qurantext{\quran}
 \makeatother
@@ -57,7 +60,19 @@
 % which was dropped in array v2.7b. Providing it as a no-op restores the
 % array v2.6 behaviour that the rest of the patch is written against.
 \providecommand\UseMathForPositioningText{}
-\usepackage{bidi}
+\ifluatex
+  % bidi is XeTeX-only: LuaTeX equivalents of the few bidi commands this manual uses
+  % \protected keeps them unexpanded in the .toc, so it can be shared with XeLaTeX runs
+  \protected\def\setRTL{\pardir TRT\textdir TRT}
+  \protected\def\setLTR{\pardir TLT\textdir TLT}
+  \protected\def\RLE#1{{\textdir TRT#1}}
+  \protected\def\LRE#1{{\textdir TLT#1}}
+  \let\pRLE\RLE \let\pLRE\LRE  % what bidi writes into the .toc
+  \newcommand\hboxR{\hbox dir TRT}
+  \newenvironment{RTL}{\par\setRTL}{\par}
+\else
+  \usepackage{bidi}
+\fi
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \def\tt#1{\LRE{\texttt{#1}}}
 \lstdefinestyle{BashInputStyle}{
@@ -75,9 +90,10 @@
 \def\mxf#1#2{\mybox{#1}{#2}}
 \DeclareDocumentCommand{\mybox}{ s m m O{\textwidth} t{+} }{%
     \begin{tikzpicture}
-    \IfBooleanTF{#5}{}{\setRTL}
     \node [mybox] (box){%
         \begin{minipage}[t]{#4}
+            % set the direction here, not for the whole picture: under LuaTeX that would mirror TikZ's own boxes
+            \IfBooleanTF{#5}{}{\setRTL}%
             #3
         \end{minipage}
     };
@@ -886,7 +902,7 @@ Juz & Hafs & Warsh & Juz & Hafs & Warsh & Juz & Hafs & Warsh \\\hline\hline
 These commands return the Anglicized or Arabic title of the \textit{index}\textsuperscript{th}
 surah of the Holy Quran, as shown in Table~\ref{tab1} and Table~\ref{tab2}.
 
-    \centerline{\mx{surahname[19]}{\surahname[19]}
+    \centerline{\mx{surahname[19]}{\LRE{\surahname[19]}}
     \hfill
     \mx{surahname*[19]}{\quran\surahname*[19]}}
 
@@ -975,22 +991,23 @@ such as Amiri. Text inside \cs{hbox} or \cs{mbox} is coloured as well.
 Under \XeLaTeX{} both macros are ignored and \cs{SetDiacriticColor} issues a warning,
 so the same document still compiles with either engine.
 
-\begin{lstlisting}[style=BashInputStyle, title=``example: compile with lualatex"]
-\documentclass{article}
-\usepackage{xcolor}
-\usepackage{arabluatex}
-\usepackage{quran}
-\begin{document}
-\SetDiacriticColor{red!75!black}
-\begin{txarab}
-  \quransurah[97]
-  {\SetDiacriticColor{green!50!black}\quranayah[112][1-2]}
-  \textcolor{blue}{\quranayah[1][1-4]} % blue letters, red diacritics
-\end{txarab}
-\end{document}
-\end{lstlisting}
+\ifluatex
+The examples below borrow the gold and lapis blue of illuminated manuscripts, defined as
+\texttt{harakat} (\texttt{HTML 8A5A00}) and \texttt{lapis} (\texttt{HTML 1F4E9C}) with \cs{definecolor}.
+\definecolor{harakat}{HTML}{8A5A00}\definecolor{lapis}{HTML}{1F4E9C}
 
-See \texttt{quran-diacritics.tex} among the samples for the output.
+\centerline{\mx{SetDiacriticColor\{harakat\}}
+  {\SetDiacriticColor{harakat}\quransurah[97]}
+\hfill
+\mybox*{\ttfamily\ldots\textbackslash{}textcolor\{lapis\}\{\ldots\}}
+  {\SetDiacriticColor{harakat}\textcolor{lapis}{\quransurah[97]}}[.46\textwidth]}
+
+\centerline{\mybox*{\ttfamily\{\textbackslash{}SetDiacriticColor\{harakat\}\textbackslash{}quranayah*[112][1-2]\}\textbackslash{}quranayah*[112][3-4]}
+  {{\SetDiacriticColor{harakat}\quranayah*[112][1-2]} \quranayah*[112][3-4]}}
+\else
+This copy of the manual was compiled with \XeLaTeX, so the macros have no effect here;
+see \texttt{quran-diacritics.tex} among the samples for the output.
+\fi
 
 
 \subsection{Index Converting}

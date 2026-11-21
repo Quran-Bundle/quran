@@ -6,10 +6,13 @@
 all: readme doc test test-warsh cleanup
 
 .PHONY: doc
+# The English manual needs LuaLaTeX (it shows the coloured diacritics); the Arabic one still
+# relies on bidi, so it stays on XeLaTeX. Both use the package from ../tex, not an installed copy.
 doc:
 	cd doc || exit
-	xelatex quran-doc
-	xelatex quran-doc
+	export TEXINPUTS=../tex//: LUAINPUTS=../tex//:
+	lualatex quran-doc
+	lualatex quran-doc
 	xelatex quran-doc-ar
 	xelatex quran-doc-ar
 

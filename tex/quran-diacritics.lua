@@ -24,18 +24,32 @@ local traverse      = node.traverse
 local dia   = luatexbase.attributes["qt@diacolor"]
 local color = oberdiek.luacolor.getattribute()
 
+-- harfbuzz[fontid]: was the font loaded with Renderer=HarfBuzz? (cached per font)
+local harfbuzz = setmetatable({}, { __index = function(t, fid)
+  local fd = font.getfont(fid)
+  local v = fd ~= nil and fd.hb ~= nil
+  t[fid] = v
+  return v
+end })
+
+local function is_mark(n)
+  if harfbuzz[n.font] then
+    -- HarfBuzz mode fills no mark table; there the marks (and the font's own
+    -- substituted mark glyphs) are exactly the zero-advance glyphs.
+    return n.width == 0
+  end
+  -- Node mode: fonts.hashes.marks comes from luaotfload's font loader
+  -- (undocumented, but stable for many years); true for mark glyphs.
+  local m = fonts.hashes.marks[n.font]
+  return m and m[n.char]
+end
+
 local function paint(head)
-  -- fonts.hashes.marks comes from luaotfload's font loader (undocumented, but
-  -- stable for many years): marks[fontid][char] is true for mark glyphs.
-  local marks = fonts.hashes.marks
   for n in traverse(head) do
     local id = n.id
     if id == GLYPH then
       local c = has_attribute(n, dia)
-      if c then
-        local m = marks[n.font]
-        if m and m[n.char] then set_attribute(n, color, c) end
-      end
+      if c and is_mark(n) then set_attribute(n, color, c) end
     elseif id == HLIST or id == VLIST then
       paint(n.head)
     end
