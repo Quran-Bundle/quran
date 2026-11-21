@@ -66,6 +66,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             texlive-xetex \
+            texlive-luatex \
             texlive-latex-extra \
             texlive-lang-arabic \
             texlive-fonts-extra \
@@ -96,7 +97,7 @@ jobs:
         run: |
           TEXMF_LOCAL=$(kpsewhich -var-value TEXMFLOCAL)
           sudo mkdir -p "$TEXMF_LOCAL/tex/latex/quran"
-          sudo cp tex/*.def tex/quran.sty "$TEXMF_LOCAL/tex/latex/quran/"
+          sudo cp tex/*.def tex/*.lua tex/quran.sty "$TEXMF_LOCAL/tex/latex/quran/"
           sudo mktexlsr
 
       - name: Build documentation
@@ -107,10 +108,10 @@ jobs:
           make readme
           mkdir -p quran/doc quran/tex
           cp README quran/
-          cp tex/quran.sty tex/*.def quran/tex/
+          cp tex/quran.sty tex/quran-diacritics.lua tex/*.def quran/tex/
           cp doc/quran-doc.pdf doc/quran-doc.tex doc/quran.png quran/doc/
           cp doc/quran-doc-ar.pdf doc/quran-doc-ar.tex quran/doc/
-          cp sample/quran-test*.tex sample/quran-test*.pdf quran/doc/ 2>/dev/null || true
+          cp sample/quran-*.tex quran/doc/
           zip -r quran.zip quran
 
       - name: Create Release
