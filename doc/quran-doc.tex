@@ -86,8 +86,16 @@
     rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 \tikzstyle{fancytitle} = [fill=gray, text=white]
 
-\def\mx#1#2{\mybox{#1}{#2}[.46\textwidth]}
-\def\mxf#1#2{\mybox{#1}{#2}}
+% \mx{<code>} prints <code> as the title and runs it; \mxf is the full-width version.
+% Use \mybox{<title>}{<body>} directly when the two differ.
+\makeatletter
+\def\mxx#1#2{\@ifnextchar\bgroup{\mxtwo{#1}{#2}}{\mxone{#1}{#2}}}% two groups: title, body
+\def\mxtwo#1#2#3{\mybox{#2}{#3}#1}
+\def\mxone#1#2{\edef\mxt{\expandafter\@gobble\detokenize{#2}}%
+  \edef\mxt{\mxt\space}\edef\mxt{\expandafter\zap@space\mxt\@empty}\mybox{\mxt}{#2}#1}
+\makeatother
+\def\mx{\mxx{[.46\textwidth]}}
+\def\mxf{\mxx{}}
 \DeclareDocumentCommand{\mybox}{ s m m O{\textwidth} t{+} }{%
     \begin{tikzpicture}
     \node [mybox] (box){%
@@ -253,15 +261,15 @@ The macro \cs{quransurah} without an optional argument outputs the default Surah
 Al-Ikhlaas, provided that this default has not been changed (see below).
 
 
-\centerline{\mx{quransurah[94]}{\quransurah[94]} \hfill
-    \mx{quransurah[At-Tin]}{\quransurah[At-Tin]}}
+\centerline{\mx{\quransurah[94]} \hfill
+    \mx{\quransurah[At-Tin]}}
 
-\centerline{\mxf{quransurah*[113-114]}{\quransurah*[113-114]}}
+\centerline{\mxf{\quransurah*[113-114]}}
 
-\centerline{\mx{quransurah[109-110]}{\quransurah[109-110]} \hfill
-    \mx{quransurah[Al-Masad--Al-Ikhlaas]}{\quransurah[Al-Masad--Al-Ikhlaas]}}
+\centerline{\mx{\quransurah[109-110]} \hfill
+    \mx{\quransurah[Al-Masad--Al-Ikhlaas]}}
 
-\centerline{\mx{quransurah*}{\quransurah*} \hfill\mx{quransurah}{\quransurah}}
+\centerline{\mx{\quransurah*} \hfill\mx{\quransurah}}
 
 To change the default Surah, use \cs{setsurahdefault\{m\}}.
 By default, the package sets Surah 112. \mgpar{setsurahdefault}
@@ -269,7 +277,7 @@ For example, after changing the default Surah to 107 with \cs{setsurahdefault\{1
 the output will be as shown below:
 
 \setsurahdefault{107}
-\centerline{\mxf{quransurah*}{\quransurah*}}
+\centerline{\mxf{\quransurah*}}
 
 \newcounter{ct}
 \def\mycell#1{%
@@ -303,8 +311,8 @@ and this pattern applies to all commands defined in the package. Therefore,
 this command typesets the \textit{n}$^{th}$ Ayah of a Surah,
 or the range from the \textit{m}$^{th}$ to the \textit{n}$^{th}$ Ayahs of a Surah.
 
-\centerline{\mx{quranayah[33][33]}{\quranayah[33][33]} \hfill
-    \mx{quranayah[Al-Ahzaab][33]}{\quranayah[Al-Ahzaab][33]}}
+\centerline{\mx{\quranayah[33][33]} \hfill
+    \mx{\quranayah[Al-Ahzaab][33]}}
 
 The Basmalah will not be printed automatically when typesetting the first Ayah of any Surah.
 To include the Basmalah, use the \cs{basmalah} macro before the Ayah.
@@ -313,18 +321,18 @@ For further details, please refer to page~\pageref{sec:basmalah}.
 \marginpar{\cs{basmalah}}
 
 
-\centerline{\mx{quranayah[Ibrahim][1]}{\quranayah[Ibrahim][1]} \hfill
+\centerline{\mx{\quranayah[Ibrahim][1]} \hfill
     \mx{basmalah\textbackslash{}quranayah[14][1]}{\quran\basmalah\quranayah[14][1]}}
 
-\centerline{\mx{quranayah*[Ash-Shura][22-26]}{\quranayah*[Ash-Shura][22-26]} \hfill
-    \mx{quranayah*[42][22-26]}{\quranayah*[42][22-26]}}
+\centerline{\mx{\quranayah*[Ash-Shura][22-26]} \hfill
+    \mx{\quranayah*[42][22-26]}}
 
 Both \cs{quransurah} and \cs{quranayah} are \emph{case-insensitive} with respect to the anglicized titles of Surahs.
 In other words, there is no distinction between `Al-Fatiha', `al-fatiha',
 or any other combination of uppercase and lowercase letters.
 
-\centerline{\mx{quransurah*[Al-Faatiha]}{\quransurah*[Al-Faatiha]} \hfill
-    \mx{quransurah*[aL-fAatIhA]}{\quransurah*[aL-fAatIhA]}}
+\centerline{\mx{\quransurah*[Al-Faatiha]} \hfill
+    \mx{\quransurah*[aL-fAatIhA]}}
 
 \subsection{Page/Pages}
 \begin{declcs}{quranpage}\oarg{page range}\\
@@ -335,11 +343,11 @@ Typesets the specified \meta{range} of pages of the Holy Quran.
 The page numbers in \meta{range} should be between $1$ and $604$, based on the Medina Mushaf.
 
 
-    \centerline{\hboxR{\mx{quranpage*[249]}{\quranpage*[249]}
+    \centerline{\hboxR{\mx{\quranpage*[249]}
     \hfill
-    \mx{quranpage*[250]}{\quranpage*[250]}}}
+    \mx{\quranpage*[250]}}}
 
-    \centerline{\mxf{quranpage*[603-604]}{\quranpage*[603-604]}}
+    \centerline{\mxf{\quranpage*[603-604]}}
 
 \subsection{Juz/Ajza}
 \begin{declcs}{quranjuz}\oarg{juz range}\\
@@ -359,7 +367,7 @@ The following macro typesets the specified Hizb(s) of the Holy Quran.
 \end{declcs}
 
 
-\centerline{\mxf{quranquarter*[110]}{\quranquarter*[110]}}
+\centerline{\mxf{\quranquarter*[110]}}
 
 \subsection{Quarter/Quarters}
 
@@ -387,9 +395,9 @@ text."\footnote{\url{https://en.wikipedia.org/wiki/Ruku}} There are a total of $
 \cs{quranruku*}\oarg{ruku range}
 \end{declcs}
 
-    \centerline{\mxf{quranruku*[363]}{\quranruku*[363]}}
+    \centerline{\mxf{\quranruku*[363]}}
 
-    \centerline{\mxf{quranruku*[58-59]}{\quranruku*[58-59]}}
+    \centerline{\mxf{\quranruku*[58-59]}}
 
 
 \subsection{Manzil/Manazil}
@@ -434,13 +442,13 @@ which corresponds to Surah Al-Fatiha. To change the default text, use \cs{setqur
 \marginpar{\cs{qurantext}}
 
 
-    \centerline{\mxf{qurantext*}{\qurantext*}}
+    \centerline{\mxf{\qurantext*}}
 
     \noindent In the following example, \cs{setqurantextdefault\{4128-4137\}} has changed the default to index $4128$ to $4137$.
     \mgpar{setqurantextdefault}
 
     \setqurantextdefault{4128-4137}
-    \centerline{\mxf{qurantext*}{\qurantext*}}
+    \centerline{\mxf{\qurantext*}}
 
 \subsection{Whole of the Holy Quran}
 
@@ -488,14 +496,14 @@ by white spaces and then output the specified \meta{chunk range}.
 If the \meta{chunk range} includes only one number,
 the output will start from the \meta{number}\textsuperscript{th} word to the end of the \meta{ayah range}.
 
-\centerline{\mx{quranayah[2][156][6]}{\quranayah[2][156][6]} \hfill
-                \mx{quranayah[2][286][31-43]}{\quranayah[2][286][31-43]}}
+\centerline{\mx{\quranayah[2][156][6]} \hfill
+                \mx{\quranayah[2][286][31-43]}}
 
 The package enumerates the words in a specified \meta{ayah/index range},
 which can be displayed in the footnote if the commands are followed by \tt{+}.
 
 
-\centerline{\mxf{quranayah[Ar-Ra'd][23-24][10]+}{\quranayah[Ar-Ra'd][23-24][10]+}}
+\centerline{\mxf{\quranayah[Ar-Ra'd][23-24][10]+}}
 
 % \pagebreak[4]
 Fetching just one word from
@@ -504,7 +512,7 @@ an ayah requires the \meta{chunck range} to have both \meta{number}s as the same
 To fetch a single word from an Ayah, the \meta{chunk range}
 must have both \meta{numbers} set to the same value.
 
-\centerline{\mx{quranayah[18][19][34-34]}{\quranayah[18][19][34-34]} }
+\centerline{\mx{\quranayah[18][19][34-34]} }
 \section{Options for the Package}\label{sec:options}
 
 By default, all macros in the package separate Ayahs with \cs{par}.
@@ -541,7 +549,7 @@ enabling or disabling them as needed.
 The \xmgpar{wordwise} option enables the package to output specific portions of an ayah.
 For further details, please refer to Section~\ref{chunk}.
 
-    \centerline{\mx{quranayah[9][111][1-23]}{\quranayah[9][111][1-23]}}
+    \centerline{\mx{\quranayah[9][111][1-23]}}
     \centerline{\mxf{ToggleAyahNumber\textbackslash{}quranayah[An-Nisaa][171-172][14-64]}
                     {\ToggleAyahNumber\quranayah[An-Nisaa][171-172][14-64]}}
 
@@ -593,7 +601,7 @@ In other words, the following macros are introduced through this option:
 
     \centerline{\mx{quransurahlt[108]}{\setLTR\quransurahlt[108]}
     \hfill
-    \mx{quransurah[108]}{\quransurah[108]}}
+    \mx{\quransurah[108]}}
 
 \medskip
 
@@ -680,7 +688,7 @@ these options will add the following macros:
     \TeX{} memory limitations. For more details and potential solutions to overcome this restriction,
     refer to \emph{Why do I get the ``! TeX capacity exceeded'' error?} on page~\pageref{sec:texcapacity}.
 
-    \centerline{\mxf{quransurah*[108]}{\quransurah*[108]}}
+    \centerline{\mxf{\quransurah*[108]}}
 
     \centerline{\mx{quransurahen[108]}{\setLTR\small\quransurahen[108]}
     \hfill
@@ -688,7 +696,7 @@ these options will add the following macros:
 
     \centerline{\mx{quransurahfr[108]}{\setLTR\quran\small\quransurahfr[108]}
     \hfill
-    \mx{quransurahfa[108]}{\quransurahfa[108]}}
+    \mx{\quransurahfa[108]}}
 
 \section{Warsh Riwayah}\label{sec:warsh}
 
@@ -1614,7 +1622,7 @@ fontspec{,} and bidi"]
         \item Introduced the \xoption{warsh} package option for the riwayah of Warsh from Nafi'
         (KFGQPC text, version~3.0, 6214 verses), suggested by \emph{Mohamed Naji}. Quarters, rukus and
         translations are not available with it yet.
-        \item New sample \texttt{quran-test-warsh.tex} and a section in this documentation comparing the
+        \item New sample \texttt{quran-warsh.tex} and a section in this documentation comparing the
         Hafs and Warsh verse numbering.
     \end{Version}
 
@@ -1737,7 +1745,7 @@ fontspec{,} and bidi"]
         2026/03/12 & 2.42 & \cb Introduced the \xoption{nobasmalah} option. \\
         2026/09/27 & 2.5 & \cb Arabic translation of the documentation, \texttt{quran-doc-ar.tex}. \\
         2026/10/28 & 2.6 & \cb Introduced the \xoption{warsh} option (riwayah of Warsh, 6214 verses). \par
-                            \cb New sample \texttt{quran-test-warsh.tex} and Hafs/Warsh comparison tables. \\
+                            \cb New sample \texttt{quran-warsh.tex} and Hafs/Warsh comparison tables. \\
         2026/10/29 & 2.61 & \cb Added a regression test suite (\xpackage{l3build}, \texttt{make check}). \par
                             \cb Fixed the French basmalah toggle, \cs{quranayahen}, and the transliteration of 2:28. \\
         2026/11/20 & 2.7 & \cb Introduced \cs{SetDiacriticColor} and \cs{DiacriticColorOff} (coloured diacritics, \LuaLaTeX{} only). \par

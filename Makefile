@@ -6,8 +6,8 @@
 all: readme doc test test-warsh cleanup
 
 .PHONY: doc
-# The English manual needs LuaLaTeX (it shows the coloured diacritics); the Arabic one still
-# relies on bidi, so it stays on XeLaTeX. Both use the package from ../tex, not an installed copy.
+# The English manual needs LuaLaTeX (it shows the coloured diacritics); the Arabic one is built with
+# XeLaTeX. Both use the package from ../tex, not an installed copy.
 doc:
 	cd doc || exit
 	export TEXINPUTS=../tex//: LUAINPUTS=../tex//:

@@ -141,8 +141,16 @@
     rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
 \tikzstyle{fancytitle} = [fill=gray, text=white]
 
-\def\mx#1#2{\mybox{#1}{#2}[.46\textwidth]}
-\def\mxf#1#2{\mybox{#1}{#2}}
+% \mx{<code>} prints <code> as the title and runs it; \mxf is the full-width version.
+% Use \mybox{<title>}{<body>} directly when the two differ.
+\makeatletter
+\def\mxx#1#2{\@ifnextchar\bgroup{\mxtwo{#1}{#2}}{\mxone{#1}{#2}}}% two groups: title, body
+\def\mxtwo#1#2#3{\mybox{#2}{#3}#1}
+\def\mxone#1#2{\edef\mxt{\expandafter\@gobble\detokenize{#2}}%
+  \edef\mxt{\mxt\space}\edef\mxt{\expandafter\zap@space\mxt\@empty}\mybox{\mxt}{#2}#1}
+\makeatother
+\def\mx{\mxx{[.46\textwidth]}}
+\def\mxf{\mxx{}}
 \DeclareDocumentCommand{\mybox}{ s m m O{\textwidth} t{+} }{%
     \begin{tikzpicture}
     \IfBooleanTF{#5}{\setLTR}{}%
@@ -386,15 +394,15 @@ An easy way to typeset the whole or any parts of the Holy Quran
 (\opt{Al-Ikhlaas} )، بشرط ألا يكون قد تم تغيير هذه الافتراضية (انظر أدناه).
 
 \noindent
-\centerline{\mx{quransurah[At-Tin]}{\quransurah[At-Tin]} \hfill
-    \mx{quransurah[94]}{\quransurah[94]}}
+\centerline{\mx{\quransurah[At-Tin]} \hfill
+    \mx{\quransurah[94]}}
 
 \vspace{1cm}
-\centerline{\mxf{quransurah*[113-114]}{\quransurah*[113-114]}}
+\centerline{\mxf{\quransurah*[113-114]}}
 
 \vspace{1cm}
-\centerline{\mx{quransurah[Al-Masad--Al-Ikhlaas]}{\quransurah[Al-Masad--Al-Ikhlaas]} \hfill
-    \mx{quransurah[109-110]}{\quransurah[109-110]}}
+\centerline{\mx{\quransurah[Al-Masad--Al-Ikhlaas]} \hfill
+    \mx{\quransurah[109-110]}}
 
 \vspace{1cm}
 \centerline{\mx{quransurah}{\quransurah[112]} \hfill
@@ -407,7 +415,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
  على سبيل المثال، بعد تغيير السورة الافتراضية إلى 107 باستخدام الأمر 
 \textenglish{ \texttt{\textbackslash setsurahdefault\{107\}}}،  سيكون المخرج كما هو موضح أدناه :
 
-\centerline{\mxf{quransurah*[107]}{\quransurah*[107]}}
+\centerline{\mxf{\quransurah*[107]}}
 
 \subsection{الآية/الآيات}  
 
@@ -424,8 +432,8 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \cmd{quransurah} 
 ، وهذا النمط ينطبق على جميع الأوامر المعرفة في الحزمة. وبالتالي، يقوم هذا الأمر بتنضيد الآية رقم $n$ من سورة معينة، أو النطاق من الآية $m$ إلى الآية $n$ من سورة معينة.
 
-\centerline{\mx{quranayah[Al-Ahzaab][33]}{\quranayah[Al-Ahzaab][33]} \hfill
-    \mx{quranayah[33][33]}{\quranayah[33][33]}}
+\centerline{\mx{\quranayah[Al-Ahzaab][33]} \hfill
+    \mx{\quranayah[33][33]}}
 % ============================================================
 \newcounter{ct}
 \def\mycell#1{%
@@ -482,19 +490,19 @@ An easy way to typeset the whole or any parts of the Holy Quran
 
 \vspace{1cm}
 \centerline{\mx{basmalah\textbackslash{} quranayah[14][1]}{\basmalah\quranayah[14][1]} \hfill
-    \mx{quranayah[Ibrahim][1]}{\quranayah[Ibrahim][1]}}
+    \mx{\quranayah[Ibrahim][1]}}
 
 \vspace{1cm}
-\centerline{\mx{quranayah*[42][22-26]}{\quranayah*[42][22-26]} \hfill
-    \mx{quranayah*[Ash-Shura][22-26]}{\quranayah*[Ash-Shura][22-26]}}
+\centerline{\mx{\quranayah*[42][22-26]} \hfill
+    \mx{\quranayah*[Ash-Shura][22-26]}}
 
 كلا الأمرين 
 \cmd{quransurah}  و 
 \cmd{quranayah}  غير حساسين لحالة الأحرف \textenglish{ (case-insensitive)} فيما يتعلق بالعناوين الإنجليزية للسور. بمعنى آخر، لا يوجد فرق بين \textenglish{''Al-Fatiha''} و \textenglish{''al-fatiha''} أو أي تركيبة أخرى من الأحرف الكبيرة والصغيرة.
 
 \vspace{1cm}
-\centerline{\mx{quransurah*[aL-fAatIhA]}{\quransurah*[aL-fAatIhA]} \hfill
-    \mx{quransurah*[Al-Faatiha]}{\quransurah*[Al-Faatiha]}}
+\centerline{\mx{\quransurah*[aL-fAatIhA]} \hfill
+    \mx{\quransurah*[Al-Faatiha]}}
 
 \subsection{الصفحة/الصفحات}  % <-- العنوان
 
@@ -512,12 +520,12 @@ An easy way to typeset the whole or any parts of the Holy Quran
 
 \vspace{1cm}
 
-\centerline{\mx{quranpage*[249]}{\quranpage*[249]} \hfill
-    \mx{quranpage*[250]}{\quranpage*[250]}}
+\centerline{\mx{\quranpage*[249]} \hfill
+    \mx{\quranpage*[250]}}
 
 
 \vspace{1cm}
-\centerline{\mxf{quranpage*[603-604]}{\quranpage*[603-604]}}
+\centerline{\mxf{\quranpage*[603-604]}}
 
 \subsection{الجزء/الأجزاء}  % <-- العنوان
 
@@ -561,7 +569,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
 
 \vspace{1cm}
 
-\centerline{\mxf{quranquarter*[110]}{\quranquarter*[110]}}
+\centerline{\mxf{\quranquarter*[110]}}
 
 \subsection{الركوع/الركوعات}  
 
@@ -579,7 +587,7 @@ An easy way to typeset the whole or any parts of the Holy Quran
 \end{english}
 
 \vspace{1cm}
-\centerline{\mxf{quranruku*[363]}{\quranruku*[363]}}
+\centerline{\mxf{\quranruku*[363]}}
 
 \vspace{1cm}
 
@@ -628,16 +636,16 @@ An easy way to typeset the whole or any parts of the Holy Quran
 
 \vspace{1cm}
 
-\centerline{\mxf{qurantext[1023]}{\qurantext[1023]}}
+\centerline{\mxf{\qurantext[1023]}}
 \vspace{1cm}
 
-\centerline{\mxf{qurantext*[4111-4117]}{\qurantext*[4111-4117]}}
+\centerline{\mxf{\qurantext*[4111-4117]}}
 
 عند استخدام الأمر 
 \cmd{qurantext}  بدون وسيطه الاختياري، فإن القيمة الافتراضية هي [1-7]، والتي تقابل سورة الفاتحة. لتغيير النص الافتراضي، استخدم الأمر 
 \cmd{setqurantextdefault\{m-n\}}.
 
-\centerline{\mxf{qurantext*}{\qurantext*}}
+\centerline{\mxf{\qurantext*}}
 
 في المثال التالي، قام الأمر 
 \cmd{setqurantextdefault\{4128-4137\}} بتغيير النطاق الافتراضي إلى المؤشرات من 4128 إلى 4137.
@@ -705,18 +713,18 @@ An easy way to typeset the whole or any parts of the Holy Quran
 
 تقوم هذه الأوامر بفصل الكلمات ضمن <نطاق الآيات>/<نطاق المؤشرات> بمسافات بيضاء، ثم تقوم بإخراج <نطاق المقطع> المحدد. إذا كان <نطاق المقطع> يحتوي على رقم واحد فقط، فسيبدأ المخرج من الكلمة رقم <رقم> حتى نهاية <نطاق الآيات>.
 
-\centerline{\mx{quranayah[2][286][31-43]}{\quranayah[2][286][31-43]} \hfill
-    \mx{quranayah[2][156][6]}{\quranayah[2][156][6]}}
+\centerline{\mx{\quranayah[2][286][31-43]} \hfill
+    \mx{\quranayah[2][156][6]}}
 
 تقوم الحزمة بترقيم الكلمات في <نطاق الآيات/المؤشرات> المحدد، ويمكن عرض هذا الترقيم في الهامش السفلي (الحاشية السفلية) إذا كانت الأوامر متبوعة بالرمز $+$.
 
-\centerline{\mxf{quranayah[Ar-Ra'd][23-24][10]+}{\quranayah[Ar-Ra'd][23-24][10]+}}
+\centerline{\mxf{\quranayah[Ar-Ra'd][23-24][10]+}}
 
 لجلب كلمة واحدة فقط من آية، يجب أن يحتوي <نطاق المقطع> على كلا الرقمين متساويين.
 لجلب كلمة واحدة من آية،  يجب أن يكون <الرقم الأول> و <الرقم الثاني> في <نطاق المقطع> متساويين.
 
 \begin{center}
-\centerline{\mx{quranayah[18][19][34-34]}{\quranayah[18][19][34-34]}}
+\centerline{\mx{\quranayah[18][19][34-34]}}
 \end{center}
 
 \section{متفرقات}
@@ -735,8 +743,8 @@ An easy way to typeset the whole or any parts of the Holy Quran
 تُرجع هذه الأوامر العنوان الإنجليزي أو العربي للسورة رقم \textcolor{blue}{الفهرس} من القرآن الكريم،
 كما هو موضح في الجدول~\ref{tab:surah-titles} والجدول~\ref{tab:arabic-surah-titles-full}. 
 
-\centerline{\mx{surahname*[19]}{\surahname*[19]} \hfill
-    \mx{surahname[19]}{\surahname[19]}}
+\centerline{\mx{\surahname*[19]} \hfill
+    \mx{\surahname[19]}}
 
 \subsection{البسملة}\label{sec:basmalah}
 
@@ -922,7 +930,7 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \opt{wordwise}  الحزمة من إخراج أجزاء محددة من الآية.
 لمزيد من التفاصيل، يُرجى الرجوع إلى القسم~\textenglish{\ref{chunk}}.
 
-\centerline{\mxf{quranayah[9][111][1-23]}{\quranayah[9][111][1-23]}}
+\centerline{\mxf{\quranayah[9][111][1-23]}}
 
 \centerline{\mxf{ToggleAyahNumber\textbackslash{} quranayah[An-Nisaa][171-172][14-64]}{\ToggleAyahNumber\quranayah[An-Nisaa][171-172][14-64]}}
 
@@ -978,7 +986,7 @@ of surah number \the\surahcount\ (=\surahname[\the\surahcount]).
 \end{multicols}
 \end{center}
 
-\centerline{\mx{quransurah[108]}{\quransurah[108]} \hfill
+\centerline{\mx{\quransurah[108]} \hfill
     \mx{quransurahlt[108]}{\setLTR \quransurahlt[108]}}
 
 تدعم الحزمة تنضيد ترجمات القرآن الكريم بلغات متعددة.
@@ -1092,7 +1100,7 @@ trans={de, en, lt}
 \textenglish{''! TeX capacity exceeded''}) 
  في الصفحة~\pageref{sec:texcapacity}.
 
-\centerline{\mxf{quransurah*[108]}{\quransurah*[108]}}
+\centerline{\mxf{\quransurah*[108]}}
 
 \centerline{\mxf{quransurahen*[108]}{\setLTR\small \quransurahen*[108]}}
 
