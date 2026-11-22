@@ -160,7 +160,7 @@
         \end{minipage}
     };
     \node (hole) [anchor=north east, left=5pt ] at (box.north east) { \tikz\fill[very thick,white] (0,0) circle (12pt); };
-    \node[ ] at (hole.center) {\includegraphics[width=.05\textwidth]{quran.png}};
+    \node[ ] at (hole.center) {\quranlogo[width=.05\textwidth]};
     \node[fancytitle, anchor=west, right=7pt, rounded corners=2pt] at (box.north west) {\small \IfBooleanTF{#1}{#2}{\textenglish{\cs{#2}}}};
     \end{tikzpicture}%
 }
@@ -211,7 +211,7 @@
 % العنوان الرئيسي
 % ============================================================
 \title{%
-  \includegraphics[scale=0.5]{quran.png}\\[1.5cm]
+  \quranlogo[scale=0.5]\\[1.5cm]
   {\color{red}\Huge
     الدليل العربي لحزمة
     \textenglish{\texttt{quran}}\footnotemark

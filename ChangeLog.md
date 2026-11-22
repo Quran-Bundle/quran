@@ -1,4 +1,6 @@
 %% Change Log
+%% ver 2.8 ## November 21st, 2026
+%% New macro \quranlogo[<graphicx options>] typesets the package logo (quran.png, now installed with quran.sty).
 %% ver 2.7 ## November 20th, 2026
 %% New macros \SetDiacriticColor{<colour>} and \DiacriticColorOff colour the diacritics (harakat) under LuaLaTeX (new file quran-diacritics.lua); ignored with a warning under XeLaTeX.
 %% Samples rewritten as topic-based examples (sample/quran-getting-started.tex, quran-divisions.tex, ...).

@@ -106,7 +106,7 @@
         \end{minipage}
     };
     \node (hole) [anchor=north east, left=5pt ] at (box.north east) { \tikz\fill[very thick,white] (0,0) circle (12pt); };
-    \node[ ] at (hole.center) {\includegraphics[width=.05\textwidth]{quran.png}};
+    \node[ ] at (hole.center) {\quranlogo[width=.05\textwidth]};
     \node[fancytitle, anchor=west, right=7pt, rounded corners=2pt] at (box.north west) {\small \IfBooleanTF{#1}{#2}{\cs{#2}}};
     \end{tikzpicture}%
 }
@@ -140,7 +140,7 @@
 \def\xmgpar#1{\xoption{#1}\marginpar{\xoption{#1}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{\includegraphics[scale=.3]{quran.png}\\
+\title{\quranlogo[scale=.3]\\
 The \xpackage{quran} Package\thanks{To one who has devoted his life to the Holy Quran}}
 \author{Javad Razavian\\\xemail{javadr@gmail.com}}
 
@@ -1018,6 +1018,23 @@ see \texttt{quran-diacritics.tex} among the samples for the output.
 \fi
 
 
+\subsection{The Logo}\label{sec:logo}
+
+\begin{declcs}{quranlogo}\oarg{options}
+\end{declcs}
+
+\cs{quranlogo} typesets the logo of the package, the picture at the top of this manual.
+The \meta{options} are passed to \cs{includegraphics}, so any of its keys works; without them the
+logo is \texttt{1.5em} wide. The picture \texttt{quran.png} is installed together with
+\texttt{quran.sty}, so nothing has to be copied next to your document. The \xpackage{graphicx}
+package is loaded by \xpackage{quran} at \cs{begin}\texttt{\{document\}} only if you have not loaded it,
+which leaves your own \xpackage{graphicx} options untouched.
+
+\centerline{\mybox*{\ttfamily\textbackslash{}quranlogo}{\quranlogo}[.3\textwidth]\hfill
+\mybox*{\ttfamily\textbackslash{}quranlogo[width=1cm]}{\quranlogo[width=1cm]}[.3\textwidth]\hfill
+\mybox*{\ttfamily\textbackslash{}quranlogo[scale=.1]}{\quranlogo[scale=.1]}[.3\textwidth]}
+
+
 \subsection{Index Converting}
 \begin{declcs}{indexconvert}\marg{index}\marg{surah macro}\marg{ayah macro}
 \end{declcs}
@@ -1644,6 +1661,10 @@ fontspec{,} and bidi"]
         \texttt{quran-diacritics.tex}.
     \end{Version}
 
+    \begin{Version}{2026/11/21 v2.8}
+        \item Introduced the \cs{quranlogo} macro, which typesets the package logo; it accepts any \cs{includegraphics} option.
+    \end{Version}
+
 
     \newpage 
     
@@ -1750,6 +1771,7 @@ fontspec{,} and bidi"]
                             \cb Fixed the French basmalah toggle, \cs{quranayahen}, and the transliteration of 2:28. \\
         2026/11/20 & 2.7 & \cb Introduced \cs{SetDiacriticColor} and \cs{DiacriticColorOff} (coloured diacritics, \LuaLaTeX{} only). \par
                             \cb Samples rewritten as topic-based examples. \\
+        2026/11/21 & 2.8 & \cb Introduced \cs{quranlogo}. \\
         \bottomrule
     \end{longtable}
     \end{small}

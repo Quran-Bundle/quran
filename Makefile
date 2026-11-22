@@ -3,7 +3,7 @@
 .ONESHELL:
 
 .PHONY: all
-all: readme doc test sample sample-warsh cleanup ## build readme, manuals, samples, then clean up
+all: test readme doc sample sample-warsh cleanup ## build readme, manuals, samples, then clean up
 
 .PHONY: doc
 # The English manual needs LuaLaTeX (it shows the coloured diacritics); the Arabic one is built with
@@ -50,15 +50,15 @@ cleanup: ## remove auxiliary files in all subdirectories
 
 .PHONY: clean
 clean: ## remove auxiliary files in this directory
-	@find . -maxdepth 1 -type f \( -name '*.aux' -o -name '*.log' -o -name '*.toc' -o -name '*.idx' -o -name '*.hd' -o -name '*.out' -o -name '*~' \) -print -delete
+	@find . -type f \( -name '*.aux' -o -name '*.log' -o -name '*.toc' -o -name '*.idx' -o -name '*.hd' -o -name '*.out' -o -name '*~' \) -print -delete
 
 .PHONY: ctan
-ctan: readme ## build quran.zip for ctan.org
+ctan: test readme ## build quran.zip for ctan.org
 	$(MAKE) cleanup
 	mkdir -p quran/doc quran/tex
 	cp -v README        quran
 	cd tex || exit
-	cp -v quran.sty quran-diacritics.lua qurantext-uthmani.def qurantext-uthmani-min.def qurantext-simple.def      ../quran/tex
+	cp -v quran.sty quran.png quran-diacritics.lua qurantext-uthmani.def qurantext-uthmani-min.def qurantext-simple.def      ../quran/tex
 	cp -v qurantext-warsh.def quran-warsh-tables.def		../quran/tex
 	cp -v qurantext-en.transliteration.def quran-translt.def	../quran/tex
 	cp -v qurantext-en.translation.def quran-transen.def		../quran/tex
@@ -100,7 +100,7 @@ increase_tex_memory: ## raise TeX main_memory to 8000000 (sudo)
 dev: ## install the package into TEXMFLOCAL (sudo)
 	TEXMF_LOCAL=$$(kpsewhich -var-value TEXMFLOCAL) && \
 	sudo mkdir -p "$$TEXMF_LOCAL/tex/latex/quran" && \
-	sudo cp -v tex/*.def tex/*.lua tex/quran.sty "$$TEXMF_LOCAL/tex/latex/quran" && \
+	sudo cp -v tex/*.def tex/*.lua tex/quran.sty tex/quran.png "$$TEXMF_LOCAL/tex/latex/quran" && \
 	sudo mktexlsr
 
 QURANDATE := $(shell grep "qurandate{" tex/quran.sty | cut -d'{' -f2 | tr -d '}')

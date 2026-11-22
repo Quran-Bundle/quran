@@ -19,4 +19,4 @@ jobs:
         run: make increase_tex_memory
 
       - name: Run regression tests
-        run: make check
+        run: make test
