@@ -72,6 +72,14 @@
 
 \QuranTransBox{94}{5-6}
 
+% two columns inside ONE box, split by a vertical dashed line (sidebyside boxes must be unbreakable)
+\begin{quranbox}[quran green, unbreakable, sidebyside, sidebyside align=top,
+    lefthand width=0.5\linewidth]{\surahname[94]~94:5-6 side by side}
+  \quranayah[94][5-6]
+  \tcblower
+  \quranayahen[94][5-6]
+\end{quranbox}
+
 % two boxes side by side, like \mx in the manual (raster boxes must be unbreakable)
 \begin{tcbraster}[raster columns=2, raster equal height]
   \QuranAyahBox[quran red, unbreakable]{1}{1-4}

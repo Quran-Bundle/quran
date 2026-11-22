@@ -3,12 +3,12 @@
 .ONESHELL:
 
 .PHONY: all
-all: readme doc test test-warsh cleanup
+all: readme doc test sample sample-warsh cleanup ## build readme, manuals, samples, then clean up
 
 .PHONY: doc
 # The English manual needs LuaLaTeX (it shows the coloured diacritics); the Arabic one is built with
 # XeLaTeX. Both use the package from ../tex, not an installed copy.
-doc:
+doc: ## build the English (LuaLaTeX) and Arabic (XeLaTeX) manuals
 	cd doc || exit
 	export TEXINPUTS=../tex//: LUAINPUTS=../tex//:
 	lualatex quran-doc
@@ -16,8 +16,8 @@ doc:
 	xelatex quran-doc-ar
 	xelatex quran-doc-ar
 
-.PHONY: test
-test:
+.PHONY: sample
+sample: ## compile all sample documents
 	cd sample || exit
 	for f in quran-getting-started quran-divisions quran-ayah-styling \
 	         quran-translations quran-persian-document quran-boxes; do \
@@ -28,8 +28,8 @@ test:
 
 # The Warsh sample needs the KFGQPC Warsh font (not shipped with the package, see the manual);
 # it is skipped when the font is not installed.
-.PHONY: test-warsh
-test-warsh:
+.PHONY: sample-warsh
+sample-warsh: ## compile the Warsh sample (skipped without the KFGQPC font)
 	@if fc-list | grep -qi "KFGQPC Warsh V3"; then \
 	  cd sample && xelatex quran-warsh; \
 	else \
@@ -37,23 +37,23 @@ test-warsh:
 	fi
 
 # Regression tests (testfiles/*.lvt vs *.tlg); use `l3build save <name>` to record a new baseline.
-.PHONY: check
-check:
+.PHONY: test
+test: ## run l3build regression tests
 	l3build check
 
 .PHONY: cleanup
-cleanup:
+cleanup: ## remove auxiliary files in all subdirectories
 	$(MAKE) clean
 	$(MAKE) clean -C doc -f ../Makefile
 	$(MAKE) clean -C tex -f ../Makefile
 	$(MAKE) clean -C sample -f ../Makefile
 
 .PHONY: clean
-clean:
-	@rm -fv ./*.{aux,log,toc,idx,hd,out} ./*~
+clean: ## remove auxiliary files in this directory
+	@find . -maxdepth 1 -type f \( -name '*.aux' -o -name '*.log' -o -name '*.toc' -o -name '*.idx' -o -name '*.hd' -o -name '*.out' -o -name '*~' \) -print -delete
 
 .PHONY: ctan
-ctan: readme
+ctan: readme ## build quran.zip for ctan.org
 	$(MAKE) cleanup
 	mkdir -p quran/doc quran/tex
 	cp -v README        quran
@@ -80,12 +80,12 @@ ctan: readme
 # Same content as `ctan` (whose zip is kept for ctan.org), packed with maximum compression for archiving.
 ARCHIVE = quran-v$(QURANVERSION)-$(subst /,,$(QURANDATE)).tar.xz
 .PHONY: ctan-archive
-ctan-archive: ctan
+ctan-archive: ctan ## same as ctan, packed with maximum compression
 	tar -C .. --transform 's,^quran,$(ARCHIVE:.tar.xz=),' -cf - quran | xz -9e -T0 > ../$(ARCHIVE)
 	@echo "Created ../$(ARCHIVE)"
 
 .PHONY: increase_tex_memory
-increase_tex_memory:
+increase_tex_memory: ## raise TeX main_memory to 8000000 (sudo)
 	@FILE=$(shell kpsewhich texmf.cnf) && \
 	if ! grep -q '^main_memory *= *8000000' $$FILE; then \
 	  if grep -q '^main_memory *= *[0-9]\+' $$FILE; then \
@@ -97,7 +97,7 @@ increase_tex_memory:
 	fi
 
 .PHONY: dev
-dev:
+dev: ## install the package into TEXMFLOCAL (sudo)
 	TEXMF_LOCAL=$$(kpsewhich -var-value TEXMFLOCAL) && \
 	sudo mkdir -p "$$TEXMF_LOCAL/tex/latex/quran" && \
 	sudo cp -v tex/*.def tex/*.lua tex/quran.sty "$$TEXMF_LOCAL/tex/latex/quran" && \
@@ -109,7 +109,7 @@ YEAR := "$(shell echo ${QURANDATE} | cut -d'/' -f1)"
 readme-file := README
 
 .PHONY: readme
-readme:
+readme: ## generate the README file
 	@echo "_____________________" > "${readme-file}"
 	@echo "The quran package" >> "${readme-file}"
 	@echo "v${QURANVERSION}" >> "${readme-file}"
@@ -131,3 +131,7 @@ readme:
 	@echo "the license is at: http://www.latex-project.org/lppl.txt" >> "${readme-file}"
 	@echo "" >> "${readme-file}"
 	@echo "This work has the LPPL maintenance status 'author-maintained'." >> "${readme-file}"
+
+.PHONY: help
+help: ## list all rules with a short description
+	@awk -F':.*## ' '/^[A-Za-z_-]+:.*## /{printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)

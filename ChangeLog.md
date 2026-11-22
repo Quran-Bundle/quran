@@ -3,7 +3,7 @@
 %% New macros \SetDiacriticColor{<colour>} and \DiacriticColorOff colour the diacritics (harakat) under LuaLaTeX (new file quran-diacritics.lua); ignored with a warning under XeLaTeX.
 %% Samples rewritten as topic-based examples (sample/quran-getting-started.tex, quran-divisions.tex, ...).
 %% ver 2.61 ## October 29th, 2026
-%% Regression test suite added (l3build); run it with `make check`.
+%% Regression test suite added (l3build); run it with `make test`.
 %% Fixed \ToggleBasmalah, which did not toggle the French basmalah.
 %% Fixed \quranayahen, which toggled the transliteration basmalah instead of the English one.
 %% Fixed the transliteration of 2:28 (a fragile \emph that broke any command whose range included that ayah, e.g. \quranjuzlt[1]).
